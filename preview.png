@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#070b1a"/>
+  <radialGradient id="g" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#2e4d8a" stop-opacity=".45"/><stop offset="100%" stop-color="#070b1a" stop-opacity="0"/></radialGradient>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <g transform="translate(400,225) scale(0.42)">
+    <path fill="#CC092F" fill-rule="evenodd" clip-rule="evenodd" d="M258 499.749C392.369 495.525 500 385.269 500 249.874C500 114.48 392.369 4.22405 258 0V71.05C353.147 75.2347 429 153.696 429 249.874C429 346.053 353.147 424.514 258 428.699V499.749ZM241 499.715C107.097 494.977 0 384.933 0 249.874C0 114.816 107.097 4.77149 241 0.0334085V71.0968C146.323 75.7851 71 154.033 71 249.874C71 345.715 146.323 423.964 241 428.652V499.715ZM241 106.151C168.473 110.624 110.472 168.781 106.247 241.374H140.868C145.226 188.297 187.788 146.043 241 142.165V106.151ZM241 358.584C187.454 354.682 144.693 311.92 140.79 258.374H106.247C110.472 330.968 168.473 389.125 241 393.598V358.584ZM258 393.656V358.506C311.077 354.148 353.332 311.587 357.21 258.374H393.753C389.508 331.301 330.993 389.659 258 393.656ZM258 142.242V106.093C330.993 110.09 389.508 168.448 393.753 241.374H357.132C352.801 188.63 310.745 146.573 258 142.242ZM249.5 328.874C293.13 328.874 328.5 293.505 328.5 249.874C328.5 206.244 293.13 170.874 249.5 170.874C205.87 170.874 170.5 206.244 170.5 249.874C170.5 293.505 205.87 328.874 249.5 328.874Z" transform="translate(-250,-250)"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" letter-spacing="0.12em" fill="#a8b3cc">ROLE A PÁGINA — ALVO 3D EXTRUDADO • THREE.JS + GSAP</text>
+  <text x="400" y="418" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#ffd9a6">preview estático — grave o scroll com ScreenToGif / LICEcap para gerar preview.gif</text>
+</svg>
