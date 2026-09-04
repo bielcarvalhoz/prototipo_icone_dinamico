@@ -29,13 +29,14 @@
 
 ## ✨ O que é
 
-Página de demonstração com um **ícone/alvo em 3D extrudado** como plano de fundo fixo. Ao rolar:
+Página de demonstração cinematográfica (referência: [igloo.inc](https://www.igloo.inc/)) com um **ícone/alvo em 3D extrudado** como plano de fundo fixo. Ao rolar:
 
-1. **Cresce do centro** (`scale 0.002 → 0.0064` com `back.out`)
-2. **Gira em 3D** `rotateY -42° → +84°` + `rotateX` sutil, com `perspective` real
-3. **Barra grossa** visível na lateral — não é truque CSS, é `ExtrudeGeometry` com `depth 22` + bisel
+1. **Cresce do centro** (`scale 0.0032 → 0.0072` com `smoothstep`)
+2. **Gira em 3D** `rotateY -34° → +240°` + `rotateX` sutil + **dolly de câmera** (`z 9 → 5.6`)
+3. **Barra grossa** visível na lateral — não é truque CSS, é `ExtrudeGeometry` com `depth 22` + bisel, com **bloom** (`UnrealBloomPass`)
+4. **Textos entram no scroll** — reveal por palavra com máscara, disparado por `anime.js` `onScroll`
 
-O resto da página são seções em vidro (`backdrop-filter: blur`) por cima — copie o `index.html` e use como fundo do seu site.
+Fundo preto, grão, vinheta e glow. Scroll com inércia (`Lenis`). Copie o `index.html` e use como base.
 
 ---
 
@@ -45,7 +46,8 @@ O protótipo nasceu como uma **flor em SVG** montada no scroll e evoluiu para o 
 
 - **SVG puro + `stroke-dashoffset` + `scroll-timeline`** → leve, mas 2.5D
 - **CSS `preserve-3d` + `translateZ`** → profundidade fake
-- **Three.js + GSAP ScrollTrigger** → 3D real com luz, sombra e `scrub: true`
+- **Three.js + GSAP ScrollTrigger** → 3D real com luz, sombra e `scrub`
+- **Three.js + anime.js v4 + Lenis** → engine atual: reveal de texto no scroll, bloom, smooth scroll
 
 O alvo final mantém o **formato exato do seu SVG** — cada uma das 7 ilhas vermelhas vira um sólido separado extrudado, sem `evenodd` quebrado.
 
@@ -56,11 +58,13 @@ O alvo final mantém o **formato exato do seu SVG** — cada uma das 7 ilhas ver
 | Camada | Lib | Por que |
 |---|---|---|
 | **3D** | `three@0.160` via `importmap` | `ExtrudeGeometry` com `depth` + `bevel`, `DoubleSide`, sombras `PCFSoft` |
-| **Scroll** | `gsap@3.12` + `ScrollTrigger` | `timeline({ scrub: 1.05 })` amarra progresso ao `scrollY`, `anticipatePin`, `back.out` |
+| **Pós** | `three/addons/postprocessing` | `EffectComposer` + `UnrealBloomPass` + `OutputPass` → glow no alvo |
+| **Animação** | `animejs@4` via `importmap` | reveal de texto por palavra (`animate` + `stagger`), contador do loader; disparo via `IntersectionObserver` |
+| **Scroll** | `lenis@1` | inércia; o progresso do scroll dirige câmera + rotação, interpolado no `requestAnimationFrame` |
 | **SVG** | `three/addons/loaders/SVGLoader` | Lê seu `path` exato, cada `subPath` vira `Shape` sólido |
-| **Estilo** | CSS puro | `perspective`, `backdrop-filter`, `radial-gradient` |
+| **Estilo** | CSS puro | fundo preto, grão SVG, vinheta, glow `radial-gradient`, tipografia Space Grotesk + JetBrains Mono |
 
-Sem `npm`, sem `vite`, sem `Three.js` pesado — tudo via CDN, abre com duplo clique.
+Sem `npm`, sem `vite` — tudo via CDN, abre com duplo clique.
 
 ---
 
@@ -124,23 +128,39 @@ const matSide  = new THREE.MeshStandardMaterial({ color: 0x7a051c, side: DoubleS
 
 ### 3. Scroll
 
-```js
-gsap.set(alvo.scale, { x: 0.0022, y: 0.0022, z: 0.0022 });
-gsap.set(alvo.rotation, { y: -0.72, x: 0.15 });
+O progresso (`scrollY / scrollMax`) é interpolado com `lerp` no `requestAnimationFrame` e dirige câmera + alvo direto — sem lib de scroll-scrub.
 
-gsap.timeline({
-  scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 1.05 }
-})
-.to(alvo.scale, { x: 0.0064, y: 0.0064, z: 0.0064, duration: 0.72, ease: "back.out(1.15)" }, 0)
-.to(alvo.rotation, { y: 0.85, x: -0.11, duration: 0.72, ease: "none" }, 0)
-.to(alvo.rotation, { y: 1.45, x: -0.15, duration: 0.28, ease: "none" }, 0.72);
+```js
+function applyProgress(p){
+  const s = p*p*(3 - 2*p);                 // smoothstep
+  camera.position.z = 9 - s*3.4;           // dolly
+  const sc = 0.0032 + s*0.0040;
+  alvo.scale.set(sc, sc, sc);
+  alvo.rotation.y = -0.6 + p*(Math.PI*1.15 + 0.6);
+  alvo.rotation.x = 0.2 - s*0.36;
+  bloom.strength = 0.45 + Math.sin(p*Math.PI)*0.6;
+}
 ```
 
-### 4. Acessibilidade
+### 4. Reveal de texto
+
+```js
+// IntersectionObserver dispara; anime.js v4 anima
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) {
+    io.unobserve(e.target);
+    animate(wordsOf.get(e.target), {
+      translateY:['110%','0%'], opacity:[0,1], delay: stagger(38), ease:'outExpo'
+    });
+  }
+}, { rootMargin:'0px 0px -12% 0px' });
+```
+
+### 5. Acessibilidade
 
 ```js
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  gsap.set(alvo, { scale: 0.0064, rotation: { x:0, y:0 } });
+  // sem loader, sem split, sem Lenis; alvo fixo num progresso baixo
 }
 ```
 
@@ -152,11 +172,13 @@ Sem animação se o usuário prefere.
 
 | O que | Onde | Dica |
 |---|---|---|
-| **Cor** | `matFront.color` / `matSide.color` | Troque `0xCC092F` |
+| **Cor** | `matFront.color` / `matSide.color` / `matFront.emissive` | Troque `0xCC092F` |
 | **Espessura** | `depth = 22` | `32` → mais grossa, `14` → mais fina |
-| **Zoom** | `camera.position.set(0,0.6,7.8)` + `alvo.scale 0.0064` | Diminua `z` ou aumente `scale` pra mais perto |
-| **Giro** | `rotation.y -0.72 → 1.45` | `Math.PI*2` pra 360° |
-| **Fundo** | `.bg` `radial-gradient` | Troque o degradê atrás do vazado |
+| **Zoom / dolly** | `applyProgress`: `camera.position.z = 9 - s*3.4` | Mude os `9` e `3.4` |
+| **Giro** | `applyProgress`: `alvo.rotation.y` | `p * Math.PI*2` pra 360° |
+| **Bloom** | `new UnrealBloomPass(res, 0.6, 0.5, 0.8)` + `bloom.strength` | `strength`, `radius`, `threshold` |
+| **Fundo / glow** | `.glow`, `.vignette`, `.grain` no CSS | Troque o `radial-gradient` vermelho |
+| **Reveal** | `[data-reveal]` no HTML + `stagger(38)` | Tire o atributo pra texto estático |
 
 Troque o `svgString` por qualquer SVG — o `subPaths` já cuida.
 

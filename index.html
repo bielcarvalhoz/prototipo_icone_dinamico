@@ -3,111 +3,870 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Alvo SVG exato — corrigido</title>
+<title>Sobre — Portal Finanças</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
 <style>
-  *{box-sizing:border-box} html,body{margin:0}
-  body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#eaf0ff;background:#080c18;overflow-x:clip}
-  #c{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
-  .bg{position:fixed;inset:0;z-index:0;background:
-      radial-gradient(900px 600px at 50% 42%, rgba(204,9,47,.14), transparent 68%),
-      linear-gradient(180deg,#070b1a 0%,#0c142c 65%,#0f1f3f 100%)}
-  .wrap{position:relative;z-index:1}
-  section{min-height:110vh;display:grid;place-items:center;padding:6vh 5vw}
-  .card{width:min(720px,92vw);padding:30px 26px;border-radius:22px;background:rgba(16,22,42,.66);
-        backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.13);box-shadow:0 18px 48px rgba(0,0,0,.32)}
-  h1{margin:0 0 10px;font-size:clamp(28px,5vw,48px);line-height:1.02;letter-spacing:-.02em}
-  p{margin:0;color:#a8b3cc;line-height:1.65}
-  .tag{display:inline-block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#ffb0c0;
-       background:rgba(204,9,47,.18);border:1px solid rgba(204,9,47,.38);padding:6px 10px;border-radius:999px;margin-bottom:12px}
+  :root{
+    --bg:#ffffff; --ink:#1c1c22; --dim:#6a6a74;
+    --red:#cc092f; --line:rgba(0,0,0,.09); --chip:rgba(127,127,140,.14); --dot:rgba(0,0,0,.2);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  html.lenis,html.lenis body{height:auto}
+  .lenis.lenis-smooth{scroll-behavior:auto!important}
+
+  body{
+    font-family:"Poppins",system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); overflow-x:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .glow{
+    position:fixed; left:66%; top:50%; width:44vmax; height:44vmax;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(204,9,47,.14), transparent 62%);
+    filter:blur(34px); z-index:0; pointer-events:none;
+  }
+  #c{position:fixed; inset:0; width:100%; height:100%; display:block; z-index:1; pointer-events:none}
+  .grain{
+    position:fixed; inset:-50%; z-index:2; pointer-events:none; opacity:.035;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  header{
+    position:fixed; inset:0 0 auto 0; z-index:15;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 28px; font-weight:600; font-size:15px; color:var(--ink);
+  }
+  header .brand{ height:38px; width:auto; display:block; transform-origin:center; }
+  header .brand path{ transform-box:fill-box; transform-origin:center; }
+  .progress{
+    position:fixed; top:0; left:0; width:100%; height:2px; z-index:40;
+    background:var(--red); transform:scaleX(0); transform-origin:left; pointer-events:none;
+  }
+  /* trilho de capítulos: bolinha + nome da etapa */
+  .rail{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:16;
+    display:flex; flex-direction:column; gap:12px; align-items:flex-end;
+  }
+  .rail button{
+    all:unset; cursor:pointer; display:flex; align-items:center; gap:10px;
+  }
+  .rail button .lbl{
+    font:500 10px/1 "Poppins",sans-serif; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--dim); opacity:0; transform:translateX(6px);
+    transition:opacity .3s, transform .3s; white-space:nowrap;
+  }
+  .rail button i{
+    width:7px; height:7px; border-radius:50%; background:var(--dot); display:block;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s;
+  }
+  .rail button:hover i{ background:var(--red); opacity:.6 }
+  .rail button:hover .lbl{ opacity:.65; transform:none }
+  .rail button.on i{ background:var(--red); transform:scale(1.7) }
+  .rail button.on .lbl{ opacity:1; transform:none }
+  @media (max-width:820px){ .rail{ display:none } }
+
+  /* cursor custom: anel que segue o mouse com atraso, cresce em elementos interativos */
+  .cursor{
+    position:fixed; top:0; left:0; width:26px; height:26px; margin:-13px 0 0 -13px;
+    border:1.5px solid var(--red); border-radius:50%; z-index:60; pointer-events:none;
+    transition:width .25s, height .25s, margin .25s, background .25s, border-color .25s;
+    mix-blend-mode:normal;
+  }
+  .cursor.big{ width:52px; height:52px; margin:-26px 0 0 -26px; background:rgba(204,9,47,.08); }
+  body.cc, body.cc a, body.cc button, body.cc .rail button, body.cc .app{ cursor:none }
+  body.modal-open, body.modal-open *{ cursor:auto!important }
+  body.modal-open .cursor{ opacity:0 }
+  @media (max-width:820px){ .cursor{ display:none } }
+
+  /* linha do kicker que se desenha quando a seção entra */
+  .kicker{ position:relative }
+  .kicker::after{
+    content:''; position:absolute; left:0; right:0; bottom:-9px; height:1.5px;
+    background:var(--red); transform:scaleX(0); transform-origin:left;
+    transition:transform .7s cubic-bezier(.2,.85,.25,1);
+  }
+  .kicker.drawn::after{ transform:scaleX(1) }
+
+  main{position:relative; z-index:3}
+  section{
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    max-width:min(42vw, 620px); margin:0; padding:17vh 0 17vh 7vw;
+  }
+  section[data-align="right"]{
+    margin-left:auto; align-items:flex-end; text-align:right;
+    padding:17vh 7vw 17vh 0;
+  }
+  @media (max-width:820px){
+    section,section[data-align="right"]{max-width:100%; align-items:flex-start; text-align:left; padding:17vh 7vw}
+  }
+
+  main{ counter-reset: sec; }
+  main > section{ counter-increment: sec; }
+  .kicker{
+    display:inline-block; font-weight:500; font-size:12px;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--red); margin-bottom:22px;
+  }
+  .kicker::before{
+    content: counter(sec, decimal-leading-zero);
+    margin-right:16px; opacity:.4; font-variant-numeric:tabular-nums;
+  }
+  h1,h2{
+    margin:0; font-weight:700; line-height:1.02; letter-spacing:-.02em;
+    font-size:clamp(30px,4.4vw,56px); max-width:16ch;
+  }
+  .lead{
+    margin:24px 0 0; max-width:34ch; color:var(--dim);
+    font-size:clamp(15px,1.5vw,18px); line-height:1.6;
+  }
+  .hint{margin-top:18px; font-size:13px; color:var(--dim); opacity:.8}
+
+  /* seção "As aplicações": cards de tela entram voando num leque */
+  .apps-sec{ max-width:min(88vw,1180px); margin-inline:auto; padding-left:0; padding-right:0; }
+  .apps-sec .kicker, .apps-sec h2{ margin-left:7vw; }
+  .apps{
+    position:relative; width:100vw; margin-left:calc(50% - 50vw);
+    height:min(58vh,460px); margin-top:44px;
+    perspective:1600px; --cw:min(34vw,300px);
+  }
+  .app{
+    position:absolute; left:50%; top:110px; margin-left:calc(var(--cw) / -2);
+    width:var(--cw); aspect-ratio:16/10; cursor:pointer;
+    transform-origin:50% 100%; will-change:transform;
+  }
+  .app .scr{
+    position:absolute; inset:0; border-radius:14px; overflow:hidden; background:var(--bg);
+    border:1px solid var(--line); box-shadow:0 30px 70px -24px rgba(20,10,15,.4);
+    transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition:box-shadow .35s ease, filter .35s ease, transform .18s ease;
+  }
+  .apps.has-hover .app .scr{ filter:brightness(.96) saturate(.9); }
+  .app.pick .scr{ filter:none!important; box-shadow:0 54px 110px -30px rgba(140,10,35,.42); }
+  .app .scr::before{ content:''; position:absolute; inset:0 0 auto 0; height:26px;
+    background:var(--chip); border-bottom:1px solid var(--line); }
+  .app .scr::after{ content:''; position:absolute; left:12px; top:9px; width:8px; height:8px;
+    border-radius:50%; background:#d9d9de; box-shadow:14px 0 0 #d9d9de, 28px 0 0 #d9d9de; }
+  .app .scr > span{
+    position:absolute; inset:26px 0 0 0; display:grid; place-items:center;
+    font-weight:600; font-size:15px; color:var(--dim);
+    background:
+      radial-gradient(120% 80% at 18% 0%, rgba(204,9,47,.10), transparent 60%),
+      repeating-linear-gradient(0deg, transparent 0 21px, rgba(0,0,0,.035) 21px 22px);
+  }
+
+  /* "sacar a carta do baralho": o card sai do leque, voa pro centro e cresce */
+  .zoom-bg{
+    position:fixed; inset:0; z-index:68; background:rgba(16,8,12,.62); backdrop-filter:blur(5px);
+    opacity:0; transition:opacity .4s;
+  }
+  .zoom-bg[hidden]{ display:none }
+  .zoom-bg.show{ opacity:1 }
+  .app.zoom{ z-index:71 !important; cursor:zoom-out; }
+  .app.zoom .scr{ transform:none !important; box-shadow:0 70px 150px -40px rgba(0,0,0,.6); }
+  .app .cap{
+    position:absolute; left:0; right:0; top:calc(100% + 22px); margin:0;
+    display:flex; flex-direction:column; gap:8px; text-align:left;
+    opacity:0; transform:translateY(8px); transition:opacity .35s .15s, transform .35s .15s;
+    pointer-events:none;
+  }
+  .app.zoom .cap{ opacity:1; transform:none; }
+  .app .cap b{ font-weight:700; font-size:20px; color:#fff; letter-spacing:-.01em; }
+  .app .cap span{ font-weight:400; font-size:14px; line-height:1.6; color:rgba(255,255,255,.75); max-width:46ch; }
+  .app .cap em{ font-style:normal; font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--red); }
+
+  body.can-grab{cursor:grab}
+  body.grabbing{cursor:grabbing}
+  body.grabbing *{cursor:grabbing!important}
+
+  @media (prefers-reduced-motion: reduce){
+    .loader{display:none}
+    .line-mask{overflow:visible}
+    .apps{display:flex; flex-wrap:wrap; gap:16px; height:auto}
+    .app{position:static; transform:none!important}
+  }
+
+  /* reveal por palavra: sobe pouco + desfoca -> foca (sem clip, sem cortar descendente) */
+  .line-mask{display:inline-block; vertical-align:top}
+  .word{display:inline-block; will-change:transform, filter, opacity}
+
+  .tip{
+    position:fixed; top:0; left:0; z-index:20; pointer-events:none;
+    background:var(--ink); color:var(--bg); padding:10px 14px; border-radius:10px;
+    max-width:240px; box-shadow:0 12px 34px rgba(0,0,0,.22);
+  }
+  .tip b{display:block; font-size:13px; font-weight:600}
+  .tip span{display:block; font-size:12px; opacity:.7; margin-top:2px}
+
+  .loader{
+    position:fixed; inset:0; z-index:50; background:var(--bg); color:var(--ink);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+    font-weight:500; transition:opacity .6s ease;
+  }
+  .loader .num{font-size:clamp(48px,12vw,120px); font-weight:700; letter-spacing:-.04em}
+  .loader .bar{width:0; height:2px; background:var(--red); max-width:220px}
+  .loader .lbl{font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--dim)}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+
+<script type="importmap">{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "animejs":"https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js",
+  "lenis":"https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
+}}</script>
 </head>
 <body>
-<div class="bg"></div>
+<div class="glow"></div>
 <canvas id="c"></canvas>
-<div class="wrap">
-  <section>
-    <div class="card">
-      <div class="tag">SVG exato • cada ilha sólida • sem vazado</div>
-      <h1>Seu ícone exato, com barra grossa</h1>
-      <p>Voltei pro seu SVG original e corrigi extrudando <strong>cada das 7 ilhas</strong> como sólido separado — mesmo formato, agora sem vazado e com a mesma estilização.</p>
+<div class="grain"></div>
+<div class="tip" hidden><b></b><span></span></div>
+
+<div class="progress"></div>
+<div class="cursor"></div>
+<nav class="rail" aria-label="Navegação por seções"></nav>
+<header>
+  <div>Portal Finanças</div>
+  <svg class="brand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Bradesco">
+    <path fill="#cc092f" d="M2,17.085c0.464-0.303,0.896-0.678,1.397-0.896c1.505-0.658,3.043-1.239,4.55-1.893 c0.279-0.121,0.57-0.394,0.692-0.67c2.3-5.208,6.13-8.722,11.634-10.098c6.901-1.725,12.771,0.22,17.503,5.573 c0.312,0.353,0.407,0.72,0.046,1.079c-0.367,0.364-0.688,0.136-1.015-0.116c-5.234-4.027-12.561-4.507-17.989-1.069 c-1.286,0.815-2.358,1.973-3.518,2.985c-0.158,0.138-0.26,0.341-0.476,0.635c0.857-0.121,1.569-0.23,2.283-0.322 c7.065-0.903,13.925-0.222,20.475,2.735c2.402,1.085,4.641,2.441,6.475,4.375c1.035,1.09,1.932,2.286,1.944,3.889 c0.015,1.974-0.891,3.568-2.183,4.963c-2.196,2.372-4.984,3.809-7.939,4.961c-0.736,0.287-1.493,0.52-2.243,0.769 c-0.171,0.057-0.365,0.134-0.529,0.102c-0.234-0.046-0.6-0.144-0.64-0.292c-0.059-0.223,0.054-0.556,0.207-0.755 c0.148-0.192,0.427-0.3,0.668-0.399c1.35-0.555,2.713-1.079,4.058-1.646c1.858-0.783,3.097-2.078,3.477-4.148 c0.523-2.847-0.8-4.787-2.976-6.318c-2.618-1.843-5.589-2.851-8.666-3.575c-3.689-0.869-7.435-1.289-11.223-1.225 c-1.58,0.027-3.158,0.21-4.737,0.304c-0.371,0.022-0.564,0.175-0.72,0.516c-0.969,2.115-1.217,4.341-1.018,6.629 c0.327,3.748,1.86,6.921,4.567,9.528c0.21,0.202,0.383,0.547,0.395,0.832c0.024,0.581-0.564,0.872-1.103,0.495 c-0.93-0.65-1.869-1.319-2.671-2.114c-4.124-4.089-5.672-9.088-5.043-14.821c0.006-0.058,0.001-0.118,0.001-0.294 c-0.431,0.084-0.839,0.146-1.237,0.245c-1.062,0.262-2.138,0.484-3.172,0.833C2.719,18.067,2.345,18.015,2,17.574 C2,17.411,2,17.248,2,17.085z"/>
+    <path fill="#cc092f" d="M24.552,44.709c0-1.196,0-2.295,0-3.394c0-2.873,0.007-5.747-0.008-8.62 c-0.002-0.368,0.088-0.582,0.43-0.762c1.023-0.537,2.021-1.123,3.033-1.682c0.514-0.284,0.863-0.066,0.863,0.528 c-0.006,4.218-0.013,8.436-0.019,12.654c-0.002,1.144-0.131,1.276-1.247,1.276C26.614,44.709,25.625,44.709,24.552,44.709z"/>
+    <path fill="#cc092f" d="M23.157,33.068c0,4.07,0,7.998,0,12.005c-0.808,0-1.596,0.039-2.373-0.031 c-0.17-0.015-0.42-0.41-0.437-0.644c-0.056-0.77-0.022-1.547-0.022-2.322c0-2.221,0.011-4.443-0.007-6.664 c-0.004-0.504,0.138-0.835,0.608-1.074C21.658,33.965,22.359,33.527,23.157,33.068z"/>
+  </svg>
+</header>
+
+<div class="loader">
+  <div class="num">000</div>
+  <div class="bar"></div>
+  <div class="lbl">Portal Finanças</div>
+</div>
+
+<main>
+  <section id="hero" data-sx="3.2" data-dark>
+    <div class="kicker">Bradesco · Portal Finanças</div>
+    <h1 data-reveal>Sobre o Portal Finanças</h1>
+    <p class="lead" data-reveal>Um só lugar para todas as soluções financeiras. A marca do portal traduz como a gente trabalha — e o que você encontra aqui.</p>
+  </section>
+
+  <section data-sx="2.1" data-dark>
+    <div class="kicker">A marca</div>
+    <h2 data-reveal>Cinco pilares, um portal</h2>
+    <p class="lead" data-reveal>Cada parte do símbolo carrega um princípio que guia o Portal Finanças. Role para ver o que cada um significa na prática.</p>
+    <p class="hint">Passe o mouse sobre o símbolo.</p>
+  </section>
+
+  <section data-pillar="0" data-sx="-3.2" data-align="right">
+    <div class="kicker">Precisão</div>
+    <h2 data-reveal>Números em que dá pra confiar</h2>
+    <p class="lead" data-reveal>Cadastros, painéis e relatórios com dados consistentes e conferidos. Menos retrabalho, mais assertividade nas entregas.</p>
+  </section>
+
+  <section data-pillar="1" data-sx="3.2">
+    <div class="kicker">Tecnologia</div>
+    <h2 data-reveal>Ferramentas no padrão do mercado</h2>
+    <p class="lead" data-reveal>As aplicações do portal são construídas com tecnologia atual, pensadas para atender os times de negócio no dia a dia.</p>
+  </section>
+
+  <section data-pillar="2" data-sx="-3.2" data-align="right">
+    <div class="kicker">Eficiência</div>
+    <h2 data-reveal>Menos etapas, mais agilidade</h2>
+    <p class="lead" data-reveal>Processos que se adaptam à necessidade da organização — automação e autoatendimento no lugar de planilha e e-mail.</p>
+  </section>
+
+  <section data-pillar="3" data-sx="3.2">
+    <div class="kicker">Qualidade</div>
+    <h2 data-reveal>Uma fonte, a informação certa</h2>
+    <p class="lead" data-reveal>Excelência nas soluções e nas informações que o portal fornece: a mesma resposta, para todo mundo.</p>
+  </section>
+
+  <section data-pillar="4" data-sx="-3.2" data-align="right">
+    <div class="kicker">Inovação</div>
+    <h2 data-reveal>Sempre uma versão à frente</h2>
+    <p class="lead" data-reveal>Dezenas de aplicações que evoluem com metodologias ágeis — funcionalidades novas chegando o tempo todo.</p>
+  </section>
+
+  <section data-pillar="5" data-sx="2.1" data-dark>
+    <div class="kicker">Ao redor dos 5 pilares</div>
+    <h2 data-reveal>Tudo em um só lugar</h2>
+    <p class="lead" data-reveal>Cadastro, painéis, relatórios e muito mais, reunidos no Portal Finanças. Já disponível na sua área de trabalho.</p>
+  </section>
+
+  <section class="apps-sec" data-sx="1" data-hide>
+    <div class="kicker">As aplicações</div>
+    <h2 data-reveal>Um portal, inúmeras soluções</h2>
+    <div class="apps">
+      <!-- clique abre o modal; troque o conteúdo de .scr por <img src="telas/xxx.png"> quando tiver os prints -->
+      <div class="app" data-title="Cadastro" data-desc="Cadastre e mantenha fornecedores, centros de custo e contas num só fluxo. Validação na entrada, menos correção depois.">
+        <div class="scr"><span>Cadastro</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
+      <div class="app" data-title="Painel de indicadores" data-desc="Acompanhe receitas, despesas e metas em tempo real, com filtros por área e período. Os números que importam, num relance.">
+        <div class="scr"><span>Painel de indicadores</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
+      <div class="app" data-title="Relatórios" data-desc="Gere relatórios financeiros padronizados em segundos e exporte para Excel ou PDF. A mesma fonte para todo mundo.">
+        <div class="scr"><span>Relatórios</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
+      <div class="app" data-title="Aprovações" data-desc="Solicitações de despesa e pagamento com fluxo de aprovação claro, histórico e notificação. Sem e-mail solto.">
+        <div class="scr"><span>Aprovações</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
+      <div class="app" data-title="Conciliação" data-desc="Concilie lançamentos e extratos automaticamente. O sistema aponta as divergências; você resolve só o que precisa.">
+        <div class="scr"><span>Conciliação</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
+      <div class="app" data-title="Consultas" data-desc="Consulte saldos, lançamentos e posições a qualquer momento, com busca rápida e visão consolidada.">
+        <div class="scr"><span>Consultas</span></div><figcaption class="cap"><em></em><b></b><span></span></figcaption></div>
     </div>
   </section>
-  <section><div class="card"><h1 style="font-size:26px">Scroll</h1><p>Gira e cresce do centro.</p></div></section>
-  <section><div class="card"><h1 style="font-size:26px">Vazado</h1><p>Só onde seu SVG é vazado.</p></div></section>
-</div>
+</main>
+
+<div class="zoom-bg" hidden></div>
 
 <script type="module">
 import * as THREE from 'three';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
-gsap.registerPlugin(ScrollTrigger);
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { animate, stagger, utils, createTimeline, createSpring, svg } from 'animejs';
+import Lenis from 'lenis';
 
-const canvas=document.getElementById('c');
-const renderer=new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setSize(innerWidth,innerHeight);
-renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.2;
-renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(36, innerWidth/innerHeight, 0.1, 100);
-camera.position.set(0,0.6,7.8); camera.lookAt(0,0,0);
-scene.add(new THREE.AmbientLight(0xffffff,0.95));
-const sun=new THREE.DirectionalLight(0xffffff,1.35); sun.position.set(3,5,4); sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048); scene.add(sun);
-const rim=new THREE.DirectionalLight(0xffb0c0,0.5); rim.position.set(-2,1,-3); scene.add(rim);
-const ground=new THREE.Mesh(new THREE.CircleGeometry(4.5,64), new THREE.ShadowMaterial({opacity:0.30}));
-ground.rotation.x=-Math.PI/2; ground.position.y=-1.65; ground.receiveShadow=true; scene.add(ground);
+/* ---------- mapa: sólido do SVG -> pilar (ordem dos subPaths do path) ---------- */
+const PILLARS = [
+  { idx:[6],   label:'Precisão',      short:'Assertividade nas entregas' },
+  { idx:[2],   label:'Tecnologia',    short:'Ferramenta para os times de negócio' },
+  { idx:[5],   label:'Eficiência',    short:'Agilidade para adaptar à organização' },
+  { idx:[3],   label:'Qualidade',     short:'Excelência nas soluções e informações' },
+  { idx:[4],   label:'Inovação',      short:'Aplicação de metodologias ágeis' },
+  { idx:[0,1], label:'Consolidação',  short:'Cadastro, painéis, relatórios — num só lugar' },
+];
+const pillarByMesh = i => PILLARS.find(p => p.idx.includes(i));
 
-const alvo=new THREE.Group(); scene.add(alvo);
-const matFront=new THREE.MeshStandardMaterial({color:0xCC092F, roughness:0.30, metalness:0.05, side:THREE.DoubleSide});
-const matSide=new THREE.MeshStandardMaterial({color:0x7a051c, roughness:0.55, side:THREE.DoubleSide});
-const depth=22;
+/* ---------- three: cena + alvo extrudado ---------- */
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(0x000000, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0xffffff, 6.5, 15);   // fade suave ao branco = profundidade
+// ambiente de estúdio -> specular/reflexo bonito no vermelho (qualidade "render de produto")
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(36, innerWidth/innerHeight, 0.1, 100);
+camera.position.set(0, 0.6, 9);
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.95); scene.add(ambient);
+const sun = new THREE.DirectionalLight(0xffffff, 1.15);
+sun.position.set(3, 5, 4); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
+const rim = new THREE.DirectionalLight(0xffd0da, 0.4);
+rim.position.set(-2, 1, -3); scene.add(rim);
+const ground = new THREE.Mesh(new THREE.CircleGeometry(4.5, 64), new THREE.ShadowMaterial({ opacity:0.16 }));
+ground.rotation.x = -Math.PI/2; ground.position.y = -1.65; ground.receiveShadow = true; scene.add(ground);
+
+const alvo = new THREE.Group(); scene.add(alvo);
+const RED = 0xCC092F;
+const HL = new THREE.Color(0xff4d6a);
+const depth = 22;
 
 const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path fill="#CC092F" fill-rule="evenodd" clip-rule="evenodd" d="M258 499.749C392.369 495.525 500 385.269 500 249.874C500 114.48 392.369 4.22405 258 0V71.05C353.147 75.2347 429 153.696 429 249.874C429 346.053 353.147 424.514 258 428.699V499.749ZM241 499.715C107.097 494.977 0 384.933 0 249.874C0 114.816 107.097 4.77149 241 0.0334085V71.0968C146.323 75.7851 71 154.033 71 249.874C71 345.715 146.323 423.964 241 428.652V499.715ZM241 106.151C168.473 110.624 110.472 168.781 106.247 241.374H140.868C145.226 188.297 187.788 146.043 241 142.165V106.151ZM241 358.584C187.454 354.682 144.693 311.92 140.79 258.374H106.247C110.472 330.968 168.473 389.125 241 393.598V358.584ZM258 393.656V358.506C311.077 354.148 353.332 311.587 357.21 258.374H393.753C389.508 331.301 330.993 389.659 258 393.656ZM258 142.242V106.093C330.993 110.09 389.508 168.448 393.753 241.374H357.132C352.801 188.63 310.745 146.573 258 142.242ZM249.5 328.874C293.13 328.874 328.5 293.505 328.5 249.874C328.5 206.244 293.13 170.874 249.5 170.874C205.87 170.874 170.5 206.244 170.5 249.874C170.5 293.505 205.87 328.874 249.5 328.874Z"/></svg>`;
 
-const loader=new SVGLoader();
-const data=loader.parse(svgString);
-
-// cada subPath é uma ilha vermelha sólida — extruda separado mantendo posição relativa
-const subPaths=data.paths[0].subPaths;
-console.log('ilhas', subPaths.length);
-subPaths.forEach((sp, i)=>{
-  const pts=sp.getPoints(32);
-  if(pts.length<3) return;
-  const shape=new THREE.Shape(pts);
-  const geo=new THREE.ExtrudeGeometry(shape, {depth, bevelEnabled:true, bevelThickness:1.2, bevelSize:0.9, bevelSegments:3, steps:1});
+const subPaths = new SVGLoader().parse(svgString).paths[0].subPaths;
+subPaths.forEach(sp => {
+  const pts = sp.getPoints(32);
+  if (pts.length < 3) return;
+  const shape = new THREE.Shape(pts);
+  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled:true, bevelThickness:1.2, bevelSize:0.9, bevelSegments:3, steps:1 });
   geo.translate(-250, -250, -depth/2);
   geo.computeVertexNormals();
-  const mesh=new THREE.Mesh(geo, [matFront, matSide]);
-  // corrige inversão Y do SVG
-  mesh.scale.y *= -1;
-  mesh.castShadow=true; mesh.receiveShadow=true;
+  const matFront = new THREE.MeshStandardMaterial({ color:RED, roughness:0.3, metalness:0.1, emissive:RED, emissiveIntensity:0.04, envMapIntensity:0.55, side:THREE.DoubleSide, transparent:true });
+  const matSide  = new THREE.MeshStandardMaterial({ color:0x8a0620, roughness:0.5, metalness:0.1, envMapIntensity:0.45, side:THREE.DoubleSide, transparent:true });
+  const mesh = new THREE.Mesh(geo, [matFront, matSide]);
+  mesh.scale.y *= -1;              // corrige Y invertido do SVG
+  mesh.castShadow = mesh.receiveShadow = true;
+  mesh.userData.hl = 0;            // 0..1 destaque
+  // direção de "explosão" = do centro pro centróide da parte (Y invertido p/ bater com o visual)
+  geo.computeBoundingBox();
+  const gc = geo.boundingBox.getCenter(new THREE.Vector3());
+  gc.y *= -1; gc.z = 0;
+  mesh.userData.out = gc.lengthSq() > 400 ? gc.normalize() : new THREE.Vector3(0, 0.0001, 0);
   alvo.add(mesh);
 });
 
 alvo.updateMatrixWorld(true);
-const box=new THREE.Box3().setFromObject(alvo);
-const ctr=new THREE.Vector3(); box.getCenter(ctr);
+const ctr = new THREE.Vector3();
+new THREE.Box3().setFromObject(alvo).getCenter(ctr);
 alvo.position.sub(ctr);
-alvo.scale.set(0.0064,0.0064,0.0064);
-alvo.position.y+=0.04;
+alvo.position.y += 0.04;
+const BASE_Y = alvo.position.y;
+const BASE_X = alvo.position.x;
 
-gsap.set(alvo.scale,{x:0.0022,y:0.0022,z:0.0022});
-gsap.set(alvo.rotation,{y:-0.72, x:0.15});
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(reduce){
-  gsap.set(alvo,{scale:{x:0.0064,y:0.0064,z:0.0064}, rotation:{x:0,y:0}});
-} else {
-  const tl=gsap.timeline({scrollTrigger:{trigger:document.body, start:"top top", end:"bottom bottom", scrub:1.05}});
-  tl.to(alvo.scale,{x:0.0064,y:0.0064,z:0.0064, duration:0.72, ease:"back.out(1.15)"},0);
-  tl.to(alvo.rotation,{y:0.85, x:-0.11, duration:0.72, ease:"none"},0);
-  tl.to(alvo.rotation,{y:1.45, x:-0.15, duration:0.30, ease:"none"},0.72);
+/* ---------- smooth scroll ---------- */
+let lenis = null, scrollVel = 0;
+if (!REDUCE) {
+  lenis = new Lenis({ lerp:0.085 });
+  lenis.on('scroll', e => { scrollVel = e.velocity || 0; });
+  (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
 }
-addEventListener('resize',()=>{ renderer.setSize(innerWidth,innerHeight); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); });
-(function loop(){ requestAnimationFrame(loop); renderer.render(scene,camera); })();
+function scrollProgress(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+}
+const smoothstep = x => x*x*(3 - 2*x);
+const lerp = (a, b, t) => a + (b - a) * t;
+const root = document.documentElement;
+
+/* ---------- tema: dark -> light conforme o scroll ---------- */
+function hexMix(h1, h2, t){
+  const r = Math.round(lerp((h1>>16)&255, (h2>>16)&255, t));
+  const g = Math.round(lerp((h1>>8)&255,  (h2>>8)&255,  t));
+  const b = Math.round(lerp(h1&255,       h2&255,       t));
+  return `rgb(${r},${g},${b})`;
+}
+function applyTheme(d){
+  root.style.setProperty('--bg',   hexMix(0xffffff, 0x0b0e15, d));
+  root.style.setProperty('--ink',  hexMix(0x1c1c22, 0xf3f5fb, d));
+  root.style.setProperty('--dim',  hexMix(0x6a6a74, 0x9aa2b4, d));
+  root.style.setProperty('--line', `rgba(${d>0.5?'255,255,255':'0,0,0'},${lerp(0.09,0.13,d).toFixed(3)})`);
+  root.style.setProperty('--dot',  `rgba(${d>0.5?'255,255,255':'0,0,0'},0.24)`);
+  document.querySelector('.grain').style.opacity = lerp(0.035, 0.06, d);
+  document.querySelector('.glow').style.opacity  = lerp(1, 1.5, d);
+}
+
+/* ---------- estado contínuo: scroll + parallax + coreografia por seção ---------- */
+const SECTIONS = [...document.querySelectorAll('section')];
+const SECTION_SX = SECTIONS.map(s => +s.dataset.sx || 0);
+const progressEl = document.querySelector('.progress');
+
+// trilho de capítulos em algarismos romanos
+const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const roman = n => ROMAN[n - 1] || String(n);
+const SEC_LABEL = ['Sobre','A marca','Precisão','Tecnologia','Eficiência','Qualidade','Inovação','Consolidação','Aplicações'];
+const rail = document.querySelector('.rail');
+const railDots = SECTIONS.map((sec, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.innerHTML = '<span class="lbl">' + (SEC_LABEL[i] || '') + '</span><i></i>';
+  b.setAttribute('aria-label', SEC_LABEL[i] || ('Seção ' + (i + 1)));
+  b.addEventListener('click', () => lenis ? lenis.scrollTo(sec) : sec.scrollIntoView({ behavior:'smooth' }));
+  rail.appendChild(b);
+  return b;
+});
+let railActive = -1;
+// ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
+const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00 ];
+const SEC_DARK = SECTIONS.map(s => s.dataset.dark != null ? 1 : 0);   // hero, A marca e Consolidação = dark
+let curDark = SEC_DARK[0];
+
+let hoverIdx = -1;
+let mx = 0, my = 0, pmx = 0, pmy = 0;
+let curRotY = 0, curSx = SECTION_SX[0], curExpl = 0, curHide = 0, curStretch = 0, curBody = 0;
+const drag = { rx:0, ry:0 };          // offset de rotação vindo do arraste do usuário
+let grabbing = false, lpx = 0, lpy = 0, releaseAnim = null;
+
+// cursor custom (anel que segue o mouse com atraso)
+const cursorEl = document.querySelector('.cursor');
+const cur = { x: innerWidth/2, y: innerHeight/2, tx: innerWidth/2, ty: innerHeight/2 };
+if (cursorEl && matchMedia('(pointer:fine)').matches && !REDUCE) {
+  document.body.classList.add('cc');
+  addEventListener('pointermove', e => { cur.tx = e.clientX; cur.ty = e.clientY; });
+}
+
+// recap dos 5 pilares na Consolidação (sequência de pulsos)
+let recapAt = -1;
+let overIx = false;   // mouse sobre algo interativo (símbolo / card) -> cursor cresce
+
+function frame(){
+  const t = performance.now() / 1000;
+  const p = REDUCE ? 0.12 : scrollProgress();
+  const s = smoothstep(p);
+  if (progressEl) progressEl.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+
+  if (cursorEl){
+    cur.x += (cur.tx - cur.x) * 0.2;
+    cur.y += (cur.ty - cur.y) * 0.2;
+    cursorEl.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + cur.y.toFixed(1) + 'px)';
+    cursorEl.classList.toggle('big', hoverIdx >= 0 || overIx);
+  }
+
+  pmx += (mx - pmx) * 0.04;
+  pmy += (my - pmy) * 0.04;
+
+  // seção ativa
+  let active = 0, best = Infinity;
+  SECTIONS.forEach((el, i) => {
+    const r = el.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height/2 - innerHeight/2);
+    if (d < best){ best = d; active = i; }
+  });
+  if (active !== railActive){
+    railDots[railActive]?.classList.remove('on');
+    railDots[active]?.classList.add('on');
+    SECTIONS[active].querySelector('.kicker')?.classList.add('drawn');   // linha do kicker desenha
+    if (active === 7 && recapAt < 0) recapAt = t;                        // dispara o recap dos 5 pilares
+    railActive = active;
+  }
+  const pAttr = SECTIONS[active].dataset.pillar;
+  const activeIdx = pAttr != null ? PILLARS[+pAttr].idx : [];
+  const isPillar = pAttr != null;
+  const isExplode = isPillar && pAttr !== '5';   // Consolidação NÃO explode: remonta e brilha
+
+  // símbolo NÃO gira: só muda de ângulo entre seções, interpolado pelo scroll (progressivo, nunca de costas)
+  const segF = p * (SECTIONS.length - 1);
+  const i0 = Math.max(0, Math.min(SECTIONS.length - 2, Math.floor(segF)));
+  const bf = smoothstep(segF - i0);
+  const targetYaw = SEC_YAW[i0] + (SEC_YAW[i0 + 1] - SEC_YAW[i0]) * bf;
+  curRotY  += (targetYaw - curRotY) * 0.09;
+  curSx    += (SECTION_SX[active] - curSx) * 0.06;
+
+  // tema dark<->light interpolado pelo scroll
+  const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
+  curDark += (dTarget - curDark) * 0.06;
+  applyTheme(curDark);
+  scene.fog.color.setRGB(lerp(1,0.043,curDark), lerp(1,0.055,curDark), lerp(1,0.082,curDark));
+  ambient.intensity = lerp(0.95, 0.5, curDark);
+  curExpl  += ((isExplode ? 1 : 0) - curExpl) * 0.06;
+  curHide  += ((SECTIONS[active].dataset.hide != null ? 1 : 0) - curHide) * 0.06;
+  const bodyTarget = utils.clamp((segF - 0.35) / 1.0, 0, 1);   // "o logo ganha corpo" ao entrar na seção 1
+  curBody += (bodyTarget - curBody) * 0.06;
+  const bodyZ = 0.12 + 0.88 * smoothstep(curBody);
+  const expl = smoothstep(curExpl);
+  const hide = smoothstep(curHide);
+  if (hide > 0.5) hoverIdx = -1;
+  if (recapAt >= 0 && t - recapAt > 3.4) recapAt = -1;         // fim da sequência do recap
+
+  // câmera: dolly no scroll + deriva com o mouse, mira acompanha o símbolo
+  camera.position.z = 8.7 - s*1.7;
+  camera.position.x = pmx * 0.5;
+  camera.position.y = 0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3;
+  camera.lookAt(curSx*0.9, 0, 0);
+
+  // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
+  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55);
+  const stTarget = utils.clamp(scrollVel * 0.0007, -0.12, 0.12);
+  curStretch += (stTarget - curStretch) * 0.14;
+  scrollVel *= 0.86;                                   // decai quando o scroll para
+  alvo.scale.set(sc * (1 - curStretch*0.5), sc * (1 + curStretch), sc * (1 - curStretch*0.5) * bodyZ);
+  ground.material.opacity = 0.16 * (1 - hide);
+  alvo.position.x = BASE_X + curSx;
+  alvo.position.y = BASE_Y + Math.sin(t*0.55)*0.04;
+  const gInf = grabbing ? 0 : 1;   // trava o parallax enquanto arrasta
+  alvo.rotation.y = curRotY + drag.ry + Math.sin(t*0.35)*0.03 + pmx*0.12*gInf;
+  alvo.rotation.x = 0.13 - s*0.06 + drag.rx + Math.sin(t*0.3)*0.02 + pmy*0.08*gInf;
+  alvo.rotation.z = Math.sin(t*0.22)*0.014;
+
+  const anyHot = activeIdx.length > 0 || hoverIdx >= 0;
+
+  alvo.children.forEach((m, i) => {
+    const hot = activeIdx.includes(i) || i === hoverIdx;
+    m.userData.hl += ((hot ? 1 : 0) - m.userData.hl) * 0.05;   // transição lenta = fluida
+    const e = smoothstep(Math.min(1, m.userData.hl));
+
+    // recap: acende cada pilar em sequência (5 pulsos de ~0.55s)
+    let recapE = 0;
+    if (recapAt >= 0){
+      const el = t - recapAt, step = Math.floor(el / 0.55), pil = PILLARS[step];
+      if (pil && pil.idx.includes(i)) recapE = Math.sin(((el % 0.55) / 0.55) * Math.PI) * 1.6;
+    }
+
+    const f = m.material[0], sMat = m.material[1];
+    f.emissiveIntensity = 0.05 + e*1.05 + recapE + curDark*0.22;   // no dark o vermelho "acende" um pouco
+    f.color.setHex(RED).lerp(HL, Math.min(1, e*0.34 + recapE*0.3));
+    f.emissive.setHex(RED).lerp(HL, e*0.6);
+
+    // coreografia por PROFUNDIDADE (sem espalhar = sem sobreposição):
+    // a parte ativa vem à frente e cresce; as outras recuam e desbotam, no lugar.
+    const o = m.userData.out;
+    const back = expl * (1 - e);                    // quanto essa peça "recua" (0 = na frente/ativa)
+    m.position.set(
+      o.x * back * 22,                              // deriva mínima, só pra soltar
+      o.y * back * 22,
+      e * 150 * (0.45 + 0.55*expl) - back * 90
+    );
+    const k = (1 + e*0.26) * (1 - back*0.1);        // ativa cresce mais
+    m.scale.set(k, -k, k);
+    const op = (1 - back*0.86) * (1 - hide*0.94);   // some quase de vez na seção "As aplicações"
+    f.opacity = op; sMat.opacity = op;
+    f.depthWrite = sMat.depthWrite = op > 0.92;     // recuadas nao escondem uma a outra
+    m.castShadow = op > 0.6;
+  });
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+frame();
+
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+});
+
+/* ---------- hover no símbolo (raycaster) ---------- */
+const tip = document.querySelector('.tip');
+const ray = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+function castAt(cx, cy){
+  ndc.x = (cx/innerWidth)*2 - 1;
+  ndc.y = -(cy/innerHeight)*2 + 1;
+  ray.setFromCamera(ndc, camera);
+  return ray.intersectObjects(alvo.children, false)[0];
+}
+addEventListener('pointermove', e => {
+  if (grabbing){
+    drag.ry += (e.clientX - lpx) * 0.007;
+    drag.rx  = utils.clamp(drag.rx + (e.clientY - lpy) * 0.005, -0.7, 0.7);
+    lpx = e.clientX; lpy = e.clientY;
+  }
+  mx = (e.clientX/innerWidth)*2 - 1;
+  my = -((e.clientY/innerHeight)*2 - 1);
+  // não interage com o símbolo se ele está escondido ou se o mouse está sobre um card
+  const blocked = curHide > 0.4 || e.target.closest('.app');
+  const hit = (!blocked && !grabbing) ? castAt(e.clientX, e.clientY) : null;
+  hoverIdx = hit ? alvo.children.indexOf(hit.object) : -1;
+  document.body.classList.toggle('can-grab', !!hit && !grabbing);
+  const p = hoverIdx >= 0 ? pillarByMesh(hoverIdx) : null;
+  if (p && !grabbing){
+    tip.querySelector('b').textContent = p.label;
+    tip.querySelector('span').textContent = p.short;
+    let x = e.clientX + 16, y = e.clientY + 16;
+    if (x > innerWidth - 260) x = e.clientX - 260;
+    if (y > innerHeight - 90) y = e.clientY - 90;
+    tip.style.transform = `translate(${x}px,${y}px)`;
+    tip.hidden = false;
+  } else {
+    tip.hidden = true;
+  }
+});
+addEventListener('pointerleave', () => { hoverIdx = -1; tip.hidden = true; });
+
+/* ---------- arrastar o símbolo (mola no soltar via createSpring) ---------- */
+addEventListener('pointerdown', e => {
+  if (curHide > 0.4 || e.target.closest('.app')) return;
+  if (!castAt(e.clientX, e.clientY)) return;
+  grabbing = true; lpx = e.clientX; lpy = e.clientY;
+  releaseAnim?.pause();
+  document.body.classList.add('grabbing');
+  tip.hidden = true;
+  e.preventDefault();
+});
+addEventListener('pointerup', () => {
+  if (!grabbing) return;
+  grabbing = false;
+  document.body.classList.remove('grabbing');
+  releaseAnim = animate(drag, { rx:0, ry:0, ease: createSpring({ stiffness:48, damping:7 }) });
+});
+
+/* ---------- reveal de texto por palavra (anime.js + IntersectionObserver) ---------- */
+function splitWords(el){
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map(w => `<span class="line-mask"><span class="word">${w}</span></span> `).join('');
+  return [...el.querySelectorAll('.word')];
+}
+const unclip = el => el.querySelectorAll('.line-mask').forEach(m => m.classList.add('done'));
+
+if (!REDUCE) {
+  const wordsOf = new Map();
+  document.querySelectorAll('[data-reveal]').forEach(el => {
+    const words = splitWords(el);
+    utils.set(words, { opacity:0, translateY:'0.5em', filter:'blur(7px)' });
+    if (!el.closest('#hero')) wordsOf.set(el, words);   // hero = timeline
+  });
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      io.unobserve(e.target);
+      const el = e.target;
+      animate(wordsOf.get(el), {
+        opacity:[0,1], translateY:['0.5em','0em'], filter:['blur(7px)','blur(0px)'],
+        delay:stagger(32), duration:720, ease:'out(3)',
+        onComplete(){ unclip(el); }
+      });
+    }
+  }, { rootMargin:'0px 0px -12% 0px' });
+  wordsOf.forEach((_, el) => io.observe(el));
+}
+
+// "As aplicações": cards entram voando num leque; hover = "puxar a carta do baralho"
+if (!REDUCE) {
+  const wrap = document.querySelector('.apps');
+  const apps = [...document.querySelectorAll('.app')];
+  const N = apps.length;
+  const baseZ = i => 10 - Math.round(Math.abs(i - (N - 1) / 2));
+  const STEP = 132;
+  apps.forEach((c, i) => {
+    const tt = i - (N - 1) / 2;                       // -2.5 .. 2.5 (leque centrado)
+    c._fan = { x: tt * STEP, y: Math.sin((i / (N - 1)) * Math.PI) * -30, r: tt * 3.4 };
+    c.style.zIndex = baseZ(i);
+    utils.set(c, { opacity: 0, x: c._fan.x, y: 170, rotate: 0, scale: 0.8 });
+  });
+
+  const toFan = c => animate(c, { opacity:1, x:c._fan.x, y:c._fan.y, rotate:c._fan.r, scale:1,
+    ease: createSpring({ stiffness: 90, damping: 16 }) });
+
+  const io2 = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) {
+      io2.disconnect();
+      apps.forEach(c => animate(c, {
+        opacity: 1, y: c._fan.y, x: c._fan.x, rotate: c._fan.r, scale: 1,
+        delay: stagger(75, { from: 'center' }),
+        ease: createSpring({ stiffness: 92, damping: 14 })
+      }));
+    }
+  }, { rootMargin: '0px 0px -22% 0px' });
+  const sec = document.querySelector('.apps-sec');
+  if (sec) io2.observe(sec);
+
+  // hover "puxar carta": escolha pelo container (uma fonte de verdade = sem flicker).
+  // Só a carta escolhida se move; as outras ficam no leque (sem re-layout).
+  let picked = null, zoomed = null;
+  const resetTilt = c => { const sc = c?.querySelector('.scr'); if (sc){ sc.style.setProperty('--rx','0deg'); sc.style.setProperty('--ry','0deg'); } };
+  const pick = c => {
+    if (c === picked) return;
+    if (picked){ picked.classList.remove('pick'); picked.style.zIndex = baseZ(apps.indexOf(picked)); resetTilt(picked); toFan(picked); }
+    picked = c;
+    overIx = !!c;
+    wrap.classList.toggle('has-hover', !!c);
+    if (c){
+      c.classList.add('pick'); c.style.zIndex = 40;
+      animate(c, { x:c._fan.x, y:c._fan.y - 50, rotate:0, scale:1.13, ease:'out(3)', duration:420 });
+    }
+  };
+  wrap.addEventListener('pointermove', e => {
+    if (zoomed) return;
+    const r = wrap.getBoundingClientRect();
+    const cx = e.clientX - r.left - r.width / 2;        // relativo ao centro do container
+    let best = null, bd = Infinity;
+    for (const c of apps){ const d = Math.abs(cx - c._fan.x); if (d < bd){ bd = d; best = c; } }
+    if (!(picked && bd > Math.abs(cx - picked._fan.x) - 34)) pick(best);
+    // inclinação 3D da carta escolhida seguindo o cursor
+    if (picked){
+      const pr = picked.getBoundingClientRect();
+      const gx = (e.clientX - pr.left) / pr.width - 0.5;
+      const gy = (e.clientY - pr.top) / pr.height - 0.5;
+      const scr = picked.querySelector('.scr');
+      scr.style.setProperty('--ry', (gx * 13).toFixed(1) + 'deg');
+      scr.style.setProperty('--rx', (-gy * 10).toFixed(1) + 'deg');
+    }
+  });
+  wrap.addEventListener('pointerleave', () => { if (!zoomed) pick(null); });
+
+  /* "sacar a carta do baralho": a carta clicada sai do leque, voa pro centro e cresce (FLIP) */
+  const bgEl = document.querySelector('.zoom-bg');
+  const EASE = ['left','top','width','height'].map(p => p + ' .55s cubic-bezier(.19,1,.22,1)').join(',');
+  const zoomIn = card => {
+    if (zoomed) return;
+    zoomed = card;
+    pick(null);
+    const r = card.getBoundingClientRect();
+    card._z = { l:r.left, t:r.top, w:r.width, h:r.height, next:card.nextElementSibling };
+    const cap = card.querySelector('.cap');
+    cap.querySelector('em').textContent = 'Aplicação';
+    cap.querySelector('b').textContent  = card.dataset.title || '';
+    cap.querySelector('span').textContent = card.dataset.desc || '';
+    card.classList.add('zoom');
+    document.body.appendChild(card);      // sai do .apps (que tem perspective -> quebraria position:fixed)
+    Object.assign(card.style, { position:'fixed', left:r.left+'px', top:r.top+'px',
+      width:r.width+'px', height:r.height+'px', margin:'0', transform:'none', transition:'none' });
+    bgEl.hidden = false;
+    void card.offsetWidth;
+    const W = Math.min(720, innerWidth * 0.84), H = W * 10 / 16;
+    Object.assign(card.style, { transition:EASE,
+      left:((innerWidth - W) / 2) + 'px', top:((innerHeight - H) / 2 - 44) + 'px',
+      width:W + 'px', height:H + 'px' });
+    bgEl.classList.add('show');
+    lenis?.stop();
+    document.body.classList.add('modal-open');
+  };
+  const zoomOut = () => {
+    if (!zoomed) return;
+    const card = zoomed;
+    zoomed = null;
+    bgEl.classList.remove('show');
+    lenis?.start();
+    document.body.classList.remove('modal-open');
+    // some no lugar (zoom) e volta pro leque com a mesma entrada de baralho
+    card.style.transition = 'opacity .22s ease, transform .22s ease';
+    card.style.opacity = '0';
+    card.style.transform = 'scale(.92)';
+    setTimeout(() => {
+      card.style.cssText = '';                       // limpa TODOS os estilos inline
+      card.classList.remove('zoom');
+      wrap.insertBefore(card, card._z.next && card._z.next.parentElement === wrap ? card._z.next : null);
+      utils.set(card, { opacity:0, x:card._fan.x, y:card._fan.y + 44, rotate:card._fan.r, scale:0.9 });
+      card.style.zIndex = baseZ(apps.indexOf(card));
+      toFan(card);                                    // sobe de volta pro leque
+      bgEl.hidden = true;
+    }, 260);
+  };
+  apps.forEach(c => c.addEventListener('click', () => zoomed === c ? zoomOut() : zoomIn(c)));
+  bgEl.addEventListener('click', zoomOut);
+  addEventListener('keydown', e => { if (e.key === 'Escape') zoomOut(); });
+}
+
+// entrada da hero como sequência (createTimeline)
+function playHero(){
+  const k   = document.querySelector('#hero .kicker');
+  const h1w = [...document.querySelectorAll('#hero h1 .word')];
+  const ldw = [...document.querySelectorAll('#hero .lead .word')];
+  utils.set(k, { opacity:0, y:14 });
+  createTimeline({ defaults:{ ease:'out(3)' } })
+    .add(k,   { opacity:1, y:0, duration:600 })
+    .add(h1w, { opacity:[0,1], translateY:['0.6em','0em'], filter:['blur(8px)','blur(0px)'],
+                duration:850, delay:stagger(40) }, '-=250')
+    .add(ldw, { opacity:[0,1], translateY:['0.4em','0em'], filter:['blur(6px)','blur(0px)'],
+                duration:650, delay:stagger(14) }, '-=450')
+    .then(() => { unclip(document.querySelector('#hero h1')); unclip(document.querySelector('#hero .lead')); });
+}
+
+// logo Bradesco: uma linha desenha o contorno (svg.createDrawable) e depois preenche
+function playBrand(){
+  if (document.hidden) return;                 // aba em background: anime pausa -> deixa o logo visível
+  const paths = [...document.querySelectorAll('header .brand path')];
+  paths.forEach(pt => {
+    pt.style.fill = '#cc092f'; pt.style.fillOpacity = '0';
+    pt.style.stroke = '#cc092f'; pt.style.strokeWidth = '0.9';
+  });
+  const drawables = svg.createDrawable(paths);
+  createTimeline({ defaults:{ ease:'inOutQuad' } })
+    .add(drawables, { draw: ['0 0', '0 1'], duration: 1100, delay: stagger(230) })
+    .add(paths, { fillOpacity: [0, 1], strokeWidth: [0.9, 0], duration: 550, ease:'outQuad',
+                  onComplete(){ paths.forEach(pt => pt.style.stroke = 'none'); } }, '-=350');
+}
+
+/* ---------- loader ---------- */
+const loader = document.querySelector('.loader');
+if (REDUCE) {
+  loader.remove();
+} else {
+  const num = loader.querySelector('.num');
+  const o = { v:0 };
+  animate('.loader .bar', { width:['0px','220px'], duration:1500, ease:'inOut(2)' });
+  animate(o, {
+    v:100, duration:1500, ease:'inOut(2)',
+    onUpdate(){ num.textContent = String(Math.round(o.v)).padStart(3,'0'); }
+  });
+  setTimeout(() => {
+    loader.style.opacity = '0';
+    playHero();
+    playBrand();
+    setTimeout(() => loader.remove(), 650);
+  }, 1650);
+}
+
+/* ---------- check mínimo ---------- */
+function demo(){
+  console.assert(alvo.children.length === 7, 'esperado 7 sólidos, veio ' + alvo.children.length);
+  console.assert(alvo.children[0].material[0] !== alvo.children[1].material[0], 'materiais deviam ser por-sólido');
+  const cover = [...new Set(PILLARS.flatMap(p => p.idx))].sort((a,b)=>a-b);
+  console.assert(cover.join() === '0,1,2,3,4,5,6', 'mapa de pilares nao cobre os 7 solidos: ' + cover);
+  console.assert(pillarByMesh(6).label === 'Precisão', 'centro deveria ser Precisão');
+  const probe = document.createElement('h2'); probe.textContent = 'a b c';
+  console.assert(splitWords(probe).length === 3, 'splitWords quebrou');
+  console.log('%cdemo ok', 'color:#0a0');
+}
+demo();
 </script>
 </body>
 </html>
