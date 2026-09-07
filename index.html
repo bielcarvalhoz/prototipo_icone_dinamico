@@ -127,27 +127,30 @@
   }
   .hint{margin-top:18px; font-size:13px; color:var(--dim); opacity:.8}
 
-  /* seção "As aplicações": cards de tela entram voando num leque */
+  /* seção "As aplicações": telas saem do portal e formam um baralho em profundidade */
   .apps-sec{ max-width:min(88vw,1180px); margin-inline:auto; padding-left:0; padding-right:0; }
   .apps-sec .kicker, .apps-sec h2{ margin-left:7vw; }
   .apps{
     position:relative; width:100vw; margin-left:calc(50% - 50vw);
-    height:min(58vh,460px); margin-top:44px;
-    perspective:1600px; --cw:min(34vw,300px);
+    height:min(66vh,520px); margin-top:44px;
+    perspective:1500px; --cw:min(38vw,360px);
   }
   .app{
-    position:absolute; left:50%; top:110px; margin-left:calc(var(--cw) / -2);
+    position:absolute; left:50%; top:50%; margin:calc(var(--cw) * -0.3125) 0 0 calc(var(--cw) / -2);
     width:var(--cw); aspect-ratio:16/10; cursor:pointer;
-    transform-origin:50% 100%; will-change:transform;
+    transform-origin:50% 50%; will-change:transform;
   }
+  .app.front{ cursor:zoom-in }
+  .app.front .scr{ background:#fff; box-shadow:0 60px 120px -34px rgba(140,10,35,.5); }
+  .app.front .scr > span{ color:#6a6a74; }
+  .app .cap{ transition:opacity .4s .1s, transform .4s .1s }
+  .app.front .cap{ opacity:1; transform:none }
   .app .scr{
     position:absolute; inset:0; border-radius:14px; overflow:hidden; background:var(--bg);
     border:1px solid var(--line); box-shadow:0 30px 70px -24px rgba(20,10,15,.4);
     transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
     transition:box-shadow .35s ease, filter .35s ease, transform .18s ease;
   }
-  .apps.has-hover .app .scr{ filter:brightness(.96) saturate(.9); }
-  .app.pick .scr{ filter:none!important; box-shadow:0 54px 110px -30px rgba(140,10,35,.42); }
   .app .scr::before{ content:''; position:absolute; inset:0 0 auto 0; height:26px;
     background:var(--chip); border-bottom:1px solid var(--line); }
   .app .scr::after{ content:''; position:absolute; left:12px; top:9px; width:8px; height:8px;
@@ -160,13 +163,12 @@
       repeating-linear-gradient(0deg, transparent 0 21px, rgba(0,0,0,.035) 21px 22px);
   }
 
-  /* "entrar no portal": flash radial vermelho que preenche a tela na travessia logo -> telas */
+  /* "entrar no portal": clarão branco-quente que preenche a tela na travessia logo -> telas */
   .portal{
-    position:fixed; inset:0; z-index:4; pointer-events:none; opacity:0;
+    position:fixed; inset:0; z-index:6; pointer-events:none; opacity:0; transform-origin:50% 50%;
     background:
-      radial-gradient(60% 60% at 50% 50%, rgba(255,120,150,.9), transparent 70%),
-      radial-gradient(120% 120% at 50% 50%, rgba(204,9,47,.95), rgba(120,4,26,.9) 60%, #4c0210 100%);
-    mix-blend-mode:normal;
+      radial-gradient(38% 38% at 50% 50%, #fff, rgba(255,220,225,.85) 45%, transparent 72%),
+      radial-gradient(90% 90% at 50% 50%, rgba(255,70,110,.95), rgba(150,6,34,.96) 55%, #3a020c 100%);
   }
 
   /* "sacar a carta do baralho": o card sai do leque, voa pro centro e cresce */
@@ -177,7 +179,8 @@
   .zoom-bg[hidden]{ display:none }
   .zoom-bg.show{ opacity:1 }
   .app.zoom{ z-index:71 !important; cursor:zoom-out; }
-  .app.zoom .scr{ transform:none !important; box-shadow:0 70px 150px -40px rgba(0,0,0,.6); }
+  .app.zoom .scr{ transform:none !important; background:#fff; box-shadow:0 70px 150px -40px rgba(0,0,0,.6); }
+  .app.zoom .scr > span{ color:#6a6a74; }
   .app .cap{
     position:absolute; left:0; right:0; top:calc(100% + 22px); margin:0;
     display:flex; flex-direction:column; gap:8px; text-align:left;
@@ -304,7 +307,7 @@
     <p class="lead" data-reveal>Cadastro, painéis, relatórios e muito mais, reunidos no Portal Finanças. Já disponível na sua área de trabalho.</p>
   </section>
 
-  <section class="apps-sec" data-sx="1" data-hide>
+  <section class="apps-sec" data-sx="1" data-hide data-dark>
     <div class="kicker">As aplicações</div>
     <h2 data-reveal>Um portal, inúmeras soluções</h2>
     <div class="apps">
@@ -533,10 +536,13 @@ function frame(){
   curSx    += (SECTION_SX[active] - curSx) * 0.06;
 
   // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
-  const portalP = smoothstep(utils.clamp((segF - 7.1) / 0.75, 0, 1));
+  const portalP = smoothstep(utils.clamp((segF - 7.05) / 0.8, 0, 1));
   if (portalEl){
-    const flash = Math.sin(smoothstep(utils.clamp((portalP - 0.15) / 0.75, 0, 1)) * Math.PI);
-    portalEl.style.opacity = (flash * 0.92).toFixed(3);
+    // clarão branco-quente que preenche a tela na travessia e some quando entramos
+    const rise = smoothstep(utils.clamp((portalP - 0.08) / 0.45, 0, 1));
+    const fall = smoothstep(utils.clamp((portalP - 0.82) / 0.18, 0, 1));
+    portalEl.style.opacity = (rise * (1 - fall)).toFixed(3);
+    portalEl.style.transform = 'scale(' + (1 + portalP * 0.7).toFixed(3) + ')';
   }
 
   // tema dark<->light interpolado pelo scroll
@@ -557,11 +563,11 @@ function frame(){
 
   // câmera: dolly no scroll + deriva com o mouse; na travessia, voa PRA DENTRO do símbolo
   const camX = BASE_X + curSx;
-  camera.position.z = lerp(8.7 - s*1.7, -1.4, portalP);
+  camera.position.z = lerp(8.7 - s*1.7, -3.6, portalP);
   camera.position.x = camX + pmx * 0.5 * (1 - portalP);
   camera.position.y = (0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3) * (1 - portalP);
-  camera.lookAt(lerp(curSx*0.9, camX, portalP), 0, lerp(0, -6, portalP));
-  const fovT = lerp(36, 62, portalP*portalP);
+  camera.lookAt(lerp(curSx*0.9, camX, portalP), 0, lerp(0, -8, portalP));
+  const fovT = lerp(36, 82, portalP*portalP);
   if (Math.abs(fovT - curFov) > 0.1){ curFov = fovT; camera.fov = fovT; camera.updateProjectionMatrix(); }
 
   // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
@@ -616,10 +622,10 @@ function frame(){
     if (portalP > 0){
       const isRing = i < 2;                         // 0,1 = anel externo
       if (isRing){
-        m.scale.multiplyScalar(1 + portalP*portalP*6);
-        m.position.z += portalP * 820;              // (unidades locais) vem em direção à câmera
-        f.emissiveIntensity += portalP * 2.6;       // acende ao passar
-        op *= 1 - smoothstep(utils.clamp((portalP - 0.55) / 0.4, 0, 1));
+        m.scale.multiplyScalar(1 + portalP*portalP*9);
+        m.position.z += portalP * 1500;             // (unidades locais) atravessa a câmera
+        f.emissiveIntensity += portalP * 3.4;       // acende forte ao passar
+        op *= 1 - smoothstep(utils.clamp((portalP - 0.5) / 0.35, 0, 1));
       } else {
         const innerOp = 1 - smoothstep(utils.clamp((portalP - 0.12) / 0.32, 0, 1));
         m.scale.multiplyScalar(0.28 + 0.72*innerOp);
@@ -728,82 +734,102 @@ if (!REDUCE) {
   wordsOf.forEach((_, el) => io.observe(el));
 }
 
-// "As aplicações": cards entram voando num leque; hover = "puxar a carta do baralho"
+// "As aplicações": as telas são cuspidas do centro do portal e assentam num
+// baralho em profundidade (túnel 3D). Scroll/setas/clique trocam a da frente;
+// clique na da frente = "sacar a carta" e dar zoom.
 if (!REDUCE) {
   const wrap = document.querySelector('.apps');
   const apps = [...document.querySelectorAll('.app')];
   const N = apps.length;
-  const baseZ = i => 10 - Math.round(Math.abs(i - (N - 1) / 2));
-  const STEP = 132;
-  // cada tela entra voando de um canto da viewport (alterna os 4 cantos)
-  const CORNERS = [[-1,-1],[1,-1],[-1,1],[1,1],[-1,-1.15],[1,1.15]];
-  apps.forEach((c, i) => {
-    const tt = i - (N - 1) / 2;                       // -2.5 .. 2.5 (leque centrado)
-    c._fan = { x: tt * STEP, y: Math.sin((i / (N - 1)) * Math.PI) * -30, r: tt * 3.4 };
-    const [cxs, cys] = CORNERS[i % CORNERS.length];
-    c._corner = { x: cxs * innerWidth * 0.58, y: cys * innerHeight * 0.55, r: cxs * cys * -22 };
-    c.style.zIndex = baseZ(i);
-    utils.set(c, { opacity: 0, x: c._corner.x, y: c._corner.y, rotate: c._corner.r, scale: 0.32, filter: 'blur(16px)' });
-  });
 
-  const toFan = c => animate(c, { opacity:1, x:c._fan.x, y:c._fan.y, rotate:c._fan.r, scale:1, filter:'blur(0px)',
-    ease: createSpring({ stiffness: 90, damping: 16 }) });
+  // posição de cada carta no baralho, dado quem está na frente (d=0 = frente)
+  const slot = (i, front) => {
+    const d = (i - front + N) % N;
+    const side = d === 0 ? 0 : (d % 2 ? 1 : -1);
+    return {
+      z: -d * 155,
+      x: side * (44 + d * 22),
+      y: d * -7,
+      scale: Math.max(0.52, 1 - d * 0.085),
+      rotateY: side * -7,
+      rotate: side * d * 1.3,
+      opacity: d === 0 ? 1 : Math.max(0.12, 0.72 - d * 0.12),
+      blur: d === 0 ? 0 : 0.6 + d * 1.1,
+      zi: 40 - d
+    };
+  };
+
+  let front = 0, zoomed = null;
+  const fillCap = card => {
+    const cap = card.querySelector('.cap');
+    cap.querySelector('em').textContent = 'Aplicação';
+    cap.querySelector('b').textContent = card.dataset.title || '';
+    cap.querySelector('span').textContent = card.dataset.desc || '';
+  };
+
+  const layout = (opts = {}) => {
+    apps.forEach((c, i) => {
+      const s = slot(i, front);
+      c.style.zIndex = s.zi;
+      c.classList.toggle('front', i === front && !zoomed);
+      if (i === front) fillCap(c); else resetTilt(c);
+      animate(c, {
+        opacity: s.opacity, x: s.x, y: s.y, z: s.z,
+        rotateY: s.rotateY, rotate: s.rotate, scale: s.scale,
+        filter: 'blur(' + s.blur.toFixed(2) + 'px)',
+        delay: opts.emerge ? stagger(85, { from: 'center' }) : 0,
+        ease: opts.emerge ? createSpring({ stiffness: 68, damping: 12 })
+                          : createSpring({ stiffness: 120, damping: 18 })
+      });
+    });
+  };
+  const setFront = i => { front = (i % N + N) % N; layout(); };
+  const resetTilt = c => { const sc = c && c.querySelector('.scr'); if (sc){ sc.style.setProperty('--rx','0deg'); sc.style.setProperty('--ry','0deg'); } };
+
+  // estado inicial: todas no centro luminoso, minúsculas e vindo em direção ao usuário
+  apps.forEach(c => utils.set(c, { opacity:0, x:0, y:0, z:640, rotateY:0, rotate:0, scale:0.07, filter:'blur(24px)' }));
 
   const io2 = new IntersectionObserver(es => {
-    for (const e of es) if (e.isIntersecting) {
-      io2.disconnect();
-      apps.forEach(c => animate(c, {
-        opacity: 1, y: c._fan.y, x: c._fan.x, rotate: c._fan.r, scale: 1, filter: 'blur(0px)',
-        duration: 950,
-        delay: stagger(90, { from: 'center' }),
-        ease: createSpring({ stiffness: 78, damping: 13 })
-      }));
-    }
+    for (const e of es) if (e.isIntersecting){ io2.disconnect(); layout({ emerge:true }); }
   }, { rootMargin: '0px 0px -14% 0px' });
   const sec = document.querySelector('.apps-sec');
   if (sec) io2.observe(sec);
 
-  // hover "puxar carta": escolha pelo container (uma fonte de verdade = sem flicker).
-  // Só a carta escolhida se move; as outras ficam no leque (sem re-layout).
-  let picked = null, zoomed = null;
-  const resetTilt = c => { const sc = c?.querySelector('.scr'); if (sc){ sc.style.setProperty('--rx','0deg'); sc.style.setProperty('--ry','0deg'); } };
-  const pick = c => {
-    if (c === picked) return;
-    if (picked){ picked.classList.remove('pick'); picked.style.zIndex = baseZ(apps.indexOf(picked)); resetTilt(picked); toFan(picked); }
-    picked = c;
-    overIx = !!c;
-    wrap.classList.toggle('has-hover', !!c);
-    if (c){
-      c.classList.add('pick'); c.style.zIndex = 40;
-      animate(c, { x:c._fan.x, y:c._fan.y - 50, rotate:0, scale:1.13, ease:'out(3)', duration:420 });
-    }
-  };
+  // hover: inclina só a carta da frente seguindo o cursor
   wrap.addEventListener('pointermove', e => {
     if (zoomed) return;
-    const r = wrap.getBoundingClientRect();
-    const cx = e.clientX - r.left - r.width / 2;        // relativo ao centro do container
-    let best = null, bd = Infinity;
-    for (const c of apps){ const d = Math.abs(cx - c._fan.x); if (d < bd){ bd = d; best = c; } }
-    if (!(picked && bd > Math.abs(cx - picked._fan.x) - 34)) pick(best);
-    // inclinação 3D da carta escolhida seguindo o cursor
-    if (picked){
-      const pr = picked.getBoundingClientRect();
-      const gx = (e.clientX - pr.left) / pr.width - 0.5;
-      const gy = (e.clientY - pr.top) / pr.height - 0.5;
-      const scr = picked.querySelector('.scr');
-      scr.style.setProperty('--ry', (gx * 13).toFixed(1) + 'deg');
-      scr.style.setProperty('--rx', (-gy * 10).toFixed(1) + 'deg');
-    }
+    overIx = true;
+    const fc = apps[front], scr = fc.querySelector('.scr');
+    const r = fc.getBoundingClientRect();
+    const gx = (e.clientX - r.left) / r.width - 0.5;
+    const gy = (e.clientY - r.top) / r.height - 0.5;
+    scr.style.setProperty('--ry', (gx * 12).toFixed(1) + 'deg');
+    scr.style.setProperty('--rx', (-gy * 9).toFixed(1) + 'deg');
   });
-  wrap.addEventListener('pointerleave', () => { if (!zoomed) pick(null); });
+  wrap.addEventListener('pointerleave', () => { overIx = false; resetTilt(apps[front]); });
+  // roda do mouse sobre o baralho anda pelo túnel (troca a carta da frente)
+  let wheelLock = 0;
+  wrap.addEventListener('wheel', e => {
+    if (zoomed || Date.now() < wheelLock) return;
+    if (Math.abs(e.deltaY) < 6) return;
+    wheelLock = Date.now() + 260;
+    setFront(front + (e.deltaY > 0 ? 1 : -1));
+  }, { passive:true });
+  const secVisible = () => { const b = sec.getBoundingClientRect(); return b.top < innerHeight * 0.6 && b.bottom > innerHeight * 0.4; };
+  addEventListener('keydown', e => {
+    if (zoomed || !sec || !secVisible()) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') setFront(front + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') setFront(front - 1);
+  });
 
-  /* "sacar a carta do baralho": a carta clicada sai do leque, voa pro centro e cresce (FLIP) */
+  /* "sacar a carta do baralho": a carta da frente sai do túnel, voa pro centro e cresce (FLIP) */
   const bgEl = document.querySelector('.zoom-bg');
   const EASE = ['left','top','width','height'].map(p => p + ' .55s cubic-bezier(.19,1,.22,1)').join(',');
   const zoomIn = card => {
     if (zoomed) return;
     zoomed = card;
-    pick(null);
+    card.classList.remove('front');
+    resetTilt(card);
     const r = card.getBoundingClientRect();
     card._z = { l:r.left, t:r.top, w:r.width, h:r.height, next:card.nextElementSibling };
     const cap = card.querySelector('.cap');
@@ -839,13 +865,15 @@ if (!REDUCE) {
       card.style.cssText = '';                       // limpa TODOS os estilos inline
       card.classList.remove('zoom');
       wrap.insertBefore(card, card._z.next && card._z.next.parentElement === wrap ? card._z.next : null);
-      utils.set(card, { opacity:0, x:card._fan.x, y:card._fan.y + 44, rotate:card._fan.r, scale:0.9 });
-      card.style.zIndex = baseZ(apps.indexOf(card));
-      toFan(card);                                    // sobe de volta pro leque
+      utils.set(card, { opacity:0, scale:0.2, z:420, filter:'blur(12px)' });
+      layout();                                       // volta pro baralho em profundidade
       bgEl.hidden = true;
     }, 260);
   };
-  apps.forEach(c => c.addEventListener('click', () => zoomed === c ? zoomOut() : zoomIn(c)));
+  apps.forEach((c, i) => c.addEventListener('click', () => {
+    if (zoomed) return zoomOut();
+    if (i === front) zoomIn(c); else setFront(i);
+  }));
   bgEl.addEventListener('click', zoomOut);
   addEventListener('keydown', e => { if (e.key === 'Escape') zoomOut(); });
 }
