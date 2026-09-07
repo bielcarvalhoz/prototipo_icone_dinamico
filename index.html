@@ -160,6 +160,15 @@
       repeating-linear-gradient(0deg, transparent 0 21px, rgba(0,0,0,.035) 21px 22px);
   }
 
+  /* "entrar no portal": flash radial vermelho que preenche a tela na travessia logo -> telas */
+  .portal{
+    position:fixed; inset:0; z-index:4; pointer-events:none; opacity:0;
+    background:
+      radial-gradient(60% 60% at 50% 50%, rgba(255,120,150,.9), transparent 70%),
+      radial-gradient(120% 120% at 50% 50%, rgba(204,9,47,.95), rgba(120,4,26,.9) 60%, #4c0210 100%);
+    mix-blend-mode:normal;
+  }
+
   /* "sacar a carta do baralho": o card sai do leque, voa pro centro e cresce */
   .zoom-bg{
     position:fixed; inset:0; z-index:68; background:rgba(16,8,12,.62); backdrop-filter:blur(5px);
@@ -227,6 +236,7 @@
 <div class="tip" hidden><b></b><span></span></div>
 
 <div class="progress"></div>
+<div class="portal"></div>
 <div class="cursor"></div>
 <nav class="rail" aria-label="Navegação por seções"></nav>
 <header>
@@ -438,6 +448,8 @@ function applyTheme(d){
 const SECTIONS = [...document.querySelectorAll('section')];
 const SECTION_SX = SECTIONS.map(s => +s.dataset.sx || 0);
 const progressEl = document.querySelector('.progress');
+const portalEl = document.querySelector('.portal');
+let curFov = 36;
 
 // trilho de capítulos em algarismos romanos
 const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
@@ -520,6 +532,13 @@ function frame(){
   curRotY  += (targetYaw - curRotY) * 0.09;
   curSx    += (SECTION_SX[active] - curSx) * 0.06;
 
+  // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
+  const portalP = smoothstep(utils.clamp((segF - 7.1) / 0.75, 0, 1));
+  if (portalEl){
+    const flash = Math.sin(smoothstep(utils.clamp((portalP - 0.15) / 0.75, 0, 1)) * Math.PI);
+    portalEl.style.opacity = (flash * 0.92).toFixed(3);
+  }
+
   // tema dark<->light interpolado pelo scroll
   const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
   curDark += (dTarget - curDark) * 0.06;
@@ -536,11 +555,14 @@ function frame(){
   if (hide > 0.5) hoverIdx = -1;
   if (recapAt >= 0 && t - recapAt > 3.4) recapAt = -1;         // fim da sequência do recap
 
-  // câmera: dolly no scroll + deriva com o mouse, mira acompanha o símbolo
-  camera.position.z = 8.7 - s*1.7;
-  camera.position.x = pmx * 0.5;
-  camera.position.y = 0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3;
-  camera.lookAt(curSx*0.9, 0, 0);
+  // câmera: dolly no scroll + deriva com o mouse; na travessia, voa PRA DENTRO do símbolo
+  const camX = BASE_X + curSx;
+  camera.position.z = lerp(8.7 - s*1.7, -1.4, portalP);
+  camera.position.x = camX + pmx * 0.5 * (1 - portalP);
+  camera.position.y = (0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3) * (1 - portalP);
+  camera.lookAt(lerp(curSx*0.9, camX, portalP), 0, lerp(0, -6, portalP));
+  const fovT = lerp(36, 62, portalP*portalP);
+  if (Math.abs(fovT - curFov) > 0.1){ curFov = fovT; camera.fov = fovT; camera.updateProjectionMatrix(); }
 
   // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
   const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55);
@@ -548,13 +570,14 @@ function frame(){
   curStretch += (stTarget - curStretch) * 0.14;
   scrollVel *= 0.86;                                   // decai quando o scroll para
   alvo.scale.set(sc * (1 - curStretch*0.5), sc * (1 + curStretch), sc * (1 - curStretch*0.5) * bodyZ);
-  ground.material.opacity = 0.16 * (1 - hide);
-  alvo.position.x = BASE_X + curSx;
-  alvo.position.y = BASE_Y + Math.sin(t*0.55)*0.04;
+  ground.material.opacity = 0.16 * (1 - Math.max(hide, portalP));
+  alvo.position.x = camX;
+  alvo.position.y = BASE_Y + Math.sin(t*0.55)*0.04 * (1 - portalP);
   const gInf = grabbing ? 0 : 1;   // trava o parallax enquanto arrasta
-  alvo.rotation.y = curRotY + drag.ry + Math.sin(t*0.35)*0.03 + pmx*0.12*gInf;
-  alvo.rotation.x = 0.13 - s*0.06 + drag.rx + Math.sin(t*0.3)*0.02 + pmy*0.08*gInf;
-  alvo.rotation.z = Math.sin(t*0.22)*0.014;
+  const idle = 1 - portalP*0.9;    // para de balançar enquanto atravessa
+  alvo.rotation.y = curRotY + drag.ry + (Math.sin(t*0.35)*0.03 + pmx*0.12*gInf) * idle;
+  alvo.rotation.x = 0.13 - s*0.06 + drag.rx + (Math.sin(t*0.3)*0.02 + pmy*0.08*gInf) * idle;
+  alvo.rotation.z = Math.sin(t*0.22)*0.014 * idle;
 
   const anyHot = activeIdx.length > 0 || hoverIdx >= 0;
 
@@ -586,10 +609,27 @@ function frame(){
     );
     const k = (1 + e*0.26) * (1 - back*0.1);        // ativa cresce mais
     m.scale.set(k, -k, k);
-    const op = (1 - back*0.86) * (1 - hide*0.94);   // some quase de vez na seção "As aplicações"
+    let op = (1 - back*0.86) * (1 - hide*0.94);     // some quase de vez na seção "As aplicações"
+
+    // travessia do portal: 5 elementos centrais (centro + 4 arcos) somem;
+    // o anel externo cresce e "passamos por dentro" dele
+    if (portalP > 0){
+      const isRing = i < 2;                         // 0,1 = anel externo
+      if (isRing){
+        m.scale.multiplyScalar(1 + portalP*portalP*6);
+        m.position.z += portalP * 820;              // (unidades locais) vem em direção à câmera
+        f.emissiveIntensity += portalP * 2.6;       // acende ao passar
+        op *= 1 - smoothstep(utils.clamp((portalP - 0.55) / 0.4, 0, 1));
+      } else {
+        const innerOp = 1 - smoothstep(utils.clamp((portalP - 0.12) / 0.32, 0, 1));
+        m.scale.multiplyScalar(0.28 + 0.72*innerOp);
+        op *= innerOp;
+      }
+    }
+
     f.opacity = op; sMat.opacity = op;
     f.depthWrite = sMat.depthWrite = op > 0.92;     // recuadas nao escondem uma a outra
-    m.castShadow = op > 0.6;
+    m.castShadow = op > 0.6 && portalP < 0.3;
   });
 
   renderer.render(scene, camera);
@@ -695,26 +735,31 @@ if (!REDUCE) {
   const N = apps.length;
   const baseZ = i => 10 - Math.round(Math.abs(i - (N - 1) / 2));
   const STEP = 132;
+  // cada tela entra voando de um canto da viewport (alterna os 4 cantos)
+  const CORNERS = [[-1,-1],[1,-1],[-1,1],[1,1],[-1,-1.15],[1,1.15]];
   apps.forEach((c, i) => {
     const tt = i - (N - 1) / 2;                       // -2.5 .. 2.5 (leque centrado)
     c._fan = { x: tt * STEP, y: Math.sin((i / (N - 1)) * Math.PI) * -30, r: tt * 3.4 };
+    const [cxs, cys] = CORNERS[i % CORNERS.length];
+    c._corner = { x: cxs * innerWidth * 0.58, y: cys * innerHeight * 0.55, r: cxs * cys * -22 };
     c.style.zIndex = baseZ(i);
-    utils.set(c, { opacity: 0, x: c._fan.x, y: 170, rotate: 0, scale: 0.8 });
+    utils.set(c, { opacity: 0, x: c._corner.x, y: c._corner.y, rotate: c._corner.r, scale: 0.32, filter: 'blur(16px)' });
   });
 
-  const toFan = c => animate(c, { opacity:1, x:c._fan.x, y:c._fan.y, rotate:c._fan.r, scale:1,
+  const toFan = c => animate(c, { opacity:1, x:c._fan.x, y:c._fan.y, rotate:c._fan.r, scale:1, filter:'blur(0px)',
     ease: createSpring({ stiffness: 90, damping: 16 }) });
 
   const io2 = new IntersectionObserver(es => {
     for (const e of es) if (e.isIntersecting) {
       io2.disconnect();
       apps.forEach(c => animate(c, {
-        opacity: 1, y: c._fan.y, x: c._fan.x, rotate: c._fan.r, scale: 1,
-        delay: stagger(75, { from: 'center' }),
-        ease: createSpring({ stiffness: 92, damping: 14 })
+        opacity: 1, y: c._fan.y, x: c._fan.x, rotate: c._fan.r, scale: 1, filter: 'blur(0px)',
+        duration: 950,
+        delay: stagger(90, { from: 'center' }),
+        ease: createSpring({ stiffness: 78, damping: 13 })
       }));
     }
-  }, { rootMargin: '0px 0px -22% 0px' });
+  }, { rootMargin: '0px 0px -14% 0px' });
   const sec = document.querySelector('.apps-sec');
   if (sec) io2.observe(sec);
 
