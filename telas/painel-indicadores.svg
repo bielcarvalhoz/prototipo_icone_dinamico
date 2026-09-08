@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#cc092f" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#cc092f"/>
+    </linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cc092f" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#cc092f" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+
+  <!-- sidebar -->
+  <rect width="196" height="740" fill="#ffffff"/>
+  <rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/>
+  <circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Painel</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Cadastro</text>
+    <text x="42" y="172">Relatórios</text>
+    <text x="42" y="208">Aprovações</text>
+    <text x="42" y="244">Conciliação</text>
+    <text x="42" y="280">Consultas</text>
+  </g>
+
+  <!-- topo -->
+  <rect x="196" width="1084" height="72" fill="#ffffff"/>
+  <rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <text x="228" y="44" font-size="19" font-weight="700" fill="#1c1c22">Painel de indicadores</text>
+  <rect x="944" y="22" width="150" height="30" rx="8" fill="#f1f1f4"/>
+  <text x="960" y="42" font-size="12" fill="#6a6a74">Jan — Set 2026</text>
+  <rect x="1108" y="22" width="140" height="30" rx="8" fill="#cc092f"/>
+  <text x="1128" y="42" font-size="12" font-weight="600" fill="#ffffff">Exportar</text>
+
+  <!-- KPIs -->
+  <g>
+    <rect x="228" y="104" width="240" height="104" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="134" font-size="11" letter-spacing="1.4" fill="#8b8b96">RECEITA</text>
+    <text x="252" y="168" font-size="26" font-weight="700" fill="#1c1c22">R$ 48,2 M</text>
+    <text x="252" y="190" font-size="12" fill="#0a8f4d">▲ 6,4% vs. ago</text>
+
+    <rect x="484" y="104" width="240" height="104" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="508" y="134" font-size="11" letter-spacing="1.4" fill="#8b8b96">DESPESA</text>
+    <text x="508" y="168" font-size="26" font-weight="700" fill="#1c1c22">R$ 31,7 M</text>
+    <text x="508" y="190" font-size="12" fill="#cc092f">▲ 2,1% vs. ago</text>
+
+    <rect x="740" y="104" width="240" height="104" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="764" y="134" font-size="11" letter-spacing="1.4" fill="#8b8b96">MARGEM</text>
+    <text x="764" y="168" font-size="26" font-weight="700" fill="#1c1c22">34,2%</text>
+    <text x="764" y="190" font-size="12" fill="#0a8f4d">▲ 1,8 p.p.</text>
+
+    <rect x="996" y="104" width="252" height="104" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="1020" y="134" font-size="11" letter-spacing="1.4" fill="#8b8b96">PENDÊNCIAS</text>
+    <text x="1020" y="168" font-size="26" font-weight="700" fill="#1c1c22">18</text>
+    <text x="1020" y="190" font-size="12" fill="#8b8b96">4 vencendo hoje</text>
+  </g>
+
+  <!-- gráfico de barras -->
+  <rect x="228" y="232" width="620" height="278" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="252" y="264" font-size="14" font-weight="600" fill="#1c1c22">Receita por área</text>
+  <g stroke="#eeeef2" stroke-width="1">
+    <line x1="252" y1="300" x2="824" y2="300"/>
+    <line x1="252" y1="348" x2="824" y2="348"/>
+    <line x1="252" y1="396" x2="824" y2="396"/>
+    <line x1="252" y1="444" x2="824" y2="444"/>
+  </g>
+  <line x1="252" y1="472" x2="824" y2="472" stroke="#dcdce3"/>
+  <g fill="url(#bar)">
+    <rect x="272" y="352" width="46" height="120" rx="5"/>
+    <rect x="352" y="312" width="46" height="160" rx="5"/>
+    <rect x="432" y="386" width="46" height="86" rx="5"/>
+    <rect x="512" y="286" width="46" height="186" rx="5"/>
+    <rect x="592" y="336" width="46" height="136" rx="5"/>
+    <rect x="672" y="404" width="46" height="68" rx="5"/>
+    <rect x="752" y="322" width="46" height="150" rx="5"/>
+  </g>
+  <g font-size="11" fill="#9a9aa4" text-anchor="middle">
+    <text x="295" y="490">Crédito</text>
+    <text x="375" y="490">Varejo</text>
+    <text x="455" y="490">Seguros</text>
+    <text x="535" y="490">Invest.</text>
+    <text x="615" y="490">Câmbio</text>
+    <text x="695" y="490">Cartões</text>
+    <text x="775" y="490">Consór.</text>
+  </g>
+
+  <!-- gráfico de linha -->
+  <rect x="868" y="232" width="380" height="278" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="892" y="264" font-size="14" font-weight="600" fill="#1c1c22">Evolução mensal</text>
+  <path d="M892 440 L946 412 L1000 424 L1054 372 L1108 386 L1162 332 L1216 306 L1216 472 L892 472 Z" fill="url(#area)"/>
+  <polyline points="892,440 946,412 1000,424 1054,372 1108,386 1162,332 1216,306"
+            fill="none" stroke="#cc092f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1216" cy="306" r="4.5" fill="#cc092f"/>
+  <line x1="892" y1="472" x2="1216" y2="472" stroke="#dcdce3"/>
+  <g font-size="11" fill="#9a9aa4">
+    <text x="884" y="492">Mar</text><text x="994" y="492">Mai</text>
+    <text x="1102" y="492">Jul</text><text x="1198" y="492">Set</text>
+  </g>
+
+  <!-- tabela -->
+  <rect x="228" y="534" width="1020" height="176" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="252" y="566" font-size="14" font-weight="600" fill="#1c1c22">Últimos lançamentos</text>
+  <line x1="252" y1="584" x2="1224" y2="584" stroke="#eeeef2"/>
+  <g font-size="11" letter-spacing="1.2" fill="#9a9aa4">
+    <text x="252" y="604">DATA</text><text x="360" y="604">DESCRIÇÃO</text>
+    <text x="820" y="604">CENTRO DE CUSTO</text><text x="1120" y="604">VALOR</text>
+  </g>
+  <g font-size="12.5" fill="#3a3a44">
+    <text x="252" y="634">08/09</text><text x="360" y="634">Repasse operações de crédito</text>
+    <text x="820" y="634">CC-2041</text><text x="1120" y="634">R$ 1.284.900</text>
+    <text x="252" y="664">08/09</text><text x="360" y="664">Provisão de despesas</text>
+    <text x="820" y="664">CC-1180</text><text x="1120" y="664">R$ 312.450</text>
+    <text x="252" y="694">07/09</text><text x="360" y="694">Conciliação extrato — agência 0341</text>
+    <text x="820" y="694">CC-0912</text><text x="1120" y="694">R$ 87.230</text>
+  </g>
+  <line x1="252" y1="646" x2="1224" y2="646" stroke="#f2f2f6"/>
+  <line x1="252" y1="676" x2="1224" y2="676" stroke="#f2f2f6"/>
+</svg>

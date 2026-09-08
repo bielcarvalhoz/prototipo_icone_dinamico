@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+  <rect width="196" height="740" fill="#ffffff"/><rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/><circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Consultas</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Painel</text><text x="42" y="172">Cadastro</text>
+    <text x="42" y="208">Relatórios</text><text x="42" y="244">Aprovações</text><text x="42" y="280">Conciliação</text>
+  </g>
+
+  <rect x="196" width="1084" height="72" fill="#ffffff"/><rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <!-- busca -->
+  <rect x="228" y="20" width="720" height="34" rx="10" fill="#f4f4f7" stroke="#e2e2e9"/>
+  <circle cx="252" cy="37" r="6" fill="none" stroke="#9a9aa4" stroke-width="2"/><line x1="257" y1="42" x2="262" y2="47" stroke="#9a9aa4" stroke-width="2"/>
+  <text x="276" y="42" font-size="13" fill="#3a3a44">CC-2041</text>
+  <text x="356" y="42" font-size="13" fill="#b4b4bd">· centro de custo, fornecedor, nota, lançamento…</text>
+  <text x="1092" y="42" font-size="12" fill="#8b8b96">148 resultados · 0,3 s</text>
+
+  <!-- filtros laterais -->
+  <rect x="228" y="104" width="256" height="606" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="252" y="136" font-size="14" font-weight="600" fill="#1c1c22">Filtros</text>
+  <g font-size="11" letter-spacing="1" fill="#8b8b96">
+    <text x="252" y="174">PERÍODO</text><text x="252" y="258">TIPO</text><text x="252" y="404">SITUAÇÃO</text>
+  </g>
+  <rect x="252" y="184" width="208" height="30" rx="7" fill="#fafafb" stroke="#e2e2e9"/>
+  <text x="266" y="204" font-size="12" fill="#3a3a44">Últimos 90 dias</text>
+  <g font-size="12.5" fill="#4a4a54">
+    <rect x="252" y="270" width="14" height="14" rx="4" fill="#cc092f"/><text x="278" y="282">Pagamentos</text>
+    <rect x="252" y="302" width="14" height="14" rx="4" fill="#cc092f"/><text x="278" y="314">Recebimentos</text>
+    <rect x="252" y="334" width="14" height="14" rx="4" fill="#fff" stroke="#cfcfd8"/><text x="278" y="346">Provisões</text>
+    <rect x="252" y="366" width="14" height="14" rx="4" fill="#fff" stroke="#cfcfd8"/><text x="278" y="378">Estornos</text>
+    <rect x="252" y="416" width="14" height="14" rx="4" fill="#cc092f"/><text x="278" y="428">Liquidado</text>
+    <rect x="252" y="448" width="14" height="14" rx="4" fill="#fff" stroke="#cfcfd8"/><text x="278" y="460">Em aberto</text>
+    <rect x="252" y="480" width="14" height="14" rx="4" fill="#fff" stroke="#cfcfd8"/><text x="278" y="492">Cancelado</text>
+  </g>
+  <rect x="252" y="540" width="208" height="146" rx="10" fill="#f7f7fa"/>
+  <text x="270" y="568" font-size="11" letter-spacing="1" fill="#8b8b96">SALDO CONSOLIDADO</text>
+  <text x="270" y="600" font-size="21" font-weight="700" fill="#1c1c22">R$ 8,42 M</text>
+  <text x="270" y="626" font-size="12" fill="#8b8b96">Entradas R$ 12,1 M</text>
+  <text x="270" y="650" font-size="12" fill="#8b8b96">Saídas R$ 3,68 M</text>
+  <text x="270" y="674" font-size="11.5" fill="#0a8f4d">Atualizado agora</text>
+
+  <!-- resultados -->
+  <rect x="508" y="104" width="740" height="606" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <g font-size="11" letter-spacing="1" fill="#9a9aa4">
+    <text x="532" y="140">LANÇAMENTO</text><text x="760" y="140">FORNECEDOR</text><text x="1010" y="140">DATA</text><text x="1120" y="140">VALOR</text>
+  </g>
+  <line x1="532" y1="154" x2="1224" y2="154" stroke="#e6e6ea"/>
+  <g font-size="12.5" fill="#3a3a44">
+    <text x="532" y="184">LC-88214</text><text x="760" y="184">Tecnologia e Serviços</text><text x="1010" y="184">08/09</text><text x="1120" y="184">1.284.900</text>
+    <text x="532" y="228">LC-88209</text><text x="760" y="228">Alpha Consultoria</text><text x="1010" y="228">08/09</text><text x="1120" y="228">312.450</text>
+    <text x="532" y="272">LC-88198</text><text x="760" y="272">Predial Manutenção</text><text x="1010" y="272">07/09</text><text x="1120" y="272">87.230</text>
+    <text x="532" y="316">LC-88184</text><text x="760" y="316">Seguros Brasil</text><text x="1010" y="316">07/09</text><text x="1120" y="316">512.700</text>
+    <text x="532" y="360">LC-88171</text><text x="760" y="360">Datacenter Sul</text><text x="1010" y="360">06/09</text><text x="1120" y="360">198.000</text>
+    <text x="532" y="404">LC-88160</text><text x="760" y="404">Logística Integrada</text><text x="1010" y="404">06/09</text><text x="1120" y="404">44.180</text>
+    <text x="532" y="448">LC-88152</text><text x="760" y="448">Tecnologia e Serviços</text><text x="1010" y="448">05/09</text><text x="1120" y="448">76.320</text>
+    <text x="532" y="492">LC-88143</text><text x="760" y="492">Papelaria Central</text><text x="1010" y="492">05/09</text><text x="1120" y="492">4.410</text>
+    <text x="532" y="536">LC-88131</text><text x="760" y="536">Alpha Consultoria</text><text x="1010" y="536">04/09</text><text x="1120" y="536">340.000</text>
+    <text x="532" y="580">LC-88120</text><text x="760" y="580">Frota Executiva</text><text x="1010" y="580">04/09</text><text x="1120" y="580">18.902</text>
+    <text x="532" y="624">LC-88112</text><text x="760" y="624">Seguros Brasil</text><text x="1010" y="624">03/09</text><text x="1120" y="624">120.000</text>
+    <text x="532" y="668">LC-88104</text><text x="760" y="668">Datacenter Sul</text><text x="1010" y="668">03/09</text><text x="1120" y="668">62.500</text>
+  </g>
+  <g stroke="#f4f4f7">
+    <line x1="532" y1="200" x2="1224" y2="200"/><line x1="532" y1="244" x2="1224" y2="244"/>
+    <line x1="532" y1="288" x2="1224" y2="288"/><line x1="532" y1="332" x2="1224" y2="332"/>
+    <line x1="532" y1="376" x2="1224" y2="376"/><line x1="532" y1="420" x2="1224" y2="420"/>
+    <line x1="532" y1="464" x2="1224" y2="464"/><line x1="532" y1="508" x2="1224" y2="508"/>
+    <line x1="532" y1="552" x2="1224" y2="552"/><line x1="532" y1="596" x2="1224" y2="596"/>
+    <line x1="532" y1="640" x2="1224" y2="640"/>
+  </g>
+</svg>

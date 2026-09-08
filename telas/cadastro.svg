@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+  <rect width="196" height="740" fill="#ffffff"/><rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/><circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Cadastro</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Painel</text><text x="42" y="172">Relatórios</text>
+    <text x="42" y="208">Aprovações</text><text x="42" y="244">Conciliação</text><text x="42" y="280">Consultas</text>
+  </g>
+
+  <rect x="196" width="1084" height="72" fill="#ffffff"/><rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <text x="228" y="44" font-size="19" font-weight="700" fill="#1c1c22">Cadastro de fornecedor</text>
+  <rect x="1092" y="22" width="156" height="30" rx="8" fill="#cc092f"/>
+  <text x="1112" y="42" font-size="12" font-weight="600" fill="#ffffff">Salvar cadastro</text>
+
+  <!-- passos -->
+  <g font-size="12">
+    <circle cx="240" cy="112" r="11" fill="#cc092f"/><text x="236" y="117" font-size="11" fill="#fff">1</text>
+    <text x="260" y="117" fill="#1c1c22" font-weight="600">Dados</text>
+    <line x1="330" y1="112" x2="392" y2="112" stroke="#dcdce3" stroke-width="2"/>
+    <circle cx="404" cy="112" r="11" fill="#cc092f"/><text x="400" y="117" font-size="11" fill="#fff">2</text>
+    <text x="424" y="117" fill="#1c1c22" font-weight="600">Fiscal</text>
+    <line x1="486" y1="112" x2="548" y2="112" stroke="#dcdce3" stroke-width="2"/>
+    <circle cx="560" cy="112" r="11" fill="#e3e3e9"/><text x="556" y="117" font-size="11" fill="#8b8b96">3</text>
+    <text x="580" y="117" fill="#8b8b96">Contas</text>
+  </g>
+
+  <!-- formulario -->
+  <rect x="228" y="144" width="700" height="566" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <g font-size="11" letter-spacing="1" fill="#8b8b96">
+    <text x="256" y="188">RAZÃO SOCIAL</text><text x="256" y="266">CNPJ</text><text x="612" y="266">INSCRIÇÃO ESTADUAL</text>
+    <text x="256" y="344">CENTRO DE CUSTO</text><text x="612" y="344">CONDIÇÃO DE PAGAMENTO</text>
+    <text x="256" y="422">E-MAIL DE CONTATO</text><text x="612" y="422">TELEFONE</text>
+    <text x="256" y="500">ENDEREÇO</text>
+  </g>
+  <g fill="#fafafb" stroke="#e2e2e9">
+    <rect x="256" y="198" width="644" height="40" rx="8"/>
+    <rect x="256" y="276" width="312" height="40" rx="8"/><rect x="612" y="276" width="288" height="40" rx="8"/>
+    <rect x="256" y="354" width="312" height="40" rx="8"/><rect x="612" y="354" width="288" height="40" rx="8"/>
+    <rect x="256" y="432" width="312" height="40" rx="8"/><rect x="612" y="432" width="288" height="40" rx="8"/>
+    <rect x="256" y="510" width="644" height="40" rx="8"/>
+  </g>
+  <g font-size="13" fill="#3a3a44">
+    <text x="272" y="224">TECNOLOGIA E SERVIÇOS INTEGRADOS LTDA</text>
+    <text x="272" y="302">12.345.678/0001-90</text><text x="628" y="302">110.042.331.118</text>
+    <text x="272" y="380">CC-2041 — Tecnologia</text><text x="628" y="380">30 dias</text>
+    <text x="272" y="458">financeiro@tsi.com.br</text><text x="628" y="458">(11) 4002-8922</text>
+    <text x="272" y="536">Av. Paulista, 1842 — Bela Vista, São Paulo/SP</text>
+  </g>
+  <rect x="256" y="576" width="644" height="46" rx="8" fill="#0a8f4d" fill-opacity=".08" stroke="#0a8f4d" stroke-opacity=".25"/>
+  <circle cx="282" cy="599" r="8" fill="#0a8f4d"/><path d="M278 599l3 3 5-6" stroke="#fff" stroke-width="1.8" fill="none"/>
+  <text x="300" y="604" font-size="12.5" fill="#0a7a43">CNPJ válido e sem pendências na Receita Federal</text>
+
+  <!-- painel lateral -->
+  <rect x="952" y="144" width="296" height="270" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="976" y="176" font-size="14" font-weight="600" fill="#1c1c22">Validações</text>
+  <g font-size="12.5" fill="#3a3a44">
+    <circle cx="982" cy="208" r="6" fill="#0a8f4d"/><text x="998" y="212">CNPJ ativo</text>
+    <circle cx="982" cy="240" r="6" fill="#0a8f4d"/><text x="998" y="244">Sem duplicidade</text>
+    <circle cx="982" cy="272" r="6" fill="#0a8f4d"/><text x="998" y="276">Centro de custo existe</text>
+    <circle cx="982" cy="304" r="6" fill="#e0a005"/><text x="998" y="308">Certidão vence em 12 dias</text>
+    <circle cx="982" cy="336" r="6" fill="#dcdce3"/><text x="998" y="340" fill="#9a9aa4">Conta bancária pendente</text>
+  </g>
+  <text x="976" y="384" font-size="11.5" fill="#8b8b96">4 de 5 verificações concluídas</text>
+  <rect x="976" y="392" width="248" height="6" rx="3" fill="#eeeef2"/><rect x="976" y="392" width="198" height="6" rx="3" fill="#cc092f"/>
+
+  <rect x="952" y="434" width="296" height="276" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="976" y="466" font-size="14" font-weight="600" fill="#1c1c22">Histórico</text>
+  <g font-size="12" fill="#6a6a74">
+    <text x="976" y="498">08/09 · rascunho salvo</text>
+    <text x="976" y="530">08/09 · dados fiscais preenchidos</text>
+    <text x="976" y="562">05/09 · cadastro iniciado</text>
+  </g>
+  <line x1="976" y1="512" x2="1224" y2="512" stroke="#f2f2f6"/>
+  <line x1="976" y1="544" x2="1224" y2="544" stroke="#f2f2f6"/>
+</svg>

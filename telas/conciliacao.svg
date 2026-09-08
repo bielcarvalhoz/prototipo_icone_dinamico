@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+  <rect width="196" height="740" fill="#ffffff"/><rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/><circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Conciliação</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Painel</text><text x="42" y="172">Cadastro</text>
+    <text x="42" y="208">Relatórios</text><text x="42" y="244">Aprovações</text><text x="42" y="280">Consultas</text>
+  </g>
+
+  <rect x="196" width="1084" height="72" fill="#ffffff"/><rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <text x="228" y="44" font-size="19" font-weight="700" fill="#1c1c22">Conciliação bancária</text>
+  <text x="452" y="44" font-size="12.5" fill="#9a9aa4">Banco 237 · ag. 0341 · c/c 12.345-6 · 08/09/2026</text>
+  <rect x="1104" y="22" width="144" height="30" rx="8" fill="#cc092f"/><text x="1124" y="42" font-size="12" font-weight="600" fill="#ffffff">Conciliar tudo</text>
+
+  <!-- resumo -->
+  <g>
+    <rect x="228" y="104" width="242" height="86" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="132" font-size="11" letter-spacing="1.2" fill="#8b8b96">CONCILIADOS</text>
+    <text x="252" y="166" font-size="24" font-weight="700" fill="#0a8f4d">1.842</text>
+    <rect x="488" y="104" width="242" height="86" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="512" y="132" font-size="11" letter-spacing="1.2" fill="#8b8b96">DIVERGÊNCIAS</text>
+    <text x="512" y="166" font-size="24" font-weight="700" fill="#cc092f">23</text>
+    <rect x="748" y="104" width="242" height="86" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="772" y="132" font-size="11" letter-spacing="1.2" fill="#8b8b96">SEM PAR</text>
+    <text x="772" y="166" font-size="24" font-weight="700" fill="#e0a005">6</text>
+    <rect x="1008" y="104" width="240" height="86" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="1032" y="132" font-size="11" letter-spacing="1.2" fill="#8b8b96">AUTOMÁTICO</text>
+    <text x="1032" y="166" font-size="24" font-weight="700" fill="#1c1c22">98,4%</text>
+  </g>
+
+  <!-- extrato x lancamentos -->
+  <rect x="228" y="212" width="498" height="498" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="252" y="244" font-size="14" font-weight="600" fill="#1c1c22">Extrato do banco</text>
+  <line x1="252" y1="262" x2="702" y2="262" stroke="#e6e6ea"/>
+  <g font-size="12.5" fill="#3a3a44">
+    <text x="252" y="292">08/09 · TED recebida</text><text x="600" y="292">1.284.900,00</text>
+    <text x="252" y="336">08/09 · Tarifa pacote</text><text x="640" y="336">− 890,00</text>
+    <text x="252" y="380">07/09 · Pagto fornecedor</text><text x="614" y="380">− 312.450,00</text>
+    <text x="252" y="424">07/09 · Débito automático</text><text x="632" y="424">− 87.230,00</text>
+    <text x="252" y="468">06/09 · Crédito liquidação</text><text x="614" y="468">442.180,00</text>
+    <text x="252" y="512">06/09 · Estorno tarifa</text><text x="648" y="512">120,00</text>
+    <text x="252" y="556">05/09 · IOF operação</text><text x="632" y="556">− 4.410,00</text>
+    <text x="252" y="600">05/09 · TED enviada</text><text x="614" y="600">− 198.000,00</text>
+    <text x="252" y="644">04/09 · Rendimento CDB</text><text x="640" y="644">18.902,00</text>
+  </g>
+  <g><circle cx="686" cy="288" r="7" fill="#0a8f4d"/><circle cx="686" cy="332" r="7" fill="#cc092f"/>
+     <circle cx="686" cy="376" r="7" fill="#0a8f4d"/><circle cx="686" cy="420" r="7" fill="#0a8f4d"/>
+     <circle cx="686" cy="464" r="7" fill="#0a8f4d"/><circle cx="686" cy="508" r="7" fill="#e0a005"/>
+     <circle cx="686" cy="552" r="7" fill="#0a8f4d"/><circle cx="686" cy="596" r="7" fill="#0a8f4d"/>
+     <circle cx="686" cy="640" r="7" fill="#0a8f4d"/></g>
+  <g stroke="#f4f4f7">
+    <line x1="252" y1="308" x2="702" y2="308"/><line x1="252" y1="352" x2="702" y2="352"/>
+    <line x1="252" y1="396" x2="702" y2="396"/><line x1="252" y1="440" x2="702" y2="440"/>
+    <line x1="252" y1="484" x2="702" y2="484"/><line x1="252" y1="528" x2="702" y2="528"/>
+    <line x1="252" y1="572" x2="702" y2="572"/><line x1="252" y1="616" x2="702" y2="616"/>
+  </g>
+
+  <!-- divergencia em foco -->
+  <rect x="750" y="212" width="498" height="240" rx="12" fill="#ffffff" stroke="#cc092f" stroke-opacity=".35"/>
+  <text x="774" y="244" font-size="14" font-weight="600" fill="#cc092f">Divergência encontrada</text>
+  <text x="774" y="272" font-size="12.5" fill="#4a4a54">Tarifa de pacote lançada em duplicidade</text>
+  <rect x="774" y="290" width="212" height="76" rx="8" fill="#f7f7fa"/>
+  <text x="792" y="314" font-size="11" fill="#8b8b96">EXTRATO</text><text x="792" y="344" font-size="16" font-weight="700" fill="#1c1c22">− 890,00</text>
+  <rect x="1012" y="290" width="212" height="76" rx="8" fill="#f7f7fa"/>
+  <text x="1030" y="314" font-size="11" fill="#8b8b96">SISTEMA</text><text x="1030" y="344" font-size="16" font-weight="700" fill="#1c1c22">− 1.780,00</text>
+  <text x="774" y="392" font-size="12.5" fill="#8b8b96">Diferença de R$ 890,00 · sugestão: estornar lançamento LC-88214</text>
+  <rect x="774" y="406" width="130" height="32" rx="8" fill="#f1f1f4"/><text x="796" y="427" font-size="12" fill="#6a6a74">Ignorar</text>
+  <rect x="918" y="406" width="152" height="32" rx="8" fill="#cc092f"/><text x="940" y="427" font-size="12" font-weight="600" fill="#fff">Aplicar sugestão</text>
+
+  <rect x="750" y="470" width="498" height="240" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="774" y="502" font-size="14" font-weight="600" fill="#1c1c22">Progresso do dia</text>
+  <text x="774" y="534" font-size="12" fill="#8b8b96">1.842 de 1.871 lançamentos conciliados</text>
+  <rect x="774" y="546" width="450" height="8" rx="4" fill="#eeeef2"/>
+  <rect x="774" y="546" width="443" height="8" rx="4" fill="#0a8f4d"/>
+  <g font-size="12.5" fill="#4a4a54">
+    <circle cx="782" cy="592" r="6" fill="#0a8f4d"/><text x="800" y="596">Regras automáticas aplicadas</text><text x="1160" y="596" fill="#8b8b96">1.812</text>
+    <circle cx="782" cy="628" r="6" fill="#e0a005"/><text x="800" y="632">Conciliados manualmente</text><text x="1180" y="632" fill="#8b8b96">30</text>
+    <circle cx="782" cy="664" r="6" fill="#cc092f"/><text x="800" y="668">Aguardando você</text><text x="1180" y="668" fill="#8b8b96">29</text>
+  </g>
+</svg>

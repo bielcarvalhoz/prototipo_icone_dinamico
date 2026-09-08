@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+  <rect width="196" height="740" fill="#ffffff"/><rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/><circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Relatórios</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Painel</text><text x="42" y="172">Cadastro</text>
+    <text x="42" y="208">Aprovações</text><text x="42" y="244">Conciliação</text><text x="42" y="280">Consultas</text>
+  </g>
+
+  <rect x="196" width="1084" height="72" fill="#ffffff"/><rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <text x="228" y="44" font-size="19" font-weight="700" fill="#1c1c22">Relatórios</text>
+  <rect x="1012" y="22" width="106" height="30" rx="8" fill="#f1f1f4"/><text x="1032" y="42" font-size="12" fill="#6a6a74">Excel</text>
+  <rect x="1130" y="22" width="118" height="30" rx="8" fill="#cc092f"/><text x="1150" y="42" font-size="12" font-weight="600" fill="#ffffff">Gerar PDF</text>
+
+  <!-- filtros -->
+  <rect x="228" y="104" width="1020" height="72" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <g font-size="11" letter-spacing="1" fill="#8b8b96">
+    <text x="252" y="130">MODELO</text><text x="512" y="130">PERÍODO</text><text x="772" y="130">CENTRO DE CUSTO</text><text x="1000" y="130">MOEDA</text>
+  </g>
+  <g fill="#fafafb" stroke="#e2e2e9">
+    <rect x="252" y="138" width="236" height="26" rx="6"/><rect x="512" y="138" width="236" height="26" rx="6"/>
+    <rect x="772" y="138" width="200" height="26" rx="6"/><rect x="1000" y="138" width="224" height="26" rx="6"/>
+  </g>
+  <g font-size="12" fill="#3a3a44">
+    <text x="266" y="156">DRE gerencial</text><text x="526" y="156">01/01/2026 — 30/09/2026</text>
+    <text x="786" y="156">Todos</text><text x="1014" y="156">BRL</text>
+  </g>
+
+  <!-- modelos -->
+  <rect x="228" y="200" width="300" height="510" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="252" y="232" font-size="14" font-weight="600" fill="#1c1c22">Modelos salvos</text>
+  <rect x="244" y="248" width="268" height="42" rx="8" fill="#cc092f" fill-opacity=".07"/>
+  <text x="262" y="274" font-size="12.5" font-weight="600" fill="#cc092f">DRE gerencial</text>
+  <g font-size="12.5" fill="#4a4a54">
+    <text x="262" y="322">Fluxo de caixa</text><text x="262" y="362">Contas a pagar</text>
+    <text x="262" y="402">Contas a receber</text><text x="262" y="442">Posição de fornecedores</text>
+    <text x="262" y="482">Rateio por centro de custo</text><text x="262" y="522">Provisões do mês</text>
+    <text x="262" y="562">Impostos retidos</text><text x="262" y="602">Comparativo orçado × real</text>
+  </g>
+  <g stroke="#f2f2f6"><line x1="244" y1="338" x2="512" y2="338"/><line x1="244" y1="378" x2="512" y2="378"/>
+    <line x1="244" y1="418" x2="512" y2="418"/><line x1="244" y1="458" x2="512" y2="458"/>
+    <line x1="244" y1="498" x2="512" y2="498"/><line x1="244" y1="538" x2="512" y2="538"/>
+    <line x1="244" y1="578" x2="512" y2="578"/></g>
+
+  <!-- preview do relatorio -->
+  <rect x="552" y="200" width="696" height="510" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="580" y="234" font-size="15" font-weight="700" fill="#1c1c22">DRE gerencial — acumulado 2026</text>
+  <text x="580" y="256" font-size="11.5" fill="#9a9aa4">Gerado em 08/09/2026 · valores em R$ mil</text>
+  <line x1="580" y1="276" x2="1220" y2="276" stroke="#e6e6ea"/>
+  <g font-size="11" letter-spacing="1" fill="#9a9aa4">
+    <text x="580" y="298">CONTA</text><text x="940" y="298">ORÇADO</text><text x="1060" y="298">REALIZADO</text><text x="1180" y="298">VAR.</text>
+  </g>
+  <g font-size="12.5" fill="#3a3a44">
+    <text x="580" y="330" font-weight="600">Receita operacional</text><text x="940" y="330">45.000</text><text x="1060" y="330">48.220</text><text x="1180" y="330" fill="#0a8f4d">+7,2%</text>
+    <text x="596" y="362">Crédito</text><text x="940" y="362">19.400</text><text x="1060" y="362">20.980</text><text x="1180" y="362" fill="#0a8f4d">+8,1%</text>
+    <text x="596" y="394">Varejo</text><text x="940" y="394">14.200</text><text x="1060" y="394">15.640</text><text x="1180" y="394" fill="#0a8f4d">+10,1%</text>
+    <text x="596" y="426">Seguros</text><text x="940" y="426">11.400</text><text x="1060" y="426">11.600</text><text x="1180" y="426" fill="#0a8f4d">+1,8%</text>
+    <text x="580" y="466" font-weight="600">Despesa operacional</text><text x="940" y="466">30.600</text><text x="1060" y="466">31.700</text><text x="1180" y="466" fill="#cc092f">+3,6%</text>
+    <text x="596" y="498">Pessoal</text><text x="940" y="498">18.100</text><text x="1060" y="498">18.740</text><text x="1180" y="498" fill="#cc092f">+3,5%</text>
+    <text x="596" y="530">Tecnologia</text><text x="940" y="530">7.300</text><text x="1060" y="530">7.910</text><text x="1180" y="530" fill="#cc092f">+8,4%</text>
+    <text x="596" y="562">Administrativo</text><text x="940" y="562">5.200</text><text x="1060" y="562">5.050</text><text x="1180" y="562" fill="#0a8f4d">−2,9%</text>
+  </g>
+  <g stroke="#f2f2f6">
+    <line x1="580" y1="342" x2="1220" y2="342"/><line x1="580" y1="374" x2="1220" y2="374"/>
+    <line x1="580" y1="406" x2="1220" y2="406"/><line x1="580" y1="438" x2="1220" y2="438"/>
+    <line x1="580" y1="478" x2="1220" y2="478"/><line x1="580" y1="510" x2="1220" y2="510"/>
+    <line x1="580" y1="542" x2="1220" y2="542"/>
+  </g>
+  <rect x="580" y="590" width="640" height="52" rx="10" fill="#f7f7fa"/>
+  <text x="600" y="612" font-size="12" fill="#8b8b96">RESULTADO OPERACIONAL</text>
+  <text x="600" y="632" font-size="17" font-weight="700" fill="#1c1c22">R$ 16.520 mil</text>
+  <text x="1090" y="626" font-size="13" font-weight="600" fill="#0a8f4d">margem 34,2%</text>
+</svg>

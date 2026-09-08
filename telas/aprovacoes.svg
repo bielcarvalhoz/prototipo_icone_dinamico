@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" font-family="Poppins, system-ui, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="740" fill="#f6f6f8"/>
+  <rect width="196" height="740" fill="#ffffff"/><rect x="195" width="1" height="740" fill="#e6e6ea"/>
+  <circle cx="34" cy="40" r="11" fill="none" stroke="#cc092f" stroke-width="5"/><circle cx="34" cy="40" r="3" fill="#cc092f"/>
+  <text x="56" y="46" font-size="15" font-weight="600" fill="#1c1c22">Finanças</text>
+  <rect x="14" y="76" width="168" height="34" rx="8" fill="#cc092f" fill-opacity=".08"/>
+  <rect x="26" y="90" width="4" height="7" rx="2" fill="#cc092f"/>
+  <text x="42" y="98" font-size="13" font-weight="600" fill="#cc092f">Aprovações</text>
+  <g font-size="13" fill="#83838f">
+    <text x="42" y="136">Painel</text><text x="42" y="172">Cadastro</text>
+    <text x="42" y="208">Relatórios</text><text x="42" y="244">Conciliação</text><text x="42" y="280">Consultas</text>
+  </g>
+  <rect x="150" y="82" width="30" height="18" rx="9" fill="#cc092f"/><text x="158" y="95" font-size="11" font-weight="600" fill="#fff">7</text>
+
+  <rect x="196" width="1084" height="72" fill="#ffffff"/><rect x="196" y="71" width="1084" height="1" fill="#e6e6ea"/>
+  <text x="228" y="44" font-size="19" font-weight="700" fill="#1c1c22">Aprovações pendentes</text>
+  <text x="452" y="44" font-size="12.5" fill="#9a9aa4">7 solicitações · R$ 2,4 M</text>
+
+  <!-- abas -->
+  <g font-size="13">
+    <text x="228" y="122" font-weight="600" fill="#cc092f">Pendentes</text>
+    <rect x="228" y="132" width="76" height="2.5" fill="#cc092f"/>
+    <text x="332" y="122" fill="#8b8b96">Aprovadas</text><text x="452" y="122" fill="#8b8b96">Recusadas</text><text x="572" y="122" fill="#8b8b96">Minhas</text>
+  </g>
+  <line x1="228" y1="134" x2="1248" y2="134" stroke="#e6e6ea"/>
+
+  <!-- lista -->
+  <g>
+    <rect x="228" y="156" width="620" height="96" rx="12" fill="#ffffff" stroke="#cc092f" stroke-opacity=".3"/>
+    <text x="252" y="186" font-size="14" font-weight="600" fill="#1c1c22">Contrato de licenças — Tecnologia</text>
+    <text x="252" y="210" font-size="12" fill="#8b8b96">SOL-4192 · CC-2041 · solicitado há 2 dias</text>
+    <text x="252" y="234" font-size="15" font-weight="700" fill="#1c1c22">R$ 1.284.900</text>
+    <rect x="616" y="196" width="96" height="34" rx="8" fill="#f1f1f4"/><text x="638" y="218" font-size="12" fill="#6a6a74">Recusar</text>
+    <rect x="724" y="196" width="100" height="34" rx="8" fill="#0a8f4d"/><text x="748" y="218" font-size="12" font-weight="600" fill="#fff">Aprovar</text>
+
+    <rect x="228" y="268" width="620" height="96" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="298" font-size="14" font-weight="600" fill="#1c1c22">Reembolso de viagem — Comercial</text>
+    <text x="252" y="322" font-size="12" fill="#8b8b96">SOL-4188 · CC-1180 · solicitado há 3 dias</text>
+    <text x="252" y="346" font-size="15" font-weight="700" fill="#1c1c22">R$ 12.480</text>
+    <rect x="616" y="308" width="96" height="34" rx="8" fill="#f1f1f4"/><text x="638" y="330" font-size="12" fill="#6a6a74">Recusar</text>
+    <rect x="724" y="308" width="100" height="34" rx="8" fill="#0a8f4d"/><text x="748" y="330" font-size="12" font-weight="600" fill="#fff">Aprovar</text>
+
+    <rect x="228" y="380" width="620" height="96" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="410" font-size="14" font-weight="600" fill="#1c1c22">Manutenção predial — Agência 0341</text>
+    <text x="252" y="434" font-size="12" fill="#8b8b96">SOL-4181 · CC-0912 · solicitado há 5 dias</text>
+    <text x="252" y="458" font-size="15" font-weight="700" fill="#1c1c22">R$ 87.230</text>
+    <rect x="616" y="420" width="96" height="34" rx="8" fill="#f1f1f4"/><text x="638" y="442" font-size="12" fill="#6a6a74">Recusar</text>
+    <rect x="724" y="420" width="100" height="34" rx="8" fill="#0a8f4d"/><text x="748" y="442" font-size="12" font-weight="600" fill="#fff">Aprovar</text>
+
+    <rect x="228" y="492" width="620" height="96" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="522" font-size="14" font-weight="600" fill="#1c1c22">Consultoria tributária</text>
+    <text x="252" y="546" font-size="12" fill="#8b8b96">SOL-4176 · CC-2201 · solicitado há 6 dias</text>
+    <text x="252" y="570" font-size="15" font-weight="700" fill="#1c1c22">R$ 340.000</text>
+    <rect x="616" y="532" width="96" height="34" rx="8" fill="#f1f1f4"/><text x="638" y="554" font-size="12" fill="#6a6a74">Recusar</text>
+    <rect x="724" y="532" width="100" height="34" rx="8" fill="#0a8f4d"/><text x="748" y="554" font-size="12" font-weight="600" fill="#fff">Aprovar</text>
+
+    <rect x="228" y="604" width="620" height="96" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+    <text x="252" y="634" font-size="14" font-weight="600" fill="#1c1c22">Renovação de seguro patrimonial</text>
+    <text x="252" y="658" font-size="12" fill="#8b8b96">SOL-4170 · CC-1044 · solicitado há 8 dias</text>
+    <text x="252" y="682" font-size="15" font-weight="700" fill="#1c1c22">R$ 512.700</text>
+    <rect x="616" y="644" width="96" height="34" rx="8" fill="#f1f1f4"/><text x="638" y="666" font-size="12" fill="#6a6a74">Recusar</text>
+    <rect x="724" y="644" width="100" height="34" rx="8" fill="#0a8f4d"/><text x="748" y="666" font-size="12" font-weight="600" fill="#fff">Aprovar</text>
+  </g>
+
+  <!-- fluxo -->
+  <rect x="872" y="156" width="376" height="288" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="896" y="188" font-size="14" font-weight="600" fill="#1c1c22">Fluxo · SOL-4192</text>
+  <line x1="908" y1="216" x2="908" y2="400" stroke="#e6e6ea" stroke-width="2"/>
+  <circle cx="908" cy="222" r="8" fill="#0a8f4d"/><text x="932" y="220" font-size="12.5" fill="#1c1c22">Solicitado — L. Ribeiro</text><text x="932" y="238" font-size="11" fill="#9a9aa4">06/09 · 09:14</text>
+  <circle cx="908" cy="282" r="8" fill="#0a8f4d"/><text x="932" y="280" font-size="12.5" fill="#1c1c22">Gestor da área — A. Nunes</text><text x="932" y="298" font-size="11" fill="#9a9aa4">06/09 · 16:40</text>
+  <circle cx="908" cy="342" r="8" fill="#cc092f"/><text x="932" y="340" font-size="12.5" font-weight="600" fill="#cc092f">Controladoria — você</text><text x="932" y="358" font-size="11" fill="#9a9aa4">aguardando</text>
+  <circle cx="908" cy="400" r="8" fill="#dcdce3"/><text x="932" y="398" font-size="12.5" fill="#9a9aa4">Diretoria financeira</text><text x="932" y="416" font-size="11" fill="#c2c2cb">acima de R$ 1 M</text>
+
+  <rect x="872" y="460" width="376" height="240" rx="12" fill="#ffffff" stroke="#e9e9ee"/>
+  <text x="896" y="492" font-size="14" font-weight="600" fill="#1c1c22">Anexos</text>
+  <g font-size="12.5" fill="#4a4a54">
+    <rect x="896" y="510" width="30" height="34" rx="5" fill="#f1f1f4"/><text x="902" y="532" font-size="9" fill="#8b8b96">PDF</text>
+    <text x="940" y="532">contrato-licencas-2026.pdf</text>
+    <rect x="896" y="560" width="30" height="34" rx="5" fill="#f1f1f4"/><text x="902" y="582" font-size="9" fill="#8b8b96">XLS</text>
+    <text x="940" y="582">comparativo-fornecedores.xlsx</text>
+    <rect x="896" y="610" width="30" height="34" rx="5" fill="#f1f1f4"/><text x="902" y="632" font-size="9" fill="#8b8b96">PDF</text>
+    <text x="940" y="632">parecer-juridico.pdf</text>
+  </g>
+</svg>
