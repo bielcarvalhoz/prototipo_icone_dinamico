@@ -122,7 +122,7 @@
 
   main{position:relative; z-index:3}
   section{
-    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
     max-width:min(42vw, 620px); margin:0; padding:17vh 0 17vh 7vw;
   }
   section[data-align="right"]{
@@ -134,7 +134,17 @@
     section[data-align="right"]{ padding-right:max(7vw, 176px) }   /* 176px = largura do trilho + folga */
   }
   @media (max-width:820px){
-    section,section[data-align="right"]{max-width:100%; align-items:flex-start; text-align:left; padding:17vh 7vw}
+    section,section[data-align="right"]{max-width:100%; align-items:flex-start; text-align:left; padding:14vh 7vw}
+    /* no celular o texto ocupa a largura toda, entao o gradiente horizontal nao
+       protege nada: veu uniforme (a mascara vertical continua evitando a emenda) */
+    .leg-veil, section[data-align="right"] .leg-veil{
+      left:0; right:0; width:auto; opacity:.74; background:var(--bg);
+    }
+
+  }
+  /* telas muito estreitas: a assinatura nao pode quebrar em duas linhas */
+  @media (max-width:380px){
+    .outro-tag{ font-size:29px; letter-spacing:-.04em }
   }
 
   main{ counter-reset: sec pil; }
@@ -155,7 +165,7 @@
   }
   h1,h2{
     margin:0; font-weight:700; line-height:1.04; letter-spacing:-.022em;
-    font-size:clamp(30px,4.4vw,56px); max-width:16ch;
+    font-size:clamp(33px,9vw,56px); max-width:16ch;   /* o 4.4vw so crescia no desktop */
   }
   .lead{
     margin:24px 0 0; max-width:34ch; color:var(--dim);
@@ -167,7 +177,7 @@
      Antes o nome vinha em 12px e a frase de apoio em até 56px — hierarquia invertida.
      Aqui o nome vira o display, a frase passa a ser o subtítulo e o lead, o corpo. */
   section[data-pillar]:not([data-pillar="5"]) .kicker{
-    font-size:clamp(40px,5.4vw,72px); font-weight:700; line-height:1;
+    font-size:clamp(42px,11vw,72px); font-weight:700; line-height:1;
     letter-spacing:-.028em; text-transform:none; color:var(--ink);
     margin-bottom:18px;
   }
@@ -192,7 +202,7 @@
      que reescreve o innerHTML e mataria o <em> do "#") ---- */
   .outro{ display:block; max-width:none; margin:0; padding:0; height:220vh; min-height:220vh; }
   .outro-inner{
-    position:sticky; top:0; height:100vh; z-index:0;
+    position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:0 7vw; pointer-events:none;
   }
@@ -202,7 +212,7 @@
   }
   .outro-tag{
     margin:0; font-weight:700; line-height:1; letter-spacing:-.035em;
-    font-size:clamp(40px,8.2vw,124px); max-width:none; color:var(--ink);
+    font-size:clamp(31px,8.6vw,124px); max-width:none; color:var(--ink);
     transform-origin:50% 60%; opacity:0;
   }
   .outro-tag em{ font-style:normal; color:var(--red-ink) }
@@ -219,8 +229,8 @@
   /* dois stops só: um stop intermediário opaco cria quebra de derivada e a emenda
      do véu fica visível como uma faixa vertical contra o glow */
   .leg-veil{
-    position:absolute; z-index:-1; top:0; bottom:0; left:-8vw;
-    width:min(70vw,900px); pointer-events:none; opacity:.9;
+    position:absolute; z-index:-1; top:0; bottom:0; left:0;
+    width:min(72vw,900px); pointer-events:none; opacity:.9;
     background:linear-gradient(90deg, var(--bg), transparent);
     /* dissolve no topo e na base: seções vizinhas alternam o lado do véu, e duas bordas
        horizontais duras se encontrando deixavam um degrau visível na emenda */
@@ -228,14 +238,14 @@
     mask-image:linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
   }
   section[data-align="right"] .leg-veil{
-    left:auto; right:-8vw;
+    left:auto; right:0;
     background:linear-gradient(270deg, var(--bg), transparent);
   }
 
   /* seção alta com o conteúdo preso: dá scroll pra travessia sem apressar a animação */
   .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:230vh; min-height:230vh; }
   .hold-inner{
-    position:sticky; top:0; height:100vh; z-index:0;
+    position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; justify-content:center;
     max-width:min(42vw,620px); padding:17vh 0 17vh 7vw;
   }
@@ -392,6 +402,30 @@
   .loader .num{font-size:clamp(48px,12vw,120px); font-weight:700; letter-spacing:-.04em}
   .loader .bar{width:0; height:2px; background:var(--red); max-width:220px}
   .loader .lbl{font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--dim)}
+
+  /* ---- celular: precisa vir DEPOIS das regras que sobrescreve (mesma
+     especificidade, entao quem vence e quem vem por ultimo) ---- */
+  @media (max-width:820px){
+    /* corredor no celular: o eixo deslocado pra 63% e o texto na lateral so fazem
+       sentido com espaco horizontal. Aqui vira empilhado: titulo em cima, tela no
+       meio (bem maior) e a legenda embaixo. */
+    .corr-stage, .tunnel{ perspective:760px; perspective-origin:50% 44% }
+    .app{ --cw:min(80vw,430px) }
+    .ring{ left:50%; width:min(96vw,1180px); height:min(56vh,700px);
+      margin:calc(min(56vh,700px) / -2) 0 0 calc(min(96vw,1180px) / -2) }
+    .corr-hud{ left:7vw; right:7vw; top:8vh; max-width:none }
+    .corr-hud h2{ font-size:clamp(26px,7.4vw,34px); max-width:18ch }
+    .corr-now{ left:7vw; right:7vw; bottom:6vh; max-width:none }
+    .corr-now b{ font-size:clamp(21px,6.4vw,28px) }
+    .corr-now span{ font-size:13.5px }
+    .zoom-cap{ width:88vw }
+    .zoom-cap b{ font-size:clamp(19px,5.6vw,24px) }
+
+    /* encerramento */
+    .outro-inner{ padding:0 6vw }
+    .outro-rule{ width:70vw; margin:32px 0 28px }
+    .outro-lead{ font-size:14px }
+  }
 </style>
 
 <script type="importmap">{"imports":{
@@ -527,6 +561,9 @@ import { animate, stagger, utils, createTimeline, createSpring, svg } from 'anim
 import Lenis from 'lenis';
 
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MQ_SMALL = matchMedia('(max-width:820px)');
+let SMALL = MQ_SMALL.matches;
+MQ_SMALL.addEventListener('change', e => { SMALL = e.matches; });
 
 /* ---------- mapa: sólido do SVG -> pilar (ordem dos subPaths do path) ---------- */
 const PILLARS = [
@@ -544,15 +581,18 @@ const canvas = document.getElementById('c');
 let canvasVisible = true;
 // antialias + DPR alto e redundante e caro: com 2x de densidade o MSAA quase nao
 // aparece. Teto de 1.75 corta ~23% dos pixels em telas retina sem diferenca visivel.
+const SMALL_SCREEN = matchMedia('(max-width:820px)').matches;
 const renderer = new THREE.WebGLRenderer({
-  canvas, alpha:true, antialias: devicePixelRatio < 1.5, powerPreference:'high-performance'
+  canvas, alpha:true, antialias: !SMALL_SCREEN && devicePixelRatio < 1.5,
+  powerPreference:'high-performance'
 });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+// celular costuma ter DPR 3 e GPU fraca: o custo cresce com o quadrado da densidade
+renderer.setPixelRatio(Math.min(devicePixelRatio, SMALL_SCREEN ? 1.5 : 1.75));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = !SMALL_SCREEN;   // sombra suave nao compensa o custo no celular
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
@@ -870,7 +910,9 @@ function frame(){
   // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
   // no encerramento o símbolo recua e vira marca d'água atrás da assinatura:
   // no tamanho cheio ele competia com o texto e cortava a leitura
-  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55) * (1 - pOut*0.46);
+  // no celular o simbolo ocupa proporcionalmente muito mais da tela e briga com o texto
+  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55) * (1 - pOut*0.46)
+             * (SMALL ? 0.78 : 1);
   const stTarget = utils.clamp(scrollVel * 0.0007, -0.12, 0.12);
   curStretch += (stTarget - curStretch) * 0.14;
   scrollVel *= 0.86;                                   // decai quando o scroll para
@@ -1025,6 +1067,8 @@ addEventListener('pointerleave', () => { hoverIdx = -1; tip.hidden = true; });
 
 /* ---------- arrastar o símbolo (mola no soltar via createSpring) ---------- */
 addEventListener('pointerdown', e => {
+  // só com mouse: em touch o preventDefault abaixo bloquearia o scroll da página
+  if (e.pointerType && e.pointerType !== 'mouse') return;
   if (curHide > 0.4 || e.target.closest('.app')) return;
   if (!castAt(e.clientX, e.clientY)) return;
   grabbing = true; lpx = e.clientX; lpy = e.clientY;
@@ -1164,8 +1208,10 @@ function drawCorridor(cp, portalP){
     const ease = smoother(near);   // near é triangular: smoother tira o "bico" no pico
     // longe: colada na parede lateral e virada; no foco: TODAS param no mesmo ponto,
     // de frente pra câmera (senão a tela em foco ficaria pulando de lado a lado)
-    const x   = side * 36 * (1 - ease);
-    const rot = -side * 36 * (1 - ease);
+    // 36vw de deslocamento leva a tela pra fora numa viewport estreita
+    const off = SMALL ? 23 : 36;
+    const x   = side * off * (1 - ease);
+    const rot = -side * (SMALL ? 30 : 36) * (1 - ease);
     const sc  = 0.86 + ease * 0.26;
     const op  = smoothstep(utils.clamp((5.4 - d) / 1.8, 0, 1))
               * smoothstep(utils.clamp((d + 0.05) / 0.5, 0, 1));
@@ -1228,7 +1274,7 @@ if (APPS.length && !REDUCE){
       width:r.width+'px', height:r.height+'px', margin:'0', transform:'none', transition:'none' });
     bgEl.hidden = false;
     void card.offsetWidth;
-    const W = Math.min(820, innerWidth * 0.82), H = W * 10 / 16;
+    const W = Math.min(820, innerWidth * (SMALL ? 0.92 : 0.82)), H = W * 10 / 16;
     // sobe um pouco pra abrir espaço pra descrição embaixo
     const top = Math.max(20, (innerHeight - H) / 2 - 54);
     Object.assign(card.style, { transition:EASE,
