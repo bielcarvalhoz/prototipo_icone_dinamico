@@ -188,6 +188,34 @@
   /* véu de legibilidade: o símbolo 3D e o glow passam por trás do texto e derrubavam o
      contraste do lead. Gradiente da própria cor de fundo, só do lado do texto. */
   main > section{ position:relative }
+  /* ---- encerramento: assinatura centrada, dirigida pelo scroll (sem data-reveal,
+     que reescreve o innerHTML e mataria o <em> do "#") ---- */
+  .outro{ display:block; max-width:none; margin:0; padding:0; height:220vh; min-height:220vh; }
+  .outro-inner{
+    position:sticky; top:0; height:100vh; z-index:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:0 7vw; pointer-events:none;
+  }
+  .outro-eyebrow{
+    font-weight:600; font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--red-ink); margin-bottom:26px; opacity:0;
+  }
+  .outro-tag{
+    margin:0; font-weight:700; line-height:1; letter-spacing:-.035em;
+    font-size:clamp(40px,8.2vw,124px); max-width:none; color:var(--ink);
+    transform-origin:50% 60%; opacity:0;
+  }
+  .outro-tag em{ font-style:normal; color:var(--red-ink) }
+  .outro-rule{
+    width:min(52vw,520px); height:1.5px; margin:44px 0 40px;
+    background:linear-gradient(90deg, transparent, var(--red-ink) 22%, var(--red-ink) 78%, transparent);
+    transform:scaleX(0); transform-origin:center;
+  }
+  .outro-lead{
+    margin:0; max-width:46ch; color:var(--dim);
+    font-size:clamp(14px,1.4vw,17px); line-height:1.68; opacity:0;
+  }
+
   /* dois stops só: um stop intermediário opaco cria quebra de derivada e a emenda
      do véu fica visível como uma faixa vertical contra o glow */
   .leg-veil{
@@ -336,6 +364,10 @@
       opacity:1!important; pointer-events:auto; background:none; padding:12vh 7vw;
       display:flex; flex-wrap:wrap; gap:18px; justify-content:center }
     .tunnel, .corr-hud, .corr-now, .ring{ display:none }
+    .outro{ height:auto; min-height:60vh }
+    .outro-inner{ position:static; height:auto; padding:14vh 7vw }
+    .outro-tag, .outro-eyebrow, .outro-lead{ opacity:1!important; transform:none!important; filter:none!important }
+    .outro-rule{ transform:scaleX(1)!important }
     .app{ position:static; width:min(46vw,420px); margin:0;
       transform:none!important; opacity:1!important; filter:none!important; pointer-events:auto }
   }
@@ -453,6 +485,17 @@
   <!-- só espaçador: dá o comprimento de scroll do corredor. O corredor em si é fixo,
        fora do <main>, pra poder aparecer durante a travessia (sem depender do sticky prender) -->
   <section class="apps-sec" data-sx="1" data-hide data-dark></section>
+
+  <!-- encerramento: saímos do portal (a travessia roda ao contrário, o símbolo se
+       recompõe) e a assinatura aparece no centro -->
+  <section class="outro" data-sx="0" data-dark>
+    <div class="outro-inner">
+      <div class="outro-eyebrow">Portal Finanças · Bradesco</div>
+      <h2 class="outro-tag"><em>#</em>UnidosEvoluímos</h2>
+      <div class="outro-rule"></div>
+      <p class="outro-lead">Cadastro, painéis, relatórios e muito mais, num só lugar.<br/>Já disponível na sua área de trabalho.</p>
+    </div>
+  </section>
 </main>
 
 <div class="corr-stage">
@@ -652,16 +695,26 @@ SECTIONS.forEach(sec => {
   if (pil != null && pil !== '5') kicker.setAttribute('data-reveal', '');
 });
 const progressEl = document.querySelector('.progress');
-const secPrev = SECTIONS[SECTIONS.length - 2];        // Consolidação (de onde entramos no portal)
+// índices por classe, não por posição: acrescentar uma seção no fim quebrava
+// silenciosamente qualquer "SECTIONS.length - 2"
+const I_HOLD  = SECTIONS.findIndex(s => s.classList.contains('hold-sec'));   // Consolidação
+const I_APPS  = SECTIONS.findIndex(s => s.classList.contains('apps-sec'));   // corredor
+const I_OUTRO = SECTIONS.findIndex(s => s.classList.contains('outro'));      // encerramento
+const secPrev = SECTIONS[I_HOLD];                     // de onde entramos no portal
+const outroEl = document.querySelector('.outro-inner');
+const outroTag = document.querySelector('.outro-tag');
+const outroRule = document.querySelector('.outro-rule');
+const outroEye = document.querySelector('.outro-eyebrow');
+const outroLead = document.querySelector('.outro-lead');
 // A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
 // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
-const P_START = 7.05, P_END = 7.78;
+const P_START = I_HOLD + 0.05, P_END = I_HOLD + 0.78;
 let curFov = 36;
 
 // trilho de capítulos em algarismos romanos
 const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 const roman = n => ROMAN[n - 1] || String(n);
-const SEC_LABEL = ['Sobre','A marca','Precisão','Tecnologia','Eficiência','Qualidade','Inovação','Consolidação','Aplicações'];
+const SEC_LABEL = ['Sobre','A marca','Precisão','Tecnologia','Eficiência','Qualidade','Inovação','Consolidação','Aplicações','Unidos'];
 const rail = document.querySelector('.rail');
 // posição no roteiro medida pelos offsets reais das seções (não assume alturas iguais).
 // Para seções de 100vh dá exatamente o mesmo que scrollY/vh; a última pode ser bem mais alta.
@@ -692,7 +745,7 @@ document.fonts?.ready.then(measure);
 
 let railActive = -1;
 // ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
-const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00 ];
+const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00, 0.00 ];
 const SEC_DARK = SECTIONS.map(s => s.dataset.dark != null ? 1 : 0);   // hero, A marca e Consolidação = dark
 let curDark = SEC_DARK[0];
 
@@ -744,7 +797,7 @@ function frame(){
     railDots[railActive]?.classList.remove('on');
     railDots[active]?.classList.add('on');
     SECTIONS[active].querySelector('.kicker')?.classList.add('drawn');   // linha do kicker desenha
-    if (active === 7 && recapAt < 0) recapAt = t;                        // dispara o recap dos 5 pilares
+    if (active === I_HOLD && recapAt < 0) recapAt = t;                   // dispara o recap dos 5 pilares
     railActive = active;
   }
   const pAttr = SECTIONS[active].dataset.pillar;
@@ -757,9 +810,10 @@ function frame(){
   const segF = Math.min(segRaw, SECTIONS.length - 1);
   // corredor em PIXELS (não em segF): começa onde a travessia termina, dentro da
   // Consolidação, e vai até o fim da página — velocidade uniforme, sem degrau na borda
-  const iPrev = SECTIONS.length - 2;
-  const corrA = LM.tops[iPrev] + LM.heights[iPrev] * (P_END - iPrev);
-  const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, LM.max - corrA), 0, 1);
+  const corrA = LM.tops[I_HOLD] + LM.heights[I_HOLD] * (P_END - I_HOLD);
+  // o corredor termina onde o encerramento começa (antes ia até o fim da página)
+  const corrB = LM.tops[I_OUTRO] || LM.max;
+  const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, corrB - corrA), 0, 1);
   const i0 = Math.max(0, Math.min(SECTIONS.length - 2, Math.floor(segF)));
   const bf = smoothstep(utils.clamp(segF - i0, 0, 1));
   const targetYaw = SEC_YAW[i0] + (SEC_YAW[i0 + 1] - SEC_YAW[i0]) * bf;
@@ -768,10 +822,17 @@ function frame(){
 
   // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
   // pFace começa ANTES: o símbolo se endireita de frente pra câmera; só depois voamos pra dentro.
-  const pFace  = smoothstep(utils.clamp((segF - 7.06) / 0.30, 0, 1));
-  // Consolidação tem 210vh, então esse trecho vale ~200vh de scroll.
+  const pFace  = smoothstep(utils.clamp((segF - (I_HOLD + 0.06)) / 0.30, 0, 1));
+  // Consolidação tem 230vh, então esse trecho vale ~200vh de scroll.
   // O texto ainda sai nos primeiros ~16% (mesmo ritmo de antes); o resto é a travessia.
-  const portalP = smoothstep(utils.clamp((segF - P_START) / (P_END - P_START), 0, 1));
+  const portalIn = smoothstep(utils.clamp((segF - P_START) / (P_END - P_START), 0, 1));
+
+  // SAÍDA do portal. Como câmera, anel, elementos centrais, túnel e telas são TODOS
+  // dirigidos por portalP, basta desfazer esse valor no encerramento: a travessia roda
+  // ao contrário sozinha — a câmera recua, o anel volta ao tamanho e o símbolo se
+  // recompõe. Nada de código novo pra "sair".
+  const pOut = smoothstep(utils.clamp((segRaw - I_OUTRO) / 0.82, 0, 1));
+  const portalP = portalIn * (1 - pOut);
   // a aproximação da câmera é propositalmente lenta no começo (expoente > 1): é isso que
   // faz a logo ficar bastante tempo na tela em vez de encher o quadro e passar num piscar
   const pDolly = Math.pow(portalP, 1.8);
@@ -807,14 +868,16 @@ function frame(){
   if (Math.abs(fovT - curFov) > 0.1){ curFov = fovT; camera.fov = fovT; camera.updateProjectionMatrix(); }
 
   // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
-  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55);
+  // no encerramento o símbolo recua e vira marca d'água atrás da assinatura:
+  // no tamanho cheio ele competia com o texto e cortava a leitura
+  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55) * (1 - pOut*0.46);
   const stTarget = utils.clamp(scrollVel * 0.0007, -0.12, 0.12);
   curStretch += (stTarget - curStretch) * 0.14;
   scrollVel *= 0.86;                                   // decai quando o scroll para
   alvo.scale.set(sc * (1 - curStretch*0.5), sc * (1 + curStretch), sc * (1 - curStretch*0.5) * bodyZ);
   ground.material.opacity = 0.16 * (1 - Math.max(hide, portalP));
   alvo.position.x = camX;
-  alvo.position.y = alvoY;
+  alvo.position.y = alvoY + pOut * 0.62;   // sobe no fecho: libera o rodape do texto
   const gInf = grabbing ? 0 : 1;   // trava o parallax enquanto arrasta
   const face = 1 - pFace;          // 1 = pose normal da seção; 0 = de frente pra câmera, parado
   alvo.rotation.y = (curRotY + drag.ry + (Math.sin(t*0.35)*0.03 + pmx*0.12*gInf)) * face;
@@ -874,12 +937,32 @@ function frame(){
       }
     }
 
+    op *= 1 - pOut*0.80;                            // marca d'água: bem discreto atrás do texto
     f.opacity = op; sMat.opacity = op;
     f.depthWrite = sMat.depthWrite = op > 0.92;     // recuadas nao escondem uma a outra
     m.castShadow = op > 0.6 && portalP < 0.3;
   });
 
   drawCorridor(corridorP, portalP);
+
+  // assinatura do encerramento: entra em camadas depois que o corredor já se apagou.
+  // Sem data-reveal de propósito — ele reescreve o innerHTML e mataria o <em> do "#".
+  if (outroEl){
+    const ent = (a, b) => smoothstep(utils.clamp((pOut - a) / (b - a), 0, 1));
+    const tag = ent(0.20, 0.62), eye = ent(0.34, 0.62), rul = ent(0.48, 0.78), led = ent(0.56, 0.86);
+    setStyle(outroEl, 'visibility', pOut < 0.005 ? 'hidden' : 'visible');
+    if (pOut >= 0.005){
+      // a assinatura sobe do ponto de fuga do túnel: vem de trás, ampliando
+      setStyle(outroTag, 'opacity', tag.toFixed(3));
+      setStyle(outroTag, 'transform', 'translateY(' + ((1 - tag) * 26).toFixed(1) + 'px) scale(' + (0.9 + tag * 0.1).toFixed(4) + ')');
+      setStyle(outroTag, 'filter', tag > 0.985 ? '' : 'blur(' + ((1 - tag) * 11).toFixed(2) + 'px)');
+      setStyle(outroEye, 'opacity', eye.toFixed(3));
+      setStyle(outroEye, 'transform', 'translateY(' + ((1 - eye) * 12).toFixed(1) + 'px)');
+      setStyle(outroRule, 'transform', 'scaleX(' + rul.toFixed(4) + ')');
+      setStyle(outroLead, 'opacity', led.toFixed(3));
+      setStyle(outroLead, 'transform', 'translateY(' + ((1 - led) * 14).toFixed(1) + 'px)');
+    }
+  }
 
   // No corredor o símbolo está totalmente invisível, mas o canvas continuava sendo
   // renderizado E composto (RGBA em tela cheia, por cima de tunnel + stage + grain).
