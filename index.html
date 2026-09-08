@@ -226,6 +226,31 @@
     font-size:clamp(14px,1.4vw,17px); line-height:1.68; opacity:0;
   }
 
+  .to-top{
+    all:unset; margin-top:38px; display:inline-flex; align-items:center; gap:10px;
+    padding:13px 22px; border:1px solid var(--line); border-radius:999px;
+    font:600 12px/1 var(--font); letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink); cursor:pointer; pointer-events:auto; opacity:0;
+    transition:border-color .3s, background .3s, color .3s;
+  }
+  .to-top svg{ width:15px; height:15px; fill:none; stroke:var(--red-ink); stroke-width:2;
+    stroke-linecap:round; stroke-linejoin:round; }
+  .to-top:hover, .to-top:focus-visible{ border-color:var(--red-ink); background:rgba(204,9,47,.09) }
+  .to-top:focus-visible{ outline:2px solid var(--red-ink); outline-offset:3px }
+  body.cc .to-top{ cursor:none }
+
+  /* cortina do retorno: uma íris que fecha do centro (mesma linguagem do portal),
+     o salto pro topo acontece por trás dela e ela reabre já no hero */
+  .rewind{ position:fixed; inset:0; z-index:80; pointer-events:none; overflow:hidden }
+  .rewind[hidden]{ display:none }
+  /* círculo que escala, não clip-path: transform é o caminho que qualquer engine
+     de animação interpola sem surpresa (clip-path com função e unidades, não) */
+  .rewind i{
+    position:absolute; left:50%; top:50%; width:150vmax; height:150vmax;
+    margin:-75vmax 0 0 -75vmax; border-radius:50%; background:var(--bg);
+    transform:scale(0); will-change:transform;
+  }
+
   /* dois stops só: um stop intermediário opaco cria quebra de derivada e a emenda
      do véu fica visível como uma faixa vertical contra o glow */
   .leg-veil{
@@ -376,7 +401,9 @@
     .tunnel, .corr-hud, .corr-now, .ring{ display:none }
     .outro{ height:auto; min-height:60vh }
     .outro-inner{ position:static; height:auto; padding:14vh 7vw }
-    .outro-tag, .outro-eyebrow, .outro-lead{ opacity:1!important; transform:none!important; filter:none!important }
+    .outro-tag, .outro-eyebrow, .outro-lead, .to-top{ opacity:1!important; transform:none!important; filter:none!important }
+    .to-top{ pointer-events:auto!important }
+    .rewind{ display:none!important }
     .outro-rule{ transform:scaleX(1)!important }
     .app{ position:static; width:min(46vw,420px); margin:0;
       transform:none!important; opacity:1!important; filter:none!important; pointer-events:auto }
@@ -425,6 +452,7 @@
     .outro-inner{ padding:0 6vw }
     .outro-rule{ width:70vw; margin:32px 0 28px }
     .outro-lead{ font-size:14px }
+    .to-top{ margin-top:30px; padding:12px 18px; font-size:11px }
   }
 </style>
 
@@ -528,6 +556,10 @@
       <h2 class="outro-tag"><em>#</em>UnidosEvoluímos</h2>
       <div class="outro-rule"></div>
       <p class="outro-lead">Cadastro, painéis, relatórios e muito mais, num só lugar.<br/>Já disponível na sua área de trabalho.</p>
+      <button class="to-top" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M12 5l-6 6M12 5l6 6"/></svg>
+        Voltar ao início
+      </button>
     </div>
   </section>
 </main>
@@ -550,6 +582,7 @@
       <div class="corr-now"><em></em><b></b><span></span><i>clique para ampliar</i></div>
 </div>
 
+<div class="rewind" hidden><i></i></div>
 <div class="zoom-bg" hidden></div>
 <div class="zoom-cap" hidden><em></em><b></b><span></span></div>
 
@@ -746,6 +779,8 @@ const outroTag = document.querySelector('.outro-tag');
 const outroRule = document.querySelector('.outro-rule');
 const outroEye = document.querySelector('.outro-eyebrow');
 const outroLead = document.querySelector('.outro-lead');
+const toTopBtn = document.querySelector('.to-top');
+const rewindEl = document.querySelector('.rewind');
 // A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
 // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
 const P_START = I_HOLD + 0.05, P_END = I_HOLD + 0.78;
@@ -1003,6 +1038,13 @@ function frame(){
       setStyle(outroRule, 'transform', 'scaleX(' + rul.toFixed(4) + ')');
       setStyle(outroLead, 'opacity', led.toFixed(3));
       setStyle(outroLead, 'transform', 'translateY(' + ((1 - led) * 14).toFixed(1) + 'px)');
+      if (toTopBtn){
+        const btn = ent(0.68, 0.94);
+        setStyle(toTopBtn, 'opacity', btn.toFixed(3));
+        setStyle(toTopBtn, 'transform', 'translateY(' + ((1 - btn) * 12).toFixed(1) + 'px)');
+        // só clicável depois de visível, senão vira alvo invisível
+        setStyle(toTopBtn, 'pointerEvents', btn > 0.6 ? 'auto' : 'none');
+      }
     }
   }
 
@@ -1335,6 +1377,44 @@ if (APPS.length && !REDUCE){
   stage.addEventListener('pointerleave', () => { overIx = false; });
   bgEl.addEventListener('click', zoomOut);
   addEventListener('keydown', e => { if (e.key === 'Escape') zoomOut(); });
+}
+
+/* ---------- retorno ao topo ----------
+   Um scrollTo animado percorreria ~40 viewports e viraria um borrão. Em vez disso, a
+   íris fecha, o salto acontece por trás dela e ela reabre no hero — o mesmo vocabulário
+   da travessia do portal, e sem depender de animar a página inteira. */
+if (toTopBtn && rewindEl){
+  let rewinding = false;
+  const goTop = () => {
+    if (rewinding) return;
+    if (REDUCE){ lenis ? lenis.scrollTo(0, { immediate:true, force:true }) : scrollTo(0, 0); return; }
+    rewinding = true;
+    lenis?.stop();
+    document.body.classList.add('rewinding');
+    rewindEl.hidden = false;
+    const iris = rewindEl.querySelector('i');
+    animate(iris, {
+      scale: [0, 1],
+      duration: 620, ease: 'inOut(2.4)',
+      onComplete(){
+        // o salto acontece com a tela já coberta
+        // force: o lenis está parado (stop) e um scrollTo sem force é ignorado
+        lenis ? lenis.scrollTo(0, { immediate:true, force:true }) : scrollTo(0, 0);
+        frame();                                    // reposiciona a cena antes de reabrir
+        animate(iris, {
+          scale: [1, 0],
+          duration: 760, delay: 90, ease: 'out(2.6)',
+          onComplete(){
+            rewindEl.hidden = true;
+            document.body.classList.remove('rewinding');
+            lenis?.start();
+            rewinding = false;
+          }
+        });
+      }
+    });
+  };
+  toTopBtn.addEventListener('click', goTop);
 }
 
 frame();
