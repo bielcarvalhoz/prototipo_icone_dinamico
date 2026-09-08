@@ -2271,7 +2271,11 @@
           }
         });
 
-        if (hudEl) hudEl.style.opacity = (1 - smoothstep(utils.clamp((cp - 0.62) / 0.28, 0, 1))).toFixed(3);
+        // sem fade proprio: cravado em cp (era 0.62/0.28) o texto sumia no meio do
+        // corredor, e com mais apps sumiria ainda mais cedo, porque cp nao sabe o N.
+        // cam satura em N-1 (a ultima tela centralizando), entao nao ha "depois da
+        // ultima" dentro do corredor: o texto herda o fade do stage e some junto com
+        // ela, ja centralizada. Dinamico em N por construcao.
 
         if (nowEl) {
           nowEl.style.opacity = focus >= 0 ? "1" : "0";
