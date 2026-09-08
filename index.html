@@ -7,6 +7,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- os 3 modulos do importmap sao descobertos so quando o <script type=module> roda;
+     preconnect + modulepreload adiantam DNS/TLS e o download deles -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin/>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js" crossorigin/>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
 <style>
@@ -44,12 +50,16 @@
   .glow{
     position:fixed; left:66%; top:50%; width:44vmax; height:44vmax;
     transform:translate(-50%,-50%);
-    background:radial-gradient(circle, rgba(204,9,47,.14), transparent 62%);
-    filter:blur(34px); z-index:0; pointer-events:none;
+    /* sem filter:blur: o radial-gradient ja e suave, e o blur era um filtro ativo de
+       ~700x700px presente em TODAS as secoes */
+    background:radial-gradient(circle, rgba(204,9,47,.16), rgba(204,9,47,.05) 38%, transparent 66%);
+    z-index:0; pointer-events:none;
   }
   #c{position:fixed; inset:0; width:100%; height:100%; display:block; z-index:1; pointer-events:none}
+  /* inset:0, não -50%: o grão nunca é deslocado, e a 4x a área do viewport o
+     mix-blend-mode (que obriga o compositor a ler o backdrop) custava 4x mais */
   .grain{
-    position:fixed; inset:-50%; z-index:2; pointer-events:none; opacity:.035;
+    position:fixed; inset:0; z-index:2; pointer-events:none; opacity:.035;
     mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -448,13 +458,13 @@
 <div class="corr-stage">
       <!-- os anéis do túnel são criados no JS -->
       <!-- troque o conteúdo de .scr por <img src="telas/xxx.png"> quando tiver os prints -->
-      <div class="app" data-title="Cadastro" data-desc="Cadastre e mantenha fornecedores, centros de custo e contas num só fluxo. Validação na entrada, menos correção depois."><div class="scr"><img src="telas/cadastro.svg" alt="Cadastro"></div></div>
+      <div class="app" data-title="Cadastro" data-desc="Cadastre e mantenha fornecedores, centros de custo e contas num só fluxo. Validação na entrada, menos correção depois."><div class="scr"><img decoding="async" src="telas/cadastro.svg" alt="Cadastro"></div></div>
       <!-- exemplo com print real: é só trocar o <span> por um <img>, o resto do CSS já cuida -->
-      <div class="app" data-title="Painel de indicadores" data-desc="Acompanhe receitas, despesas e metas em tempo real, com filtros por área e período. Os números que importam, num relance."><div class="scr"><img src="telas/painel-indicadores.svg" alt="Painel de indicadores"></div></div>
-      <div class="app" data-title="Relatórios" data-desc="Gere relatórios financeiros padronizados em segundos e exporte para Excel ou PDF. A mesma fonte para todo mundo."><div class="scr"><img src="telas/relatorios.svg" alt="Relatórios"></div></div>
-      <div class="app" data-title="Aprovações" data-desc="Solicitações de despesa e pagamento com fluxo de aprovação claro, histórico e notificação. Sem e-mail solto."><div class="scr"><img src="telas/aprovacoes.svg" alt="Aprovações"></div></div>
-      <div class="app" data-title="Conciliação" data-desc="Concilie lançamentos e extratos automaticamente. O sistema aponta as divergências; você resolve só o que precisa."><div class="scr"><img src="telas/conciliacao.svg" alt="Conciliação"></div></div>
-      <div class="app" data-title="Consultas" data-desc="Consulte saldos, lançamentos e posições a qualquer momento, com busca rápida e visão consolidada."><div class="scr"><img src="telas/consultas.svg" alt="Consultas"></div></div>
+      <div class="app" data-title="Painel de indicadores" data-desc="Acompanhe receitas, despesas e metas em tempo real, com filtros por área e período. Os números que importam, num relance."><div class="scr"><img decoding="async" src="telas/painel-indicadores.svg" alt="Painel de indicadores"></div></div>
+      <div class="app" data-title="Relatórios" data-desc="Gere relatórios financeiros padronizados em segundos e exporte para Excel ou PDF. A mesma fonte para todo mundo."><div class="scr"><img decoding="async" src="telas/relatorios.svg" alt="Relatórios"></div></div>
+      <div class="app" data-title="Aprovações" data-desc="Solicitações de despesa e pagamento com fluxo de aprovação claro, histórico e notificação. Sem e-mail solto."><div class="scr"><img decoding="async" src="telas/aprovacoes.svg" alt="Aprovações"></div></div>
+      <div class="app" data-title="Conciliação" data-desc="Concilie lançamentos e extratos automaticamente. O sistema aponta as divergências; você resolve só o que precisa."><div class="scr"><img decoding="async" src="telas/conciliacao.svg" alt="Conciliação"></div></div>
+      <div class="app" data-title="Consultas" data-desc="Consulte saldos, lançamentos e posições a qualquer momento, com busca rápida e visão consolidada."><div class="scr"><img decoding="async" src="telas/consultas.svg" alt="Consultas"></div></div>
 
       <div class="corr-hud">
         <div class="kicker">As aplicações</div>
@@ -488,8 +498,13 @@ const pillarByMesh = i => PILLARS.find(p => p.idx.includes(i));
 
 /* ---------- three: cena + alvo extrudado ---------- */
 const canvas = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+let canvasVisible = true;
+// antialias + DPR alto e redundante e caro: com 2x de densidade o MSAA quase nao
+// aparece. Teto de 1.75 corta ~23% dos pixels em telas retina sem diferenca visivel.
+const renderer = new THREE.WebGLRenderer({
+  canvas, alpha:true, antialias: devicePixelRatio < 1.5, powerPreference:'high-performance'
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -508,7 +523,8 @@ camera.position.set(0, 0.6, 9);
 const ambient = new THREE.AmbientLight(0xffffff, 0.95); scene.add(ambient);
 const sun = new THREE.DirectionalLight(0xffffff, 1.15);
 sun.position.set(3, 5, 4); sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
+sun.shadow.mapSize.set(1024, 1024);   // 4x menos pixels; a sombra e difusa, nao perde nada
+scene.add(sun);
 const rim = new THREE.DirectionalLight(0xffd0da, 0.4);
 rim.position.set(-2, 1, -3); scene.add(rim);
 const ground = new THREE.Mesh(new THREE.CircleGeometry(4.5, 64), new THREE.ShadowMaterial({ opacity:0.16 }));
@@ -556,11 +572,23 @@ let lenis = null, scrollVel = 0;
 if (!REDUCE) {
   lenis = new Lenis({ lerp:0.085 });
   lenis.on('scroll', e => { scrollVel = e.velocity || 0; });
-  (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+  // sem loop proprio: o frame() ja roda a 60fps e chama lenis.raf (dois rAF por
+  // quadro competindo entre si nao ajudam em nada)
+}
+/* Métricas de layout em CACHE. Antes o frame() lia scrollHeight duas vezes,
+   offsetTop/offsetHeight das seções e 9 getBoundingClientRect — cada leitura dessas
+   força o browser a recalcular o layout, 60x por segundo. Aqui medimos uma vez e
+   remedimos só quando algo realmente muda de tamanho. */
+const LM = { tops:[], heights:[], max:1 };
+function measure(){
+  for (let i = 0; i < SECTIONS.length; i++){
+    LM.tops[i]    = SECTIONS[i].offsetTop;
+    LM.heights[i] = SECTIONS[i].offsetHeight;
+  }
+  LM.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
 }
 function scrollProgress(){
-  const max = document.documentElement.scrollHeight - innerHeight;
-  return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  return Math.min(1, Math.max(0, scrollY / LM.max));
 }
 const smoothstep = x => x*x*(3 - 2*x);
 // smootherstep: 1a E 2a derivadas zero nas duas pontas. O smoothstep ainda tem uma
@@ -576,7 +604,12 @@ function hexMix(h1, h2, t){
   const b = Math.round(lerp(h1&255,       h2&255,       t));
   return `rgb(${r},${g},${b})`;
 }
+let _lastD = -1;
 function applyTheme(d){
+  // custom property no :root invalida o estilo do DOCUMENTO todo. Escrever 6 delas a
+  // 60fps mesmo com o tema parado era o recálculo de estilo mais caro da página.
+  if (Math.abs(d - _lastD) < 0.002) return;
+  _lastD = d;
   // O fundo vai de branco a quase-preto, então passa obrigatoriamente por um cinza-médio.
   // Interpolar o TEXTO na mesma curva o faz cruzar esse cinza: --dim e --bg chegavam a
   // 1.01:1 e o texto desaparecia. Duas medidas:
@@ -633,14 +666,13 @@ const rail = document.querySelector('.rail');
 // posição no roteiro medida pelos offsets reais das seções (não assume alturas iguais).
 // Para seções de 100vh dá exatamente o mesmo que scrollY/vh; a última pode ser bem mais alta.
 function segFrom(){
-  const y = scrollY;
+  const y = scrollY, last = SECTIONS.length - 1;
   let i = 0;
-  while (i < SECTIONS.length - 1 && y >= SECTIONS[i + 1].offsetTop) i++;
-  const a = SECTIONS[i].offsetTop;
+  while (i < last && y >= LM.tops[i + 1]) i++;
+  const a = LM.tops[i];
   // na última seção o scroll para uma viewport antes do fim: normaliza pelo trecho rolável,
   // senão a fração nunca chega a 1 e o corredor fica sem o último trecho.
-  const b = SECTIONS[i + 1] ? SECTIONS[i + 1].offsetTop
-                            : a + Math.max(1, SECTIONS[i].offsetHeight - innerHeight);
+  const b = i < last ? LM.tops[i + 1] : a + Math.max(1, LM.heights[i] - innerHeight);
   return i + utils.clamp((y - a) / Math.max(1, b - a), 0, 1);
 }
 const railDots = SECTIONS.map((sec, i) => {
@@ -652,6 +684,12 @@ const railDots = SECTIONS.map((sec, i) => {
   rail.appendChild(b);
   return b;
 });
+measure();
+// remede quando algo muda de tamanho de verdade: resize, fonte carregando, reveal
+// alterando alturas. Um ResizeObserver no <html> cobre tudo isso sem polling.
+new ResizeObserver(measure).observe(document.documentElement);
+document.fonts?.ready.then(measure);
+
 let railActive = -1;
 // ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
 const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00 ];
@@ -678,6 +716,7 @@ let overIx = false;   // mouse sobre algo interativo (símbolo / card) -> cursor
 
 function frame(){
   const t = performance.now() / 1000;
+  lenis?.raf(t * 1000);
   const p = REDUCE ? 0.12 : scrollProgress();
   const s = smoothstep(p);
   if (progressEl) progressEl.style.transform = 'scaleX(' + p.toFixed(4) + ')';
@@ -693,12 +732,12 @@ function frame(){
   pmy += (my - pmy) * 0.04;
 
   // seção ativa
-  // a seção que cobre o meio da viewport (com alturas diferentes, "centro mais próximo" erra)
+  // a seção que cobre o meio da viewport (com alturas diferentes, "centro mais próximo" erra).
+  // Calculado dos offsets em cache: 9 getBoundingClientRect por frame forçavam layout.
+  const mid = scrollY + innerHeight / 2;
   let active = 0;
   for (let i = 0; i < SECTIONS.length; i++){
-    const r = SECTIONS[i].getBoundingClientRect();
-    if (r.top <= innerHeight/2 && r.bottom > innerHeight/2){ active = i; break; }
-    if (r.top > innerHeight/2) break;
+    if (LM.tops[i] > mid) break;
     active = i;
   }
   if (active !== railActive){
@@ -718,9 +757,9 @@ function frame(){
   const segF = Math.min(segRaw, SECTIONS.length - 1);
   // corredor em PIXELS (não em segF): começa onde a travessia termina, dentro da
   // Consolidação, e vai até o fim da página — velocidade uniforme, sem degrau na borda
-  const corrA = secPrev.offsetTop + secPrev.offsetHeight * (P_END - (SECTIONS.length - 2));
-  const corrB = document.documentElement.scrollHeight - innerHeight;
-  const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, corrB - corrA), 0, 1);
+  const iPrev = SECTIONS.length - 2;
+  const corrA = LM.tops[iPrev] + LM.heights[iPrev] * (P_END - iPrev);
+  const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, LM.max - corrA), 0, 1);
   const i0 = Math.max(0, Math.min(SECTIONS.length - 2, Math.floor(segF)));
   const bf = smoothstep(utils.clamp(segF - i0, 0, 1));
   const targetYaw = SEC_YAW[i0] + (SEC_YAW[i0 + 1] - SEC_YAW[i0]) * bf;
@@ -842,7 +881,18 @@ function frame(){
 
   drawCorridor(corridorP, portalP);
 
-  renderer.render(scene, camera);
+  // No corredor o símbolo está totalmente invisível, mas o canvas continuava sendo
+  // renderizado E composto (RGBA em tela cheia, por cima de tunnel + stage + grain).
+  // Aqui ele sai do compositor de vez enquanto não há nada visível.
+  const vis = hide < 0.985 && portalP < 0.999;
+  if (vis !== canvasVisible){
+    canvasVisible = vis;
+    canvas.style.display = vis ? '' : 'none';
+    // sombra: mapa de 1024² recalculado por frame só faz sentido com o símbolo em cena
+    renderer.shadowMap.autoUpdate = vis;
+  }
+  if (vis) renderer.render(scene, camera);
+
   requestAnimationFrame(frame);
 }
 
@@ -962,6 +1012,17 @@ if (tunnelEl && !REDUCE){
 const GAP = 660;          // px entre telas ao longo do corredor
 const RING_GAP = 640;
 
+// só escreve no style quando o valor muda de fato: cada atribuição invalida o estilo
+// do elemento, e eram ~70 escritas por frame entre anéis e telas
+const _last = new WeakMap();
+function setStyle(el, prop, val){
+  let m = _last.get(el);
+  if (!m){ m = {}; _last.set(el, m); }
+  if (m[prop] === val) return;
+  m[prop] = val;
+  el.style[prop] = val;
+}
+
 function drawCorridor(cp, portalP){
   if (!APPS.length || REDUCE) return;
   if (zoomedCard) return;                 // no zoom o corredor congela (o scroll também está travado)
@@ -986,11 +1047,13 @@ function drawCorridor(cp, portalP){
   // se fechasse antes sobrava um trecho parado; se fosse longa, virava scroll só de fade
   const show = utils.clamp((portalP - 0.8) / 0.2, 0, 1);
   if (stage){
-    stage.style.opacity = show.toFixed(3);
+    setStyle(stage, 'opacity', show.toFixed(3));
+    setStyle(stage, 'visibility', show < 0.005 ? 'hidden' : 'visible');
     stage.classList.toggle('live', show > 0.9);
   }
   if (tunnelEl){
-    tunnelEl.style.opacity = enter.toFixed(3);
+    setStyle(tunnelEl, 'opacity', enter.toFixed(3));
+    setStyle(tunnelEl, 'visibility', enter < 0.005 ? 'hidden' : 'visible');
     // o termo portalP mantém o túnel ANDANDO durante a cauda da travessia; sem ele os anéis
     // congelam (cam ainda é 0) e o trecho até o corredor começar parece parado
     const ringCam = cam * 1.6 + portalP * 1.4 + (enter - 1) * 2.6;
@@ -999,8 +1062,13 @@ function drawCorridor(cp, portalP){
       // some nas duas pontas do ciclo pra emenda do loop não aparecer
       const op = 0.85 * smoothstep(utils.clamp(d / 1.2, 0, 1))
                       * smoothstep(utils.clamp((RINGS.length - 1 - d) / 3.2, 0, 1));
-      r.style.transform = 'translateZ(' + (-d * RING_GAP + 340).toFixed(0) + 'px)';
-      r.style.opacity = op.toFixed(3);
+      // visibility em vez de só opacity 0: opacity 0 mantém a camada no compositor,
+      // e 7 dos 11 anéis passam a maior parte do tempo invisíveis
+      setStyle(r, 'visibility', op < 0.02 ? 'hidden' : 'visible');   // 0.02 com borda de 1.5px = invisível
+      if (op >= 0.02){
+        setStyle(r, 'transform', 'translateZ(' + (-d * RING_GAP + 340).toFixed(0) + 'px)');
+        setStyle(r, 'opacity', op.toFixed(3));
+      }
     });
   }
 
@@ -1019,13 +1087,19 @@ function drawCorridor(cp, portalP){
     const op  = smoothstep(utils.clamp((5.4 - d) / 1.8, 0, 1))
               * smoothstep(utils.clamp((d + 0.05) / 0.5, 0, 1));
 
-    c.style.transform =
-      'translate3d(' + x.toFixed(2) + 'vw,' + (-ease * 2).toFixed(2) + 'vh,' + (-d * GAP).toFixed(0) + 'px)' +
-      ' rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')';
-    c.style.opacity = op.toFixed(3);
-    c.style.filter  = 'blur(' + ((1 - ease) * 2.2).toFixed(2) + 'px)';
-    c.style.setProperty('--veil', (0.6 * (1 - ease)).toFixed(3));
-    c.style.zIndex  = String(60 - Math.round(d * 6));
+    setStyle(c, 'visibility', op < 0.005 ? 'hidden' : 'visible');
+    if (op >= 0.005){
+      setStyle(c, 'transform',
+        'translate3d(' + x.toFixed(2) + 'vw,' + (-ease * 2).toFixed(2) + 'vh,' + (-d * GAP).toFixed(0) + 'px)' +
+        ' rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')');
+      setStyle(c, 'opacity', op.toFixed(3));
+      // blur é filtro: caro no compositor. Só as duas telas da frente ganham blur —
+      // nas de trás, já pequenas e cobertas pelo véu, ele não se vê e só custava camada.
+      const bl = d > 2.2 ? 0 : (1 - ease) * 1.6;
+      setStyle(c, 'filter', bl < 0.35 ? '' : 'blur(' + bl.toFixed(2) + 'px)');
+      c.style.setProperty('--veil', (0.62 * (1 - ease)).toFixed(3));
+      setStyle(c, 'zIndex', String(60 - Math.round(d * 6)));
+    }
     c.classList.toggle('front', near > 0.72 && op > 0.6);
 
     const dist = Math.abs(i - cam);
