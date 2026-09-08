@@ -200,7 +200,7 @@
   main > section{ position:relative }
   /* ---- encerramento: assinatura centrada, dirigida pelo scroll (sem data-reveal,
      que reescreve o innerHTML e mataria o <em> do "#") ---- */
-  .outro{ display:block; max-width:none; margin:0; padding:0; height:340vh; min-height:340vh; }
+  .outro{ display:block; max-width:none; margin:0; padding:0; height:440vh; min-height:440vh; }
   .outro-inner{
     position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -268,7 +268,7 @@
   }
 
   /* seção alta com o conteúdo preso: dá scroll pra travessia sem apressar a animação */
-  .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:440vh; min-height:440vh; }
+  .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:820vh; min-height:820vh; }
   .hold-inner{
     position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; justify-content:center;
@@ -278,7 +278,7 @@
 
   /* "As aplicações": corredor 3D. A seção é alta e o palco fica sticky —
      rolar = andar pelo túnel; as telas passam pelas laterais e viram de frente no foco. */
-  .apps-sec{ display:block; max-width:none; margin:0; padding:0; height:380vh; min-height:380vh; }
+  .apps-sec{ display:block; max-width:none; margin:0; padding:0; height:390vh; min-height:390vh; }
   /* palco FIXO (não sticky): a visibilidade é 100% dirigida pelo JS, então o corredor
      pode nascer ainda dentro da travessia em vez de esperar a seção prender.
      Eixo deslocado pra direita: o texto fica sempre livre na esquerda. */
@@ -783,7 +783,7 @@ const toTopBtn = document.querySelector('.to-top');
 const rewindEl = document.querySelector('.rewind');
 // A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
 // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
-const P_START = I_HOLD + 0.026, P_END = I_HOLD + 0.79;
+const P_START = I_HOLD + 0.018, P_END = I_HOLD + 0.844;
 let curFov = 36;
 
 // trilho de capítulos em algarismos romanos
@@ -818,13 +818,16 @@ measure();
 new ResizeObserver(measure).observe(document.documentElement);
 document.fonts?.ready.then(measure);
 
-let railActive = -1;
+let railActive = -1, railShown = -1;
 // ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
 const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00, 0.00 ];
 const SEC_DARK = SECTIONS.map(s => s.dataset.dark != null ? 1 : 0);   // hero, A marca e Consolidação = dark
 let curDark = SEC_DARK[0];
 
 let hoverIdx = -1;
+// a partir do momento em que comecamos a entrar na logo ela deixa de ser um objeto
+// interativo e passa a ser cenario: travessia, corredor e encerramento
+let symbolLocked = false;
 let mx = 0, my = 0, pmx = 0, pmy = 0;
 let curRotY = 0, curSx = SECTION_SX[0], curExpl = 0, curHide = 0, curStretch = 0, curBody = 0;
 const drag = { rx:0, ry:0 };          // offset de rotação vindo do arraste do usuário
@@ -869,8 +872,6 @@ function frame(){
     active = i;
   }
   if (active !== railActive){
-    railDots[railActive]?.classList.remove('on');
-    railDots[active]?.classList.add('on');
     SECTIONS[active].querySelector('.kicker')?.classList.add('drawn');   // linha do kicker desenha
     if (active === I_HOLD && recapAt < 0) recapAt = t;                   // dispara o recap dos 5 pilares
     railActive = active;
@@ -911,9 +912,24 @@ function frame(){
   // a aproximação da câmera é propositalmente lenta no começo (expoente > 1): é isso que
   // faz a logo ficar bastante tempo na tela em vez de encher o quadro e passar num piscar
   const pDolly = Math.pow(portalP, 1.8);
+
+  // Assim que a travessia comeca, a logo deixa de ser objeto e vira cenario. portalIn
+  // ja cobre travessia + corredor + encerramento (la ele fica em 1 e so o pOut varia),
+  // entao um limiar unico basta. Nas secoes de pilar portalIn e 0 e tudo continua igual.
+  symbolLocked = portalIn > 0.02;
+  if (symbolLocked){
+    if (hoverIdx >= 0){ hoverIdx = -1; tip.hidden = true; }   // some com tooltip em curso
+    if (grabbing){                                            // e solta um arraste em curso
+      grabbing = false;
+      document.body.classList.remove('grabbing');
+      releaseAnim = animate(drag, { rx:0, ry:0, ease: createSpring({ stiffness:48, damping:7 }) });
+    }
+    document.body.classList.remove('can-grab');
+  }
+
   // travessia LIMPA: o texto da Consolidação some antes de entrarmos e o do corredor
   // só aparece depois que já estamos dentro. Nunca os dois na tela ao mesmo tempo.
-  if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.08, 0, 1))).toFixed(3);
+  if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.053, 0, 1))).toFixed(3);
 
   // tema dark<->light interpolado pelo scroll
   const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
@@ -935,7 +951,7 @@ function frame(){
   const camX = BASE_X + curSx;
   const alvoY = BASE_Y + Math.sin(t*0.55)*0.04 * (1 - pFace);
   // na travessia a câmera se alinha ao eixo do símbolo e entra reto pelo centro
-  camera.position.z = lerp(8.7 - s*1.7, -3.4, pDolly);
+  camera.position.z = lerp(8.7 - s*1.7, 2.37, pDolly);
   camera.position.x = lerp(camX + pmx * 0.5, camX, pFace);
   camera.position.y = lerp(0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3, alvoY, pFace);
   camera.lookAt(lerp(curSx*0.9, camX, pFace), lerp(0, alvoY, pFace), lerp(0, -14, portalP));
@@ -952,7 +968,7 @@ function frame(){
   curStretch += (stTarget - curStretch) * 0.14;
   scrollVel *= 0.86;                                   // decai quando o scroll para
   alvo.scale.set(sc * (1 - curStretch*0.5), sc * (1 + curStretch), sc * (1 - curStretch*0.5) * bodyZ);
-  ground.material.opacity = 0.16 * (1 - Math.max(hide, portalP));
+  ground.material.opacity = 0.16 * (1 - Math.max(hide, Math.min(1, portalP * 5)));
   alvo.position.x = camX;
   alvo.position.y = alvoY + pOut * 0.62;   // sobe no fecho: libera o rodape do texto
   const gInf = grabbing ? 0 : 1;   // trava o parallax enquanto arrasta
@@ -1005,7 +1021,7 @@ function frame(){
         m.scale.multiplyScalar(1 + pDolly*pDolly*3);
         m.position.z += pDolly * 900;               // (unidades locais) atravessa a câmera
         f.emissiveIntensity += portalP * 0.9;       // acende de leve (sem estourar)
-        op *= 1 - smoothstep(utils.clamp((portalP - 0.44) / 0.18, 0, 1));
+        op *= 1 - smoothstep(utils.clamp((portalP - 0.79) / 0.10, 0, 1));
       } else {
         // os 5 centrais somem cedo: quando o anel cresce eles já não estão lá
         const innerOp = 1 - smoothstep(utils.clamp(portalP / 0.28, 0, 1));
@@ -1021,6 +1037,17 @@ function frame(){
   });
 
   drawCorridor(corridorP, portalP);
+
+  // o trilho segue o que esta na TELA, nao a seção que cobre o meio da viewport:
+  // o corredor comeca dentro da Consolidacao e o encerramento come o fim do corredor
+  let chapter = active;
+  if (pOut > 0.5) chapter = I_OUTRO;
+  else if (corridorShown > 0.5) chapter = I_APPS;
+  if (chapter !== railShown){
+    railDots[railShown]?.classList.remove('on');
+    railDots[chapter]?.classList.add('on');
+    railShown = chapter;
+  }
 
   // assinatura do encerramento: entra em camadas depois que o corredor já se apagou.
   // Sem data-reveal de propósito — ele reescreve o innerHTML e mataria o <em> do "#".
@@ -1088,7 +1115,7 @@ addEventListener('pointermove', e => {
   mx = (e.clientX/innerWidth)*2 - 1;
   my = -((e.clientY/innerHeight)*2 - 1);
   // não interage com o símbolo se ele está escondido ou se o mouse está sobre um card
-  const blocked = curHide > 0.4 || e.target.closest('.app');
+  const blocked = symbolLocked || curHide > 0.4 || e.target.closest('.app');
   const hit = (!blocked && !grabbing) ? castAt(e.clientX, e.clientY) : null;
   hoverIdx = hit ? alvo.children.indexOf(hit.object) : -1;
   document.body.classList.toggle('can-grab', !!hit && !grabbing);
@@ -1111,7 +1138,7 @@ addEventListener('pointerleave', () => { hoverIdx = -1; tip.hidden = true; });
 addEventListener('pointerdown', e => {
   // só com mouse: em touch o preventDefault abaixo bloquearia o scroll da página
   if (e.pointerType && e.pointerType !== 'mouse') return;
-  if (curHide > 0.4 || e.target.closest('.app')) return;
+  if (symbolLocked || curHide > 0.4 || e.target.closest('.app')) return;
   if (!castAt(e.clientX, e.clientY)) return;
   grabbing = true; lpx = e.clientX; lpy = e.clientY;
   releaseAnim?.pause();
@@ -1184,6 +1211,9 @@ const RING_GAP = 640;
 // só escreve no style quando o valor muda de fato: cada atribuição invalida o estilo
 // do elemento, e eram ~70 escritas por frame entre anéis e telas
 const _last = new WeakMap();
+// quem zera o style inline por fora (zoomOut) TEM que chamar isto, senao o cache
+// abaixo acha que ja escreveu e a tela volta do zoom sem transform nem opacity
+function clearStyleCache(el){ _last.delete(el); }
 function setStyle(el, prop, val){
   let m = _last.get(el);
   if (!m){ m = {}; _last.set(el, m); }
@@ -1192,6 +1222,7 @@ function setStyle(el, prop, val){
   el.style[prop] = val;
 }
 
+let corridorShown = 0;
 function drawCorridor(cp, portalP){
   if (!APPS.length || REDUCE) return;
   if (zoomedCard) return;                 // no zoom o corredor congela (o scroll também está travado)
@@ -1210,11 +1241,12 @@ function drawCorridor(cp, portalP){
 
   // o túnel sobe ainda DENTRO da travessia, enquanto o anel 3D some: a câmera sai
   // de dentro da logo já dentro do corredor, sem nenhum quadro vazio no meio
-  const enter = smoothstep(utils.clamp((portalP - 0.32) / 0.28, 0, 1));
+  const enter = smoothstep(utils.clamp((portalP - 0.40) / 0.25, 0, 1));
   // as telas e o texto chegam no fim da travessia, emendando com o túnel que já está lá
   // rampa LINEAR curta fechando EXATAMENTE em portalP = 1, onde o corredor começa a andar:
   // se fechasse antes sobrava um trecho parado; se fosse longa, virava scroll só de fade
-  const show = utils.clamp((portalP - 0.866) / 0.134, 0, 1);
+  const show = utils.clamp((portalP - 0.86) / 0.14, 0, 1);
+  corridorShown = show;               // o trilho usa isto pra nao marcar a secao errada
   if (stage){
     setStyle(stage, 'opacity', show.toFixed(3));
     setStyle(stage, 'visibility', show < 0.005 ? 'hidden' : 'visible');
@@ -1357,6 +1389,7 @@ if (APPS.length && !REDUCE){
       done = true;
       card.removeEventListener('transitionend', onEnd);
       card.style.cssText = '';          // limpa tudo; o rAF recoloca no corredor no frame seguinte
+      clearStyleCache(card);            // sem isto o setStyle nao reescreve e a tela some
       card.classList.remove('zoom');
       stage.insertBefore(card, z.next && z.next.parentElement === stage ? z.next : null);
       zoomedCard = null;                // só aqui: até então o corredor fica congelado
