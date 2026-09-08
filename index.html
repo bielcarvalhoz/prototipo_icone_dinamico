@@ -1,1520 +1,2563 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Sobre — Portal Finanças</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sobre — Portal Finanças</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!-- os 3 modulos do importmap sao descobertos so quando o <script type=module> roda;
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- os 3 modulos do importmap sao descobertos so quando o <script type=module> roda;
      preconnect + modulepreload adiantam DNS/TLS e o download deles -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin/>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js" crossorigin/>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="modulepreload"
+      href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      crossorigin
+    />
+    <link
+      rel="modulepreload"
+      href="https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js"
+      crossorigin
+    />
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-<style>
-  /* Fonte institucional. "Bradesco Sans" é proprietária e não existe em CDN público:
+    <style>
+      /* Fonte institucional. "Bradesco Sans" é proprietária e não existe em CDN público:
      o local() já a usa se estiver instalada na máquina, e o url() é o ponto de entrega —
      basta colocar os arquivos em fonts/ que a página passa a usá-la sozinha. */
-  @font-face{ font-family:"Bradesco Sans"; font-weight:400; font-style:normal; font-display:swap;
-    src:local("Bradesco Sans"), local("BradescoSans-Regular"), url("fonts/BradescoSans-Regular.woff2") format("woff2"); }
-  @font-face{ font-family:"Bradesco Sans"; font-weight:500; font-style:normal; font-display:swap;
-    src:local("Bradesco Sans Medium"), local("BradescoSans-Medium"), url("fonts/BradescoSans-Medium.woff2") format("woff2"); }
-  @font-face{ font-family:"Bradesco Sans"; font-weight:600; font-style:normal; font-display:swap;
-    src:local("Bradesco Sans SemiBold"), local("BradescoSans-SemiBold"), url("fonts/BradescoSans-SemiBold.woff2") format("woff2"); }
-  @font-face{ font-family:"Bradesco Sans"; font-weight:700; font-style:normal; font-display:swap;
-    src:local("Bradesco Sans Bold"), local("BradescoSans-Bold"), url("fonts/BradescoSans-Bold.woff2") format("woff2"); }
+      @font-face {
+        font-family: "Bradesco Sans";
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        src:
+          local("Bradesco Sans"),
+          local("BradescoSans-Regular"),
+          url("fonts/BradescoSans-Regular.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Bradesco Sans";
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+        src:
+          local("Bradesco Sans Medium"),
+          local("BradescoSans-Medium"),
+          url("fonts/BradescoSans-Medium.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Bradesco Sans";
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+        src:
+          local("Bradesco Sans SemiBold"),
+          local("BradescoSans-SemiBold"),
+          url("fonts/BradescoSans-SemiBold.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Bradesco Sans";
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+        src:
+          local("Bradesco Sans Bold"),
+          local("BradescoSans-Bold"),
+          url("fonts/BradescoSans-Bold.woff2") format("woff2");
+      }
 
-  :root{
-    --font: "Bradesco Sans", "Poppins", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-    --bg:#ffffff; --ink:#1c1c22; --dim:#6a6a74;
-    /* --red = cor da MARCA, para elementos gráficos. --red-ink = a mesma cor ajustada
+      :root {
+        --font: "Bradesco Sans", "Poppins", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+        --bg: #ffffff;
+        --ink: #1c1c22;
+        --dim: #6a6a74;
+        /* --red = cor da MARCA, para elementos gráficos. --red-ink = a mesma cor ajustada
        para TEXTO: #cc092f dá só 3.2:1 no fundo escuro, abaixo do mínimo legível. */
-    --red:#cc092f; --red-ink:#b8072a;
-    --line:rgba(0,0,0,.09); --chip:rgba(127,127,140,.14); --dot:rgba(0,0,0,.2);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  html.lenis,html.lenis body{height:auto}
-  .lenis.lenis-smooth{scroll-behavior:auto!important}
+        --red: #cc092f;
+        --red-ink: #b8072a;
+        --line: rgba(0, 0, 0, 0.09);
+        --chip: rgba(127, 127, 140, 0.14);
+        --dot: rgba(0, 0, 0, 0.2);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      html.lenis,
+      html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
 
-  body{
-    font-family:var(--font);
-    background:var(--bg); color:var(--ink); overflow-x:clip;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  }
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--ink);
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
 
-  .glow{
-    position:fixed; left:66%; top:50%; width:44vmax; height:44vmax;
-    transform:translate(-50%,-50%);
-    /* sem filter:blur: o radial-gradient ja e suave, e o blur era um filtro ativo de
+      .glow {
+        position: fixed;
+        left: 66%;
+        top: 50%;
+        width: 44vmax;
+        height: 44vmax;
+        transform: translate(-50%, -50%);
+        /* sem filter:blur: o radial-gradient ja e suave, e o blur era um filtro ativo de
        ~700x700px presente em TODAS as secoes */
-    background:radial-gradient(circle, rgba(204,9,47,.16), rgba(204,9,47,.05) 38%, transparent 66%);
-    z-index:0; pointer-events:none;
-  }
-  #c{position:fixed; inset:0; width:100%; height:100%; display:block; z-index:1; pointer-events:none}
-  /* inset:0, não -50%: o grão nunca é deslocado, e a 4x a área do viewport o
+        background: radial-gradient(
+          circle,
+          rgba(204, 9, 47, 0.16),
+          rgba(204, 9, 47, 0.05) 38%,
+          transparent 66%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }
+      #c {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 1;
+        pointer-events: none;
+      }
+      /* inset:0, não -50%: o grão nunca é deslocado, e a 4x a área do viewport o
      mix-blend-mode (que obriga o compositor a ler o backdrop) custava 4x mais */
-  .grain{
-    position:fixed; inset:0; z-index:2; pointer-events:none; opacity:.035;
-    mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.035;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
 
-  header{
-    position:fixed; inset:0 0 auto 0; z-index:15;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:20px 28px; font-weight:600; font-size:15px; color:var(--ink);
-  }
-  header .brand{ height:38px; width:auto; display:block; transform-origin:center; }
-  header .brand path{ transform-box:fill-box; transform-origin:center; }
-  .progress{
-    position:fixed; top:0; left:0; width:100%; height:2px; z-index:40;
-    background:var(--red); transform:scaleX(0); transform-origin:left; pointer-events:none;
-  }
-  /* trilho de capítulos: bolinha + nome da etapa */
-  .rail{
-    position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:16;
-    display:flex; flex-direction:column; gap:12px; align-items:flex-end;
-  }
-  .rail button{
-    all:unset; cursor:pointer; display:flex; align-items:center; gap:10px;
-  }
-  .rail button .lbl{
-    font:600 10px/1 var(--font); letter-spacing:.16em; text-transform:uppercase;
-    color:var(--dim); opacity:0; transform:translateX(6px);
-    transition:opacity .3s, transform .3s; white-space:nowrap;
-  }
-  .rail button i{
-    width:7px; height:7px; border-radius:50%; background:var(--dot); display:block;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s;
-  }
-  .rail button:hover i{ background:var(--red); opacity:.6 }
-  .rail button:hover .lbl{ opacity:.65; transform:none }
-  .rail button.on i{ background:var(--red); transform:scale(1.7) }
-  .rail button.on .lbl{ opacity:1; transform:none }
-  @media (max-width:820px){ .rail{ display:none } }
+      header {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 15;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 28px;
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--ink);
+      }
+      header .brand {
+        height: 38px;
+        width: auto;
+        display: block;
+        transform-origin: center;
+      }
+      header .brand path {
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        z-index: 40;
+        background: var(--red);
+        transform: scaleX(0);
+        transform-origin: left;
+        pointer-events: none;
+      }
+      /* trilho de capítulos: bolinha + nome da etapa */
+      .rail {
+        position: fixed;
+        right: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 16;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-end;
+      }
+      .rail button {
+        all: unset;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .rail button .lbl {
+        font: 600 10px/1 var(--font);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--dim);
+        opacity: 0;
+        transform: translateX(6px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        white-space: nowrap;
+      }
+      .rail button i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--dot);
+        display: block;
+        transition:
+          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          background 0.35s;
+      }
+      .rail button:hover i {
+        background: var(--red);
+        opacity: 0.6;
+      }
+      .rail button:hover .lbl {
+        opacity: 0.65;
+        transform: none;
+      }
+      .rail button.on i {
+        background: var(--red);
+        transform: scale(1.7);
+      }
+      .rail button.on .lbl {
+        opacity: 1;
+        transform: none;
+      }
+      @media (max-width: 820px) {
+        .rail {
+          display: none;
+        }
+      }
 
-  /* cursor custom: anel que segue o mouse com atraso, cresce em elementos interativos */
-  .cursor{
-    position:fixed; top:0; left:0; width:26px; height:26px; margin:-13px 0 0 -13px;
-    border:1.5px solid var(--red); border-radius:50%; z-index:60; pointer-events:none;
-    transition:width .25s, height .25s, margin .25s, background .25s, border-color .25s;
-    mix-blend-mode:normal;
-  }
-  .cursor.big{ width:52px; height:52px; margin:-26px 0 0 -26px; background:rgba(204,9,47,.08); }
-  body.cc, body.cc a, body.cc button, body.cc .rail button, body.cc .app{ cursor:none }
-  body.modal-open, body.modal-open *{ cursor:auto!important }
-  body.modal-open .cursor{ opacity:0 }
-  @media (max-width:820px){ .cursor{ display:none } }
+      /* cursor custom: anel que segue o mouse com atraso, cresce em elementos interativos */
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 26px;
+        height: 26px;
+        margin: -13px 0 0 -13px;
+        border: 1.5px solid var(--red);
+        border-radius: 50%;
+        z-index: 60;
+        pointer-events: none;
+        transition:
+          width 0.25s,
+          height 0.25s,
+          margin 0.25s,
+          background 0.25s,
+          border-color 0.25s;
+        mix-blend-mode: normal;
+      }
+      .cursor.big {
+        width: 52px;
+        height: 52px;
+        margin: -26px 0 0 -26px;
+        background: rgba(204, 9, 47, 0.08);
+      }
+      body.cc,
+      body.cc a,
+      body.cc button,
+      body.cc .rail button,
+      body.cc .app {
+        cursor: none;
+      }
+      body.modal-open,
+      body.modal-open * {
+        cursor: auto !important;
+      }
+      body.modal-open .cursor {
+        opacity: 0;
+      }
+      @media (max-width: 820px) {
+        .cursor {
+          display: none;
+        }
+      }
 
-  /* linha do kicker que se desenha quando a seção entra */
-  .kicker{ position:relative }
-  .kicker::after{
-    content:''; position:absolute; left:0; right:0; bottom:-9px; height:1.5px;
-    background:var(--red-ink); transform:scaleX(0); transform-origin:left;
-    transition:transform .7s cubic-bezier(.2,.85,.25,1);
-  }
-  .kicker.drawn::after{ transform:scaleX(1) }
+      /* linha do kicker que se desenha quando a seção entra */
+      .kicker {
+        position: relative;
+      }
+      .kicker::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -9px;
+        height: 1.5px;
+        background: var(--red-ink);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.7s cubic-bezier(0.2, 0.85, 0.25, 1);
+      }
+      .kicker.drawn::after {
+        transform: scaleX(1);
+      }
 
-  main{position:relative; z-index:3}
-  section{
-    min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
-    max-width:min(42vw, 620px); margin:0; padding:17vh 0 17vh 7vw;
-  }
-  section[data-align="right"]{
-    margin-left:auto; align-items:flex-end; text-align:right;
-    padding:17vh 7vw 17vh 0;
-  }
-  /* com o nome do pilar em display, o texto alinhado à direita encostava no trilho */
-  @media (min-width:821px){
-    section[data-align="right"]{ padding-right:max(7vw, 176px) }   /* 176px = largura do trilho + folga */
-  }
-  @media (max-width:820px){
-    section,section[data-align="right"]{max-width:100%; align-items:flex-start; text-align:left; padding:14vh 7vw}
-    /* no celular o texto ocupa a largura toda, entao o gradiente horizontal nao
+      main {
+        position: relative;
+        z-index: 3;
+      }
+      section {
+        min-height: 100vh;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: min(42vw, 620px);
+        margin: 0;
+        padding: 17vh 0 17vh 7vw;
+      }
+      section[data-align="right"] {
+        margin-left: auto;
+        align-items: flex-end;
+        text-align: right;
+        padding: 17vh 7vw 17vh 0;
+      }
+      /* com o nome do pilar em display, o texto alinhado à direita encostava no trilho */
+      @media (min-width: 821px) {
+        section[data-align="right"] {
+          padding-right: max(7vw, 176px);
+        } /* 176px = largura do trilho + folga */
+      }
+      @media (max-width: 820px) {
+        section,
+        section[data-align="right"] {
+          max-width: 100%;
+          align-items: flex-start;
+          text-align: left;
+          padding: 14vh 7vw;
+        }
+        /* no celular o texto ocupa a largura toda, entao o gradiente horizontal nao
        protege nada: veu uniforme (a mascara vertical continua evitando a emenda) */
-    .leg-veil, section[data-align="right"] .leg-veil{
-      left:0; right:0; width:auto; opacity:.74; background:var(--bg);
-    }
+        .leg-veil,
+        section[data-align="right"] .leg-veil {
+          left: 0;
+          right: 0;
+          width: auto;
+          opacity: 0.74;
+          background: var(--bg);
+        }
+      }
+      /* telas muito estreitas: a assinatura nao pode quebrar em duas linhas */
+      @media (max-width: 380px) {
+        .outro-tag {
+          font-size: 29px;
+          letter-spacing: -0.04em;
+        }
+      }
 
-  }
-  /* telas muito estreitas: a assinatura nao pode quebrar em duas linhas */
-  @media (max-width:380px){
-    .outro-tag{ font-size:29px; letter-spacing:-.04em }
-  }
+      main {
+        counter-reset: sec pil;
+      }
+      main > section {
+        counter-increment: sec;
+      }
+      /* .pil conta só os 5 pilares (o índice 5 é a Consolidação, que não é um pilar) */
+      section[data-pillar]:not([data-pillar="5"]) {
+        counter-increment: sec pil;
+      }
 
-  main{ counter-reset: sec pil; }
-  main > section{ counter-increment: sec; }
-  /* .pil conta só os 5 pilares (o índice 5 é a Consolidação, que não é um pilar) */
-  section[data-pillar]:not([data-pillar="5"]){ counter-increment: sec pil; }
-
-  .kicker{
-    display:inline-block; font-weight:600; font-size:12.5px;
-    letter-spacing:.2em; text-transform:uppercase; color:var(--red-ink); margin-bottom:22px;
-  }
-  /* o contador era vermelho com opacity .4 sobre fundo escuro: ~1.5:1, ilegível.
+      .kicker {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 12.5px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--red-ink);
+        margin-bottom: 22px;
+      }
+      /* o contador era vermelho com opacity .4 sobre fundo escuro: ~1.5:1, ilegível.
      Agora usa --dim (7.3:1 no dark) e o rótulo fica com o vermelho de texto. */
-  .kicker::before{
-    content: counter(sec, decimal-leading-zero);
-    margin-right:16px; color:var(--dim); font-weight:500;
-    font-variant-numeric:tabular-nums; letter-spacing:.12em;
-  }
-  h1,h2{
-    margin:0; font-weight:700; line-height:1.04; letter-spacing:-.022em;
-    font-size:clamp(33px,9vw,56px); max-width:16ch;   /* o 4.4vw so crescia no desktop */
-  }
-  .lead{
-    margin:24px 0 0; max-width:34ch; color:var(--dim);
-    font-size:clamp(15px,1.5vw,18px); line-height:1.62;
-  }
-  .hint{margin-top:18px; font-size:13px; color:var(--dim); opacity:.85}
+      .kicker::before {
+        content: counter(sec, decimal-leading-zero);
+        margin-right: 16px;
+        color: var(--dim);
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.12em;
+      }
+      h1,
+      h2 {
+        margin: 0;
+        font-weight: 700;
+        line-height: 1.04;
+        letter-spacing: -0.022em;
+        font-size: clamp(33px, 9vw, 56px);
+        max-width: 16ch; /* o 4.4vw so crescia no desktop */
+      }
+      .lead {
+        margin: 24px 0 0;
+        max-width: 34ch;
+        color: var(--dim);
+        font-size: clamp(15px, 1.5vw, 18px);
+        line-height: 1.62;
+      }
+      .hint {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--dim);
+        opacity: 0.85;
+      }
 
-  /* ---- seções de pilar: o NOME do pilar é a informação principal ----
+      /* ---- seções de pilar: o NOME do pilar é a informação principal ----
      Antes o nome vinha em 12px e a frase de apoio em até 56px — hierarquia invertida.
      Aqui o nome vira o display, a frase passa a ser o subtítulo e o lead, o corpo. */
-  section[data-pillar]:not([data-pillar="5"]) .kicker{
-    font-size:clamp(42px,11vw,72px); font-weight:700; line-height:1;
-    letter-spacing:-.028em; text-transform:none; color:var(--ink);
-    margin-bottom:18px;
-  }
-  section[data-pillar]:not([data-pillar="5"]) .kicker::before{
-    content:"Pilar " counter(pil, decimal-leading-zero) " de 05";
-    display:block; margin:0 0 18px; font-size:12px; font-weight:600;
-    letter-spacing:.2em; text-transform:uppercase; color:var(--red-ink);
-  }
-  section[data-pillar]:not([data-pillar="5"]) .kicker::after{ bottom:-10px; height:2px }
-  section[data-pillar]:not([data-pillar="5"]) h2{
-    font-size:clamp(19px,1.9vw,25px); font-weight:600; line-height:1.32;
-    letter-spacing:-.008em; max-width:24ch; margin-top:12px; color:var(--ink); opacity:.74;
-  }
-  section[data-pillar]:not([data-pillar="5"]) .lead{
-    margin-top:16px; font-size:clamp(14px,1.2vw,16px); max-width:40ch; line-height:1.66;
-  }
+      section[data-pillar]:not([data-pillar="5"]) .kicker {
+        font-size: clamp(42px, 11vw, 72px);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.028em;
+        text-transform: none;
+        color: var(--ink);
+        margin-bottom: 18px;
+      }
+      section[data-pillar]:not([data-pillar="5"]) .kicker::before {
+        content: "Pilar " counter(pil, decimal-leading-zero) " de 05";
+        display: block;
+        margin: 0 0 18px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--red-ink);
+      }
+      section[data-pillar]:not([data-pillar="5"]) .kicker::after {
+        bottom: -10px;
+        height: 2px;
+      }
+      section[data-pillar]:not([data-pillar="5"]) h2 {
+        font-size: clamp(19px, 1.9vw, 25px);
+        font-weight: 600;
+        line-height: 1.32;
+        letter-spacing: -0.008em;
+        max-width: 24ch;
+        margin-top: 12px;
+        color: var(--ink);
+        opacity: 0.74;
+      }
+      section[data-pillar]:not([data-pillar="5"]) .lead {
+        margin-top: 16px;
+        font-size: clamp(14px, 1.2vw, 16px);
+        max-width: 40ch;
+        line-height: 1.66;
+      }
 
-  /* véu de legibilidade: o símbolo 3D e o glow passam por trás do texto e derrubavam o
+      /* véu de legibilidade: o símbolo 3D e o glow passam por trás do texto e derrubavam o
      contraste do lead. Gradiente da própria cor de fundo, só do lado do texto. */
-  main > section{ position:relative }
-  /* ---- encerramento: assinatura centrada, dirigida pelo scroll (sem data-reveal,
+      main > section {
+        position: relative;
+      }
+      /* ---- encerramento: assinatura centrada, dirigida pelo scroll (sem data-reveal,
      que reescreve o innerHTML e mataria o <em> do "#") ---- */
-  .outro{ display:block; max-width:none; margin:0; padding:0; height:440vh; min-height:440vh; }
-  .outro-inner{
-    position:sticky; top:0; height:100vh; height:100svh; z-index:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; padding:0 7vw; pointer-events:none;
-  }
-  .outro-eyebrow{
-    font-weight:600; font-size:12px; letter-spacing:.24em; text-transform:uppercase;
-    color:var(--red-ink); margin-bottom:26px; opacity:0;
-  }
-  .outro-tag{
-    margin:0; font-weight:700; line-height:1; letter-spacing:-.035em;
-    font-size:clamp(31px,8.6vw,124px); max-width:none; color:var(--ink);
-    transform-origin:50% 60%; opacity:0;
-  }
-  .outro-tag em{ font-style:normal; color:var(--red-ink) }
-  .outro-rule{
-    width:min(52vw,520px); height:1.5px; margin:44px 0 40px;
-    background:linear-gradient(90deg, transparent, var(--red-ink) 22%, var(--red-ink) 78%, transparent);
-    transform:scaleX(0); transform-origin:center;
-  }
-  .outro-lead{
-    margin:0; max-width:46ch; color:var(--dim);
-    font-size:clamp(14px,1.4vw,17px); line-height:1.68; opacity:0;
-  }
+      .outro {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        height: 400vh;
+        min-height: 400vh;
+      }
+      .outro-inner {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100svh;
+        z-index: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 7vw;
+        pointer-events: none;
+      }
+      .outro-eyebrow {
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--red-ink);
+        margin-bottom: 26px;
+        opacity: 0;
+      }
+      .outro-tag {
+        margin: 0;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.035em;
+        font-size: clamp(31px, 8.6vw, 124px);
+        max-width: none;
+        color: var(--ink);
+        transform-origin: 50% 60%;
+        opacity: 0;
+      }
+      .outro-tag em {
+        font-style: normal;
+        color: var(--red-ink);
+      }
+      .outro-rule {
+        width: min(52vw, 520px);
+        height: 1.5px;
+        margin: 44px 0 40px;
+        background: linear-gradient(90deg, transparent, var(--red-ink) 22%, var(--red-ink) 78%, transparent);
+        transform: scaleX(0);
+        transform-origin: center;
+      }
+      .outro-lead {
+        margin: 0;
+        max-width: 46ch;
+        color: var(--dim);
+        font-size: clamp(14px, 1.4vw, 17px);
+        line-height: 1.68;
+        opacity: 0;
+      }
 
-  .to-top{
-    all:unset; margin-top:38px; display:inline-flex; align-items:center; gap:10px;
-    padding:13px 22px; border:1px solid var(--line); border-radius:999px;
-    font:600 12px/1 var(--font); letter-spacing:.16em; text-transform:uppercase;
-    color:var(--ink); cursor:pointer; pointer-events:auto; opacity:0;
-    transition:border-color .3s, background .3s, color .3s;
-  }
-  .to-top svg{ width:15px; height:15px; fill:none; stroke:var(--red-ink); stroke-width:2;
-    stroke-linecap:round; stroke-linejoin:round; }
-  .to-top:hover, .to-top:focus-visible{ border-color:var(--red-ink); background:rgba(204,9,47,.09) }
-  .to-top:focus-visible{ outline:2px solid var(--red-ink); outline-offset:3px }
-  body.cc .to-top{ cursor:none }
+      .to-top {
+        all: unset;
+        margin-top: 38px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 22px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font: 600 12px/1 var(--font);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink);
+        cursor: pointer;
+        pointer-events: auto;
+        opacity: 0;
+        transition:
+          border-color 0.3s,
+          background 0.3s,
+          color 0.3s;
+      }
+      .to-top svg {
+        width: 15px;
+        height: 15px;
+        fill: none;
+        stroke: var(--red-ink);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .to-top:hover,
+      .to-top:focus-visible {
+        border-color: var(--red-ink);
+        background: rgba(204, 9, 47, 0.09);
+      }
+      .to-top:focus-visible {
+        outline: 2px solid var(--red-ink);
+        outline-offset: 3px;
+      }
+      body.cc .to-top {
+        cursor: none;
+      }
 
-  /* cortina do retorno: uma íris que fecha do centro (mesma linguagem do portal),
+      /* cortina do retorno: uma íris que fecha do centro (mesma linguagem do portal),
      o salto pro topo acontece por trás dela e ela reabre já no hero */
-  .rewind{ position:fixed; inset:0; z-index:80; pointer-events:none; overflow:hidden }
-  .rewind[hidden]{ display:none }
-  /* círculo que escala, não clip-path: transform é o caminho que qualquer engine
+      .rewind {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .rewind[hidden] {
+        display: none;
+      }
+      /* círculo que escala, não clip-path: transform é o caminho que qualquer engine
      de animação interpola sem surpresa (clip-path com função e unidades, não) */
-  .rewind i{
-    position:absolute; left:50%; top:50%; width:150vmax; height:150vmax;
-    margin:-75vmax 0 0 -75vmax; border-radius:50%; background:var(--bg);
-    transform:scale(0); will-change:transform;
-  }
+      .rewind i {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 150vmax;
+        height: 150vmax;
+        margin: -75vmax 0 0 -75vmax;
+        border-radius: 50%;
+        background: var(--bg);
+        transform: scale(0);
+        will-change: transform;
+      }
 
-  /* dois stops só: um stop intermediário opaco cria quebra de derivada e a emenda
+      /* dois stops só: um stop intermediário opaco cria quebra de derivada e a emenda
      do véu fica visível como uma faixa vertical contra o glow */
-  .leg-veil{
-    position:absolute; z-index:-1; top:0; bottom:0; left:0;
-    width:min(72vw,900px); pointer-events:none; opacity:.9;
-    background:linear-gradient(90deg, var(--bg), transparent);
-    /* dissolve no topo e na base: seções vizinhas alternam o lado do véu, e duas bordas
+      .leg-veil {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(72vw, 900px);
+        pointer-events: none;
+        opacity: 0.9;
+        background: linear-gradient(90deg, var(--bg), transparent);
+        /* dissolve no topo e na base: seções vizinhas alternam o lado do véu, e duas bordas
        horizontais duras se encontrando deixavam um degrau visível na emenda */
-    -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
-    mask-image:linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
-  }
-  section[data-align="right"] .leg-veil{
-    left:auto; right:0;
-    background:linear-gradient(270deg, var(--bg), transparent);
-  }
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
+      }
+      section[data-align="right"] .leg-veil {
+        left: auto;
+        right: 0;
+        background: linear-gradient(270deg, var(--bg), transparent);
+      }
 
-  /* seção alta com o conteúdo preso: dá scroll pra travessia sem apressar a animação */
-  .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:820vh; min-height:820vh; }
-  .hold-inner{
-    position:sticky; top:0; height:100vh; height:100svh; z-index:0;
-    display:flex; flex-direction:column; justify-content:center;
-    max-width:min(42vw,620px); padding:17vh 0 17vh 7vw;
-  }
-  @media (max-width:820px){ .hold-inner{ max-width:100%; padding:17vh 7vw } }
+      /* seção alta com o conteúdo preso: dá scroll pra travessia sem apressar a animação */
+      .hold-sec {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        height: 470vh;
+        min-height: 470vh;
+      }
+      .hold-inner {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100svh;
+        z-index: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: min(42vw, 620px);
+        padding: 17vh 0 17vh 7vw;
+      }
+      @media (max-width: 820px) {
+        .hold-inner {
+          max-width: 100%;
+          padding: 17vh 7vw;
+        }
+      }
 
-  /* "As aplicações": corredor 3D. A seção é alta e o palco fica sticky —
+      /* "As aplicações": corredor 3D. A seção é alta e o palco fica sticky —
      rolar = andar pelo túnel; as telas passam pelas laterais e viram de frente no foco. */
-  .apps-sec{ display:block; max-width:none; margin:0; padding:0; height:390vh; min-height:390vh; }
-  /* palco FIXO (não sticky): a visibilidade é 100% dirigida pelo JS, então o corredor
+      .apps-sec {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        height: 320vh;
+        min-height: 320vh;
+      }
+      /* palco FIXO (não sticky): a visibilidade é 100% dirigida pelo JS, então o corredor
      pode nascer ainda dentro da travessia em vez de esperar a seção prender.
      Eixo deslocado pra direita: o texto fica sempre livre na esquerda. */
-  .corr-stage{
-    position:fixed; inset:0; z-index:4; overflow:hidden; opacity:0; pointer-events:none;
-    perspective:900px; perspective-origin:63% 48%;
-    background:radial-gradient(52% 58% at 63% 48%, rgba(204,9,47,.12), transparent 72%);
-  }
-  .corr-stage.live{ pointer-events:auto }
-  /* pointer-events:auto no filho vale mesmo com o pai em none: sem isto o card invisível
+      .corr-stage {
+        position: fixed;
+        inset: 0;
+        z-index: 4;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        perspective: 900px;
+        perspective-origin: 63% 48%;
+        background: radial-gradient(52% 58% at 63% 48%, rgba(204, 9, 47, 0.12), transparent 72%);
+      }
+      .corr-stage.live {
+        pointer-events: auto;
+      }
+      /* pointer-events:auto no filho vale mesmo com o pai em none: sem isto o card invisível
      continuaria capturando clique em QUALQUER seção da página */
-  .corr-stage:not(.live) .app{ pointer-events:none }
-  .corr-hud .kicker::before{ content:'09' }   /* fora do <main>, o counter(sec) não vale */
-  /* o túnel vive fora da seção (fixed) pra já estar formado durante a travessia do portal;
+      .corr-stage:not(.live) .app {
+        pointer-events: none;
+      }
+      .corr-hud .kicker::before {
+        content: "09";
+      } /* fora do <main>, o counter(sec) não vale */
+      /* o túnel vive fora da seção (fixed) pra já estar formado durante a travessia do portal;
      mesma perspective/origin do palco, então os dois casam sem emenda visível */
-  .tunnel{
-    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0; overflow:hidden;
-    perspective:900px; perspective-origin:63% 48%;
-    background:radial-gradient(46% 52% at 63% 48%, rgba(204,9,47,.26), rgba(70,3,18,.10) 55%, transparent 78%);
-  }
-  .ring{
-    position:absolute; left:63%; top:50%; width:1180px; height:700px;
-    margin:-350px 0 0 -590px; border:1.5px solid rgba(232,30,70,.95); border-radius:26px;
-    box-shadow:0 0 40px rgba(204,9,47,.35), inset 0 0 60px rgba(204,9,47,.18);
-    pointer-events:none; will-change:transform,opacity;
-  }
-  .app{
-    --cw:min(30vw,470px);
-    position:absolute; left:63%; top:50%; width:var(--cw); aspect-ratio:16/10;
-    margin:calc(var(--cw) * -0.3125) 0 0 calc(var(--cw) / -2);
-    transform-origin:50% 50%; will-change:transform,opacity;
-    opacity:0; pointer-events:none;
-  }
-  /* véu que escurece a tela fora de foco (brightness deixaria o branco cinza-chapado) */
-  .app::after{
-    content:''; position:absolute; inset:0; border-radius:14px; pointer-events:none; z-index:2;
-    background:linear-gradient(180deg, rgba(8,4,9,.9), rgba(46,2,14,.92));
-    opacity:var(--veil, 0);
-  }
-  .app.zoom::after{ opacity:0 }
-  .app.front{ cursor:zoom-in; pointer-events:auto }
-  .app .scr{
-    position:absolute; inset:0; border-radius:14px; overflow:hidden; background:#fff;
-    border:1px solid rgba(204,9,47,.55); box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
-  }
-  .app.front .scr{ box-shadow:0 60px 130px -34px rgba(204,9,47,.65); }
-  .app .scr::before{ content:''; position:absolute; inset:0 0 auto 0; height:26px;
-    background:#ececed; border-bottom:1px solid rgba(0,0,0,.08); }
-  .app .scr::after{ content:''; position:absolute; left:12px; top:9px; width:8px; height:8px;
-    border-radius:50%; background:#d9d9de; box-shadow:14px 0 0 #d9d9de, 28px 0 0 #d9d9de; }
-  /* print real da aplicação: ocupa a área abaixo da barra de título falsa */
-  .app .scr > img{
-    position:absolute; inset:26px 0 0 0; width:100%; height:calc(100% - 26px);
-    display:block; object-fit:cover; object-position:top center;
-  }
-  .app .scr > span{
-    position:absolute; inset:26px 0 0 0; display:grid; place-items:center;
-    font-weight:600; font-size:15px; color:#6a6a74;
-    background:
-      radial-gradient(120% 80% at 18% 0%, rgba(204,9,47,.10), transparent 60%),
-      repeating-linear-gradient(0deg, transparent 0 21px, rgba(0,0,0,.035) 21px 22px);
-  }
+      .tunnel {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        overflow: hidden;
+        perspective: 900px;
+        perspective-origin: 63% 48%;
+        background: radial-gradient(
+          46% 52% at 63% 48%,
+          rgba(204, 9, 47, 0.26),
+          rgba(70, 3, 18, 0.1) 55%,
+          transparent 78%
+        );
+      }
+      .ring {
+        position: absolute;
+        left: 63%;
+        top: 50%;
+        width: 1180px;
+        height: 700px;
+        margin: -350px 0 0 -590px;
+        border: 1.5px solid rgba(232, 30, 70, 0.95);
+        border-radius: 26px;
+        box-shadow:
+          0 0 40px rgba(204, 9, 47, 0.35),
+          inset 0 0 60px rgba(204, 9, 47, 0.18);
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+      .app {
+        --cw: min(30vw, 470px);
+        position: absolute;
+        left: 63%;
+        top: 50%;
+        width: var(--cw);
+        aspect-ratio: 16/10;
+        margin: calc(var(--cw) * -0.3125) 0 0 calc(var(--cw) / -2);
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+        opacity: 0;
+        pointer-events: none;
+      }
+      /* véu que escurece a tela fora de foco (brightness deixaria o branco cinza-chapado) */
+      .app::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        pointer-events: none;
+        z-index: 2;
+        background: linear-gradient(180deg, rgba(8, 4, 9, 0.9), rgba(46, 2, 14, 0.92));
+        opacity: var(--veil, 0);
+      }
+      .app.zoom::after {
+        opacity: 0;
+      }
+      .app.front {
+        cursor: zoom-in;
+        pointer-events: auto;
+      }
+      .app .scr {
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid rgba(204, 9, 47, 0.55);
+        box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.7);
+      }
+      .app.front .scr {
+        box-shadow: 0 60px 130px -34px rgba(204, 9, 47, 0.65);
+      }
+      .app .scr::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 26px;
+        background: #ececed;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .app .scr::after {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #d9d9de;
+        box-shadow:
+          14px 0 0 #d9d9de,
+          28px 0 0 #d9d9de;
+      }
+      /* print real da aplicação: ocupa a área abaixo da barra de título falsa */
+      .app .scr > img {
+        position: absolute;
+        inset: 26px 0 0 0;
+        width: 100%;
+        height: calc(100% - 26px);
+        display: block;
+        object-fit: cover;
+        object-position: top center;
+      }
+      .app .scr > span {
+        position: absolute;
+        inset: 26px 0 0 0;
+        display: grid;
+        place-items: center;
+        font-weight: 600;
+        font-size: 15px;
+        color: #6a6a74;
+        background:
+          radial-gradient(120% 80% at 18% 0%, rgba(204, 9, 47, 0.1), transparent 60%),
+          repeating-linear-gradient(0deg, transparent 0 21px, rgba(0, 0, 0, 0.035) 21px 22px);
+      }
 
-  /* leitura do corredor: título fixo em cima, app em foco embaixo */
-  .corr-hud{ position:absolute; left:7vw; top:13vh; z-index:6; pointer-events:none; max-width:min(30vw,420px); }
-  .corr-hud h2{ color:#fff; font-size:clamp(26px,3vw,42px); max-width:14ch }
-  .corr-now{
-    position:absolute; left:7vw; bottom:11vh; z-index:6; max-width:30ch;
-    display:flex; flex-direction:column; gap:9px; pointer-events:none;
-    opacity:0; transition:opacity .3s;
-  }
-  .corr-now em{ font-style:normal; font-weight:600; font-size:11px; letter-spacing:.2em;
-    color:var(--red-ink); font-variant-numeric:tabular-nums; }
-  .corr-now b{ font-weight:700; font-size:clamp(22px,2.4vw,32px); line-height:1.1; color:#fff; letter-spacing:-.01em; }
-  .corr-now span{ font-size:14px; line-height:1.6; color:rgba(255,255,255,.72); }
-  .corr-now i{ font-style:normal; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
-    color:rgba(255,255,255,.38); margin-top:4px; }
-  .corr-now.in b, .corr-now.in em, .corr-now.in span{ animation:nowIn .45s cubic-bezier(.2,.85,.25,1) both }
-  .corr-now.in em{ animation-delay:.02s } .corr-now.in span{ animation-delay:.08s }
-  @keyframes nowIn{ from{ opacity:0; transform:translateY(10px); filter:blur(6px) } to{ opacity:1; transform:none; filter:none } }
+      /* leitura do corredor: título fixo em cima, app em foco embaixo */
+      .corr-hud {
+        position: absolute;
+        left: 7vw;
+        top: 13vh;
+        z-index: 6;
+        pointer-events: none;
+        max-width: min(30vw, 420px);
+      }
+      .corr-hud h2 {
+        color: #fff;
+        font-size: clamp(26px, 3vw, 42px);
+        max-width: 14ch;
+      }
+      .corr-now {
+        position: absolute;
+        left: 7vw;
+        bottom: 11vh;
+        z-index: 6;
+        max-width: 30ch;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .corr-now em {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--red-ink);
+        font-variant-numeric: tabular-nums;
+      }
+      .corr-now b {
+        font-weight: 700;
+        font-size: clamp(22px, 2.4vw, 32px);
+        line-height: 1.1;
+        color: #fff;
+        letter-spacing: -0.01em;
+      }
+      .corr-now span {
+        font-size: 14px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .corr-now i {
+        font-style: normal;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.38);
+        margin-top: 4px;
+      }
+      .corr-now.in b,
+      .corr-now.in em,
+      .corr-now.in span {
+        animation: nowIn 0.45s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+      }
+      .corr-now.in em {
+        animation-delay: 0.02s;
+      }
+      .corr-now.in span {
+        animation-delay: 0.08s;
+      }
+      @keyframes nowIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+          filter: blur(6px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+          filter: none;
+        }
+      }
 
+      /* "sacar a tela do corredor": a tela em foco sai da parede, vem pro centro e cresce */
+      .zoom-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 68;
+        background: rgba(16, 8, 12, 0.62);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transition: opacity 0.55s cubic-bezier(0.19, 1, 0.22, 1); /* mesma curva do card */
+      }
+      .zoom-bg[hidden] {
+        display: none;
+      }
+      .zoom-bg.show {
+        opacity: 1;
+      }
+      .app.zoom {
+        z-index: 71 !important;
+        cursor: zoom-out;
+      }
+      .app.zoom .scr {
+        transform: none !important;
+        background: #fff;
+        box-shadow: 0 70px 150px -40px rgba(0, 0, 0, 0.6);
+      }
+      .app.zoom .scr > span {
+        color: #6a6a74;
+      }
+      .app.zoom {
+        filter: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+      /* descrição do app no detalhe (a do corredor fica atrás do backdrop) */
+      .zoom-cap {
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%, 10px);
+        z-index: 72;
+        width: min(820px, 82vw);
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+          opacity 0.4s 0.12s,
+          transform 0.4s 0.12s;
+      }
+      .zoom-cap[hidden] {
+        display: none;
+      }
+      .zoom-cap.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .zoom-cap em {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--red-ink);
+        font-variant-numeric: tabular-nums;
+      }
+      .zoom-cap b {
+        font-weight: 700;
+        font-size: clamp(20px, 2.1vw, 27px);
+        line-height: 1.15;
+        color: #fff;
+        letter-spacing: -0.01em;
+      }
+      .zoom-cap span {
+        font-size: 14px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.74);
+        max-width: 62ch;
+      }
 
-  /* "sacar a tela do corredor": a tela em foco sai da parede, vem pro centro e cresce */
-  .zoom-bg{
-    position:fixed; inset:0; z-index:68; background:rgba(16,8,12,.62); backdrop-filter:blur(5px);
-    opacity:0; transition:opacity .55s cubic-bezier(.19,1,.22,1);   /* mesma curva do card */
-  }
-  .zoom-bg[hidden]{ display:none }
-  .zoom-bg.show{ opacity:1 }
-  .app.zoom{ z-index:71 !important; cursor:zoom-out; }
-  .app.zoom .scr{ transform:none !important; background:#fff; box-shadow:0 70px 150px -40px rgba(0,0,0,.6); }
-  .app.zoom .scr > span{ color:#6a6a74; }
-  .app.zoom{ filter:none !important; opacity:1 !important; pointer-events:auto !important; }
-  /* descrição do app no detalhe (a do corredor fica atrás do backdrop) */
-  .zoom-cap{
-    position:fixed; left:50%; transform:translate(-50%,10px); z-index:72;
-    width:min(820px,82vw); display:flex; flex-direction:column; gap:7px;
-    pointer-events:none; opacity:0; transition:opacity .4s .12s, transform .4s .12s;
-  }
-  .zoom-cap[hidden]{ display:none }
-  .zoom-cap.show{ opacity:1; transform:translate(-50%,0); }
-  .zoom-cap em{ font-style:normal; font-weight:600; font-size:11px; letter-spacing:.2em;
-    color:var(--red-ink); font-variant-numeric:tabular-nums; }
-  .zoom-cap b{ font-weight:700; font-size:clamp(20px,2.1vw,27px); line-height:1.15; color:#fff; letter-spacing:-.01em; }
-  .zoom-cap span{ font-size:14px; line-height:1.6; color:rgba(255,255,255,.74); max-width:62ch; }
+      body.can-grab {
+        cursor: grab;
+      }
+      body.grabbing {
+        cursor: grabbing;
+      }
+      body.grabbing * {
+        cursor: grabbing !important;
+      }
 
-  body.can-grab{cursor:grab}
-  body.grabbing{cursor:grabbing}
-  body.grabbing *{cursor:grabbing!important}
+      @media (prefers-reduced-motion: reduce) {
+        .loader {
+          display: none;
+        }
+        .line-mask {
+          overflow: visible;
+        }
+        /* sem corredor: as telas viram uma grade simples */
+        .hold-sec {
+          height: auto;
+          min-height: 100vh;
+        }
+        .apps-sec {
+          display: none;
+        }
+        .corr-stage {
+          position: static;
+          inset: auto;
+          height: auto;
+          overflow: visible;
+          perspective: none;
+          opacity: 1 !important;
+          pointer-events: auto;
+          background: none;
+          padding: 12vh 7vw;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 18px;
+          justify-content: center;
+        }
+        .tunnel,
+        .corr-hud,
+        .corr-now,
+        .ring {
+          display: none;
+        }
+        .outro {
+          height: auto;
+          min-height: 60vh;
+        }
+        .outro-inner {
+          position: static;
+          height: auto;
+          padding: 14vh 7vw;
+        }
+        .outro-tag,
+        .outro-eyebrow,
+        .outro-lead,
+        .to-top {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+        }
+        .to-top {
+          pointer-events: auto !important;
+        }
+        .rewind {
+          display: none !important;
+        }
+        .outro-rule {
+          transform: scaleX(1) !important;
+        }
+        .app {
+          position: static;
+          width: min(46vw, 420px);
+          margin: 0;
+          transform: none !important;
+          opacity: 1 !important;
+          filter: none !important;
+          pointer-events: auto;
+        }
+      }
 
-  @media (prefers-reduced-motion: reduce){
-    .loader{display:none}
-    .line-mask{overflow:visible}
-    /* sem corredor: as telas viram uma grade simples */
-    .hold-sec{ height:auto; min-height:100vh }
-    .apps-sec{ display:none }
-    .corr-stage{ position:static; inset:auto; height:auto; overflow:visible; perspective:none;
-      opacity:1!important; pointer-events:auto; background:none; padding:12vh 7vw;
-      display:flex; flex-wrap:wrap; gap:18px; justify-content:center }
-    .tunnel, .corr-hud, .corr-now, .ring{ display:none }
-    .outro{ height:auto; min-height:60vh }
-    .outro-inner{ position:static; height:auto; padding:14vh 7vw }
-    .outro-tag, .outro-eyebrow, .outro-lead, .to-top{ opacity:1!important; transform:none!important; filter:none!important }
-    .to-top{ pointer-events:auto!important }
-    .rewind{ display:none!important }
-    .outro-rule{ transform:scaleX(1)!important }
-    .app{ position:static; width:min(46vw,420px); margin:0;
-      transform:none!important; opacity:1!important; filter:none!important; pointer-events:auto }
-  }
+      /* reveal por palavra: sobe pouco + desfoca -> foca (sem clip, sem cortar descendente) */
+      .line-mask {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .word {
+        display: inline-block;
+        will-change: transform, filter, opacity;
+      }
 
-  /* reveal por palavra: sobe pouco + desfoca -> foca (sem clip, sem cortar descendente) */
-  .line-mask{display:inline-block; vertical-align:top}
-  .word{display:inline-block; will-change:transform, filter, opacity}
+      .tip {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 20;
+        pointer-events: none;
+        background: var(--ink);
+        color: var(--bg);
+        padding: 10px 14px;
+        border-radius: 10px;
+        max-width: 240px;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+      }
+      .tip b {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .tip span {
+        display: block;
+        font-size: 12px;
+        opacity: 0.7;
+        margin-top: 2px;
+      }
 
-  .tip{
-    position:fixed; top:0; left:0; z-index:20; pointer-events:none;
-    background:var(--ink); color:var(--bg); padding:10px 14px; border-radius:10px;
-    max-width:240px; box-shadow:0 12px 34px rgba(0,0,0,.22);
-  }
-  .tip b{display:block; font-size:13px; font-weight:600}
-  .tip span{display:block; font-size:12px; opacity:.7; margin-top:2px}
+      .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: var(--bg);
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        font-weight: 500;
+        transition: opacity 0.6s ease;
+      }
+      .loader .num {
+        font-size: clamp(48px, 12vw, 120px);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+      .loader .bar {
+        width: 0;
+        height: 2px;
+        background: var(--red);
+        max-width: 220px;
+      }
+      .loader .lbl {
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--dim);
+      }
 
-  .loader{
-    position:fixed; inset:0; z-index:50; background:var(--bg); color:var(--ink);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
-    font-weight:500; transition:opacity .6s ease;
-  }
-  .loader .num{font-size:clamp(48px,12vw,120px); font-weight:700; letter-spacing:-.04em}
-  .loader .bar{width:0; height:2px; background:var(--red); max-width:220px}
-  .loader .lbl{font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--dim)}
-
-  /* ---- celular: precisa vir DEPOIS das regras que sobrescreve (mesma
+      /* ---- celular: precisa vir DEPOIS das regras que sobrescreve (mesma
      especificidade, entao quem vence e quem vem por ultimo) ---- */
-  @media (max-width:820px){
-    /* corredor no celular: o eixo deslocado pra 63% e o texto na lateral so fazem
+      @media (max-width: 820px) {
+        /* corredor no celular: o eixo deslocado pra 63% e o texto na lateral so fazem
        sentido com espaco horizontal. Aqui vira empilhado: titulo em cima, tela no
        meio (bem maior) e a legenda embaixo. */
-    .corr-stage, .tunnel{ perspective:760px; perspective-origin:50% 44% }
-    .app{ --cw:min(80vw,430px) }
-    .ring{ left:50%; width:min(96vw,1180px); height:min(56vh,700px);
-      margin:calc(min(56vh,700px) / -2) 0 0 calc(min(96vw,1180px) / -2) }
-    .corr-hud{ left:7vw; right:7vw; top:8vh; max-width:none }
-    .corr-hud h2{ font-size:clamp(26px,7.4vw,34px); max-width:18ch }
-    .corr-now{ left:7vw; right:7vw; bottom:6vh; max-width:none }
-    .corr-now b{ font-size:clamp(21px,6.4vw,28px) }
-    .corr-now span{ font-size:13.5px }
-    .zoom-cap{ width:88vw }
-    .zoom-cap b{ font-size:clamp(19px,5.6vw,24px) }
+        .corr-stage,
+        .tunnel {
+          perspective: 760px;
+          perspective-origin: 50% 44%;
+        }
+        .app {
+          --cw: min(80vw, 430px);
+        }
+        .ring {
+          left: 50%;
+          width: min(96vw, 1180px);
+          height: min(56vh, 700px);
+          margin: calc(min(56vh, 700px) / -2) 0 0 calc(min(96vw, 1180px) / -2);
+        }
+        .corr-hud {
+          left: 7vw;
+          right: 7vw;
+          top: 8vh;
+          max-width: none;
+        }
+        .corr-hud h2 {
+          font-size: clamp(26px, 7.4vw, 34px);
+          max-width: 18ch;
+        }
+        .corr-now {
+          left: 7vw;
+          right: 7vw;
+          bottom: 6vh;
+          max-width: none;
+        }
+        .corr-now b {
+          font-size: clamp(21px, 6.4vw, 28px);
+        }
+        .corr-now span {
+          font-size: 13.5px;
+        }
+        .zoom-cap {
+          width: 88vw;
+        }
+        .zoom-cap b {
+          font-size: clamp(19px, 5.6vw, 24px);
+        }
 
-    /* encerramento */
-    .outro-inner{ padding:0 6vw }
-    .outro-rule{ width:70vw; margin:32px 0 28px }
-    .outro-lead{ font-size:14px }
-    .to-top{ margin-top:30px; padding:12px 18px; font-size:11px }
-  }
-</style>
+        /* encerramento */
+        .outro-inner {
+          padding: 0 6vw;
+        }
+        .outro-rule {
+          width: 70vw;
+          margin: 32px 0 28px;
+        }
+        .outro-lead {
+          font-size: 14px;
+        }
+        .to-top {
+          margin-top: 30px;
+          padding: 12px 18px;
+          font-size: 11px;
+        }
+      }
+    </style>
 
-<script type="importmap">{"imports":{
-  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
-  "animejs":"https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js",
-  "lenis":"https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
-}}</script>
-</head>
-<body>
-<div class="glow"></div>
-<canvas id="c"></canvas>
-<div class="grain"></div>
-<div class="tip" hidden><b></b><span></span></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+          "animejs": "https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.esm.min.js",
+          "lenis": "https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.mjs"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <canvas id="c"></canvas>
+    <div class="grain"></div>
+    <div class="tip" hidden><b></b><span></span></div>
 
-<div class="progress"></div>
-<div class="tunnel"></div>
-<div class="cursor"></div>
-<nav class="rail" aria-label="Navegação por seções"></nav>
-<header>
-  <div>Portal Finanças</div>
-  <svg class="brand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Bradesco">
-    <path fill="#cc092f" d="M2,17.085c0.464-0.303,0.896-0.678,1.397-0.896c1.505-0.658,3.043-1.239,4.55-1.893 c0.279-0.121,0.57-0.394,0.692-0.67c2.3-5.208,6.13-8.722,11.634-10.098c6.901-1.725,12.771,0.22,17.503,5.573 c0.312,0.353,0.407,0.72,0.046,1.079c-0.367,0.364-0.688,0.136-1.015-0.116c-5.234-4.027-12.561-4.507-17.989-1.069 c-1.286,0.815-2.358,1.973-3.518,2.985c-0.158,0.138-0.26,0.341-0.476,0.635c0.857-0.121,1.569-0.23,2.283-0.322 c7.065-0.903,13.925-0.222,20.475,2.735c2.402,1.085,4.641,2.441,6.475,4.375c1.035,1.09,1.932,2.286,1.944,3.889 c0.015,1.974-0.891,3.568-2.183,4.963c-2.196,2.372-4.984,3.809-7.939,4.961c-0.736,0.287-1.493,0.52-2.243,0.769 c-0.171,0.057-0.365,0.134-0.529,0.102c-0.234-0.046-0.6-0.144-0.64-0.292c-0.059-0.223,0.054-0.556,0.207-0.755 c0.148-0.192,0.427-0.3,0.668-0.399c1.35-0.555,2.713-1.079,4.058-1.646c1.858-0.783,3.097-2.078,3.477-4.148 c0.523-2.847-0.8-4.787-2.976-6.318c-2.618-1.843-5.589-2.851-8.666-3.575c-3.689-0.869-7.435-1.289-11.223-1.225 c-1.58,0.027-3.158,0.21-4.737,0.304c-0.371,0.022-0.564,0.175-0.72,0.516c-0.969,2.115-1.217,4.341-1.018,6.629 c0.327,3.748,1.86,6.921,4.567,9.528c0.21,0.202,0.383,0.547,0.395,0.832c0.024,0.581-0.564,0.872-1.103,0.495 c-0.93-0.65-1.869-1.319-2.671-2.114c-4.124-4.089-5.672-9.088-5.043-14.821c0.006-0.058,0.001-0.118,0.001-0.294 c-0.431,0.084-0.839,0.146-1.237,0.245c-1.062,0.262-2.138,0.484-3.172,0.833C2.719,18.067,2.345,18.015,2,17.574 C2,17.411,2,17.248,2,17.085z"/>
-    <path fill="#cc092f" d="M24.552,44.709c0-1.196,0-2.295,0-3.394c0-2.873,0.007-5.747-0.008-8.62 c-0.002-0.368,0.088-0.582,0.43-0.762c1.023-0.537,2.021-1.123,3.033-1.682c0.514-0.284,0.863-0.066,0.863,0.528 c-0.006,4.218-0.013,8.436-0.019,12.654c-0.002,1.144-0.131,1.276-1.247,1.276C26.614,44.709,25.625,44.709,24.552,44.709z"/>
-    <path fill="#cc092f" d="M23.157,33.068c0,4.07,0,7.998,0,12.005c-0.808,0-1.596,0.039-2.373-0.031 c-0.17-0.015-0.42-0.41-0.437-0.644c-0.056-0.77-0.022-1.547-0.022-2.322c0-2.221,0.011-4.443-0.007-6.664 c-0.004-0.504,0.138-0.835,0.608-1.074C21.658,33.965,22.359,33.527,23.157,33.068z"/>
-  </svg>
-</header>
+    <div class="progress"></div>
+    <div class="tunnel"></div>
+    <div class="cursor"></div>
+    <nav class="rail" aria-label="Navegação por seções"></nav>
+    <header>
+      <div>Portal Finanças</div>
+      <svg
+        class="brand"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 48 48"
+        role="img"
+        aria-label="Bradesco"
+      >
+        <path
+          fill="#cc092f"
+          d="M2,17.085c0.464-0.303,0.896-0.678,1.397-0.896c1.505-0.658,3.043-1.239,4.55-1.893 c0.279-0.121,0.57-0.394,0.692-0.67c2.3-5.208,6.13-8.722,11.634-10.098c6.901-1.725,12.771,0.22,17.503,5.573 c0.312,0.353,0.407,0.72,0.046,1.079c-0.367,0.364-0.688,0.136-1.015-0.116c-5.234-4.027-12.561-4.507-17.989-1.069 c-1.286,0.815-2.358,1.973-3.518,2.985c-0.158,0.138-0.26,0.341-0.476,0.635c0.857-0.121,1.569-0.23,2.283-0.322 c7.065-0.903,13.925-0.222,20.475,2.735c2.402,1.085,4.641,2.441,6.475,4.375c1.035,1.09,1.932,2.286,1.944,3.889 c0.015,1.974-0.891,3.568-2.183,4.963c-2.196,2.372-4.984,3.809-7.939,4.961c-0.736,0.287-1.493,0.52-2.243,0.769 c-0.171,0.057-0.365,0.134-0.529,0.102c-0.234-0.046-0.6-0.144-0.64-0.292c-0.059-0.223,0.054-0.556,0.207-0.755 c0.148-0.192,0.427-0.3,0.668-0.399c1.35-0.555,2.713-1.079,4.058-1.646c1.858-0.783,3.097-2.078,3.477-4.148 c0.523-2.847-0.8-4.787-2.976-6.318c-2.618-1.843-5.589-2.851-8.666-3.575c-3.689-0.869-7.435-1.289-11.223-1.225 c-1.58,0.027-3.158,0.21-4.737,0.304c-0.371,0.022-0.564,0.175-0.72,0.516c-0.969,2.115-1.217,4.341-1.018,6.629 c0.327,3.748,1.86,6.921,4.567,9.528c0.21,0.202,0.383,0.547,0.395,0.832c0.024,0.581-0.564,0.872-1.103,0.495 c-0.93-0.65-1.869-1.319-2.671-2.114c-4.124-4.089-5.672-9.088-5.043-14.821c0.006-0.058,0.001-0.118,0.001-0.294 c-0.431,0.084-0.839,0.146-1.237,0.245c-1.062,0.262-2.138,0.484-3.172,0.833C2.719,18.067,2.345,18.015,2,17.574 C2,17.411,2,17.248,2,17.085z"
+        />
+        <path
+          fill="#cc092f"
+          d="M24.552,44.709c0-1.196,0-2.295,0-3.394c0-2.873,0.007-5.747-0.008-8.62 c-0.002-0.368,0.088-0.582,0.43-0.762c1.023-0.537,2.021-1.123,3.033-1.682c0.514-0.284,0.863-0.066,0.863,0.528 c-0.006,4.218-0.013,8.436-0.019,12.654c-0.002,1.144-0.131,1.276-1.247,1.276C26.614,44.709,25.625,44.709,24.552,44.709z"
+        />
+        <path
+          fill="#cc092f"
+          d="M23.157,33.068c0,4.07,0,7.998,0,12.005c-0.808,0-1.596,0.039-2.373-0.031 c-0.17-0.015-0.42-0.41-0.437-0.644c-0.056-0.77-0.022-1.547-0.022-2.322c0-2.221,0.011-4.443-0.007-6.664 c-0.004-0.504,0.138-0.835,0.608-1.074C21.658,33.965,22.359,33.527,23.157,33.068z"
+        />
+      </svg>
+    </header>
 
-<div class="loader">
-  <div class="num">000</div>
-  <div class="bar"></div>
-  <div class="lbl">Portal Finanças</div>
-</div>
+    <div class="loader">
+      <div class="num">000</div>
+      <div class="bar"></div>
+      <div class="lbl">Portal Finanças</div>
+    </div>
 
-<main>
-  <section id="hero" data-sx="3.2" data-dark>
-    <div class="kicker">Bradesco · Portal Finanças</div>
-    <h1 data-reveal>Sobre o Portal Finanças</h1>
-    <p class="lead" data-reveal>Um só lugar para todas as soluções financeiras. A marca do portal traduz como a gente trabalha — e o que você encontra aqui.</p>
-  </section>
+    <main>
+      <section id="hero" data-sx="3.2" data-dark>
+        <div class="kicker">Bradesco · Portal Finanças</div>
+        <h1 data-reveal>Sobre o Portal Finanças</h1>
+        <p class="lead" data-reveal>
+          Um só lugar para todas as soluções financeiras. A marca do portal traduz como a gente trabalha — e o
+          que você encontra aqui.
+        </p>
+      </section>
 
-  <section data-sx="2.1" data-dark>
-    <div class="kicker">A marca</div>
-    <h2 data-reveal>Cinco pilares, um portal</h2>
-    <p class="lead" data-reveal>Cada parte do símbolo carrega um princípio que guia o Portal Finanças. Role para ver o que cada um significa na prática.</p>
-    <p class="hint">Passe o mouse sobre o símbolo.</p>
-  </section>
+      <section data-sx="2.1" data-dark>
+        <div class="kicker">A marca</div>
+        <h2 data-reveal>Cinco pilares, um portal</h2>
+        <p class="lead" data-reveal>
+          Cada parte do símbolo carrega um princípio que guia o Portal Finanças. Role para ver o que cada um
+          significa na prática.
+        </p>
+        <p class="hint">Passe o mouse sobre o símbolo.</p>
+      </section>
 
-  <section data-pillar="0" data-sx="-3.2" data-align="right">
-    <div class="kicker">Precisão</div>
-    <h2 data-reveal>Números em que dá pra confiar</h2>
-    <p class="lead" data-reveal>Cadastros, painéis e relatórios com dados consistentes e conferidos. Menos retrabalho, mais assertividade nas entregas.</p>
-  </section>
+      <section data-pillar="0" data-sx="-3.2" data-align="right">
+        <div class="kicker">Precisão</div>
+        <h2 data-reveal>Números em que dá pra confiar</h2>
+        <p class="lead" data-reveal>
+          Cadastros, painéis e relatórios com dados consistentes e conferidos. Menos retrabalho, mais
+          assertividade nas entregas.
+        </p>
+      </section>
 
-  <section data-pillar="1" data-sx="3.2">
-    <div class="kicker">Tecnologia</div>
-    <h2 data-reveal>Ferramentas no padrão do mercado</h2>
-    <p class="lead" data-reveal>As aplicações do portal são construídas com tecnologia atual, pensadas para atender os times de negócio no dia a dia.</p>
-  </section>
+      <section data-pillar="1" data-sx="3.2">
+        <div class="kicker">Tecnologia</div>
+        <h2 data-reveal>Ferramentas no padrão do mercado</h2>
+        <p class="lead" data-reveal>
+          As aplicações do portal são construídas com tecnologia atual, pensadas para atender os times de
+          negócio no dia a dia.
+        </p>
+      </section>
 
-  <section data-pillar="2" data-sx="-3.2" data-align="right">
-    <div class="kicker">Eficiência</div>
-    <h2 data-reveal>Menos etapas, mais agilidade</h2>
-    <p class="lead" data-reveal>Processos que se adaptam à necessidade da organização — automação e autoatendimento no lugar de planilha e e-mail.</p>
-  </section>
+      <section data-pillar="2" data-sx="-3.2" data-align="right">
+        <div class="kicker">Eficiência</div>
+        <h2 data-reveal>Menos etapas, mais agilidade</h2>
+        <p class="lead" data-reveal>
+          Processos que se adaptam à necessidade da organização — automação e autoatendimento no lugar de
+          planilha e e-mail.
+        </p>
+      </section>
 
-  <section data-pillar="3" data-sx="3.2">
-    <div class="kicker">Qualidade</div>
-    <h2 data-reveal>Uma fonte, a informação certa</h2>
-    <p class="lead" data-reveal>Excelência nas soluções e nas informações que o portal fornece: a mesma resposta, para todo mundo.</p>
-  </section>
+      <section data-pillar="3" data-sx="3.2">
+        <div class="kicker">Qualidade</div>
+        <h2 data-reveal>Uma fonte, a informação certa</h2>
+        <p class="lead" data-reveal>
+          Excelência nas soluções e nas informações que o portal fornece: a mesma resposta, para todo mundo.
+        </p>
+      </section>
 
-  <section data-pillar="4" data-sx="-3.2" data-align="right">
-    <div class="kicker">Inovação</div>
-    <h2 data-reveal>Sempre uma versão à frente</h2>
-    <p class="lead" data-reveal>Dezenas de aplicações que evoluem com metodologias ágeis — funcionalidades novas chegando o tempo todo.</p>
-  </section>
+      <section data-pillar="4" data-sx="-3.2" data-align="right">
+        <div class="kicker">Inovação</div>
+        <h2 data-reveal>Sempre uma versão à frente</h2>
+        <p class="lead" data-reveal>
+          Dezenas de aplicações que evoluem com metodologias ágeis — funcionalidades novas chegando o tempo
+          todo.
+        </p>
+      </section>
 
-  <!-- Consolidação é alta de propósito: o texto fica preso (sticky) enquanto se lê e o
+      <!-- Consolidação é alta de propósito: o texto fica preso (sticky) enquanto se lê e o
        resto do scroll é a travessia pra dentro do portal, que precisa de espaço pra respirar -->
-  <section class="hold-sec" data-pillar="5" data-sx="2.1" data-dark>
-    <div class="hold-inner">
-      <div class="kicker">Ao redor dos 5 pilares</div>
-      <h2 data-reveal>Tudo em um só lugar</h2>
-      <p class="lead" data-reveal>Cadastro, painéis, relatórios e muito mais, reunidos no Portal Finanças. Já disponível na sua área de trabalho.</p>
-    </div>
-  </section>
+      <section class="hold-sec" data-pillar="5" data-sx="2.1" data-dark>
+        <div class="hold-inner">
+          <div class="kicker">Ao redor dos 5 pilares</div>
+          <h2 data-reveal>Tudo em um só lugar</h2>
+          <p class="lead" data-reveal>
+            Cadastro, painéis, relatórios e muito mais, reunidos no Portal Finanças. Já disponível na sua área
+            de trabalho.
+          </p>
+        </div>
+      </section>
 
-  <!-- corredor: depois de atravessar o portal, a câmera anda por um túnel e as telas
+      <!-- corredor: depois de atravessar o portal, a câmera anda por um túnel e as telas
        passam pelas laterais, cada uma virando de frente quando entra em foco -->
-  <!-- só espaçador: dá o comprimento de scroll do corredor. O corredor em si é fixo,
+      <!-- só espaçador: dá o comprimento de scroll do corredor. O corredor em si é fixo,
        fora do <main>, pra poder aparecer durante a travessia (sem depender do sticky prender) -->
-  <section class="apps-sec" data-sx="1" data-hide data-dark></section>
+      <section class="apps-sec" data-sx="1" data-hide data-dark></section>
 
-  <!-- encerramento: saímos do portal (a travessia roda ao contrário, o símbolo se
+      <!-- encerramento: saímos do portal (a travessia roda ao contrário, o símbolo se
        recompõe) e a assinatura aparece no centro -->
-  <section class="outro" data-sx="0" data-dark>
-    <div class="outro-inner">
-      <div class="outro-eyebrow">Portal Finanças · Bradesco</div>
-      <h2 class="outro-tag"><em>#</em>UnidosEvoluímos</h2>
-      <div class="outro-rule"></div>
-      <p class="outro-lead">Cadastro, painéis, relatórios e muito mais, num só lugar.<br/>Já disponível na sua área de trabalho.</p>
-      <button class="to-top" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M12 5l-6 6M12 5l6 6"/></svg>
-        Voltar ao início
-      </button>
-    </div>
-  </section>
-</main>
+      <section class="outro" data-sx="0" data-dark>
+        <div class="outro-inner">
+          <div class="outro-eyebrow">Portal Finanças · Bradesco</div>
+          <h2 class="outro-tag"><em>#</em>UnidosEvoluímos</h2>
+          <div class="outro-rule"></div>
+          <p class="outro-lead">
+            Cadastro, painéis, relatórios e muito mais, num só lugar.<br />Já disponível na sua área de
+            trabalho.
+          </p>
+          <button class="to-top" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M12 5l-6 6M12 5l6 6" /></svg>
+            Voltar ao início
+          </button>
+        </div>
+      </section>
+    </main>
 
-<div class="corr-stage">
+    <div class="corr-stage">
       <!-- os anéis do túnel são criados no JS -->
       <!-- troque o conteúdo de .scr por <img src="telas/xxx.png"> quando tiver os prints -->
-      <div class="app" data-title="Cadastro" data-desc="Cadastre e mantenha fornecedores, centros de custo e contas num só fluxo. Validação na entrada, menos correção depois."><div class="scr"><img decoding="async" src="telas/cadastro.svg" alt="Cadastro"></div></div>
+      <div
+        class="app"
+        data-title="Cadastro"
+        data-desc="Cadastre e mantenha fornecedores, centros de custo e contas num só fluxo. Validação na entrada, menos correção depois."
+      >
+        <div class="scr"><img decoding="async" src="telas/cadastro.svg" alt="Cadastro" /></div>
+      </div>
       <!-- exemplo com print real: é só trocar o <span> por um <img>, o resto do CSS já cuida -->
-      <div class="app" data-title="Painel de indicadores" data-desc="Acompanhe receitas, despesas e metas em tempo real, com filtros por área e período. Os números que importam, num relance."><div class="scr"><img decoding="async" src="telas/painel-indicadores.svg" alt="Painel de indicadores"></div></div>
-      <div class="app" data-title="Relatórios" data-desc="Gere relatórios financeiros padronizados em segundos e exporte para Excel ou PDF. A mesma fonte para todo mundo."><div class="scr"><img decoding="async" src="telas/relatorios.svg" alt="Relatórios"></div></div>
-      <div class="app" data-title="Aprovações" data-desc="Solicitações de despesa e pagamento com fluxo de aprovação claro, histórico e notificação. Sem e-mail solto."><div class="scr"><img decoding="async" src="telas/aprovacoes.svg" alt="Aprovações"></div></div>
-      <div class="app" data-title="Conciliação" data-desc="Concilie lançamentos e extratos automaticamente. O sistema aponta as divergências; você resolve só o que precisa."><div class="scr"><img decoding="async" src="telas/conciliacao.svg" alt="Conciliação"></div></div>
-      <div class="app" data-title="Consultas" data-desc="Consulte saldos, lançamentos e posições a qualquer momento, com busca rápida e visão consolidada."><div class="scr"><img decoding="async" src="telas/consultas.svg" alt="Consultas"></div></div>
+      <div
+        class="app"
+        data-title="Painel de indicadores"
+        data-desc="Acompanhe receitas, despesas e metas em tempo real, com filtros por área e período. Os números que importam, num relance."
+      >
+        <div class="scr">
+          <img decoding="async" src="telas/painel-indicadores.svg" alt="Painel de indicadores" />
+        </div>
+      </div>
+      <div
+        class="app"
+        data-title="Relatórios"
+        data-desc="Gere relatórios financeiros padronizados em segundos e exporte para Excel ou PDF. A mesma fonte para todo mundo."
+      >
+        <div class="scr"><img decoding="async" src="telas/relatorios.svg" alt="Relatórios" /></div>
+      </div>
+      <div
+        class="app"
+        data-title="Aprovações"
+        data-desc="Solicitações de despesa e pagamento com fluxo de aprovação claro, histórico e notificação. Sem e-mail solto."
+      >
+        <div class="scr"><img decoding="async" src="telas/aprovacoes.svg" alt="Aprovações" /></div>
+      </div>
+      <div
+        class="app"
+        data-title="Conciliação"
+        data-desc="Concilie lançamentos e extratos automaticamente. O sistema aponta as divergências; você resolve só o que precisa."
+      >
+        <div class="scr"><img decoding="async" src="telas/conciliacao.svg" alt="Conciliação" /></div>
+      </div>
+      <div
+        class="app"
+        data-title="Consultas"
+        data-desc="Consulte saldos, lançamentos e posições a qualquer momento, com busca rápida e visão consolidada."
+      >
+        <div class="scr"><img decoding="async" src="telas/consultas.svg" alt="Consultas" /></div>
+      </div>
 
       <div class="corr-hud">
         <div class="kicker">As aplicações</div>
         <h2>Um portal, inúmeras soluções</h2>
       </div>
       <div class="corr-now"><em></em><b></b><span></span><i>clique para ampliar</i></div>
-</div>
+    </div>
 
-<div class="rewind" hidden><i></i></div>
-<div class="zoom-bg" hidden></div>
-<div class="zoom-cap" hidden><em></em><b></b><span></span></div>
+    <div class="rewind" hidden><i></i></div>
+    <div class="zoom-bg" hidden></div>
+    <div class="zoom-cap" hidden><em></em><b></b><span></span></div>
 
-<script type="module">
-import * as THREE from 'three';
-import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { animate, stagger, utils, createTimeline, createSpring, svg } from 'animejs';
-import Lenis from 'lenis';
+    <script type="module">
+      import * as THREE from "three";
+      import { SVGLoader } from "three/addons/loaders/SVGLoader.js";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { animate, stagger, utils, createTimeline, createSpring, svg } from "animejs";
+      import Lenis from "lenis";
 
-const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MQ_SMALL = matchMedia('(max-width:820px)');
-let SMALL = MQ_SMALL.matches;
-MQ_SMALL.addEventListener('change', e => { SMALL = e.matches; });
+      const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const MQ_SMALL = matchMedia("(max-width:820px)");
+      let SMALL = MQ_SMALL.matches;
+      MQ_SMALL.addEventListener("change", (e) => {
+        SMALL = e.matches;
+      });
 
-/* ---------- mapa: sólido do SVG -> pilar (ordem dos subPaths do path) ---------- */
-const PILLARS = [
-  { idx:[6],   label:'Precisão',      short:'Assertividade nas entregas' },
-  { idx:[2],   label:'Tecnologia',    short:'Ferramenta para os times de negócio' },
-  { idx:[5],   label:'Eficiência',    short:'Agilidade para adaptar à organização' },
-  { idx:[3],   label:'Qualidade',     short:'Excelência nas soluções e informações' },
-  { idx:[4],   label:'Inovação',      short:'Aplicação de metodologias ágeis' },
-  { idx:[0,1], label:'Consolidação',  short:'Cadastro, painéis, relatórios — num só lugar' },
-];
-const pillarByMesh = i => PILLARS.find(p => p.idx.includes(i));
+      /* ---------- mapa: sólido do SVG -> pilar (ordem dos subPaths do path) ---------- */
+      const PILLARS = [
+        { idx: [6], label: "Precisão", short: "Assertividade nas entregas" },
+        { idx: [2], label: "Tecnologia", short: "Ferramenta para os times de negócio" },
+        { idx: [5], label: "Eficiência", short: "Agilidade para adaptar à organização" },
+        { idx: [3], label: "Qualidade", short: "Excelência nas soluções e informações" },
+        { idx: [4], label: "Inovação", short: "Aplicação de metodologias ágeis" },
+        { idx: [0, 1], label: "Consolidação", short: "Cadastro, painéis, relatórios — num só lugar" },
+      ];
+      const pillarByMesh = (i) => PILLARS.find((p) => p.idx.includes(i));
 
-/* ---------- three: cena + alvo extrudado ---------- */
-const canvas = document.getElementById('c');
-let canvasVisible = true;
-// antialias + DPR alto e redundante e caro: com 2x de densidade o MSAA quase nao
-// aparece. Teto de 1.75 corta ~23% dos pixels em telas retina sem diferenca visivel.
-const SMALL_SCREEN = matchMedia('(max-width:820px)').matches;
-const renderer = new THREE.WebGLRenderer({
-  canvas, alpha:true, antialias: !SMALL_SCREEN && devicePixelRatio < 1.5,
-  powerPreference:'high-performance'
-});
-// celular costuma ter DPR 3 e GPU fraca: o custo cresce com o quadrado da densidade
-renderer.setPixelRatio(Math.min(devicePixelRatio, SMALL_SCREEN ? 1.5 : 1.75));
-renderer.setSize(innerWidth, innerHeight);
-renderer.setClearColor(0x000000, 0);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
-renderer.shadowMap.enabled = !SMALL_SCREEN;   // sombra suave nao compensa o custo no celular
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      /* ---------- three: cena + alvo extrudado ---------- */
+      const canvas = document.getElementById("c");
+      let canvasVisible = true;
+      // antialias + DPR alto e redundante e caro: com 2x de densidade o MSAA quase nao
+      // aparece. Teto de 1.75 corta ~23% dos pixels em telas retina sem diferenca visivel.
+      const SMALL_SCREEN = matchMedia("(max-width:820px)").matches;
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: !SMALL_SCREEN && devicePixelRatio < 1.5,
+        powerPreference: "high-performance",
+      });
+      // celular costuma ter DPR 3 e GPU fraca: o custo cresce com o quadrado da densidade
+      renderer.setPixelRatio(Math.min(devicePixelRatio, SMALL_SCREEN ? 1.5 : 1.75));
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      renderer.shadowMap.enabled = !SMALL_SCREEN; // sombra suave nao compensa o custo no celular
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xffffff, 6.5, 15);   // fade suave ao branco = profundidade
-// ambiente de estúdio -> specular/reflexo bonito no vermelho (qualidade "render de produto")
-const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-const camera = new THREE.PerspectiveCamera(36, innerWidth/innerHeight, 0.1, 100);
-camera.position.set(0, 0.6, 9);
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0xffffff, 6.5, 15); // fade suave ao branco = profundidade
+      // ambiente de estúdio -> specular/reflexo bonito no vermelho (qualidade "render de produto")
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      const camera = new THREE.PerspectiveCamera(36, innerWidth / innerHeight, 0.1, 100);
+      camera.position.set(0, 0.6, 9);
 
-const ambient = new THREE.AmbientLight(0xffffff, 0.95); scene.add(ambient);
-const sun = new THREE.DirectionalLight(0xffffff, 1.15);
-sun.position.set(3, 5, 4); sun.castShadow = true;
-sun.shadow.mapSize.set(1024, 1024);   // 4x menos pixels; a sombra e difusa, nao perde nada
-scene.add(sun);
-const rim = new THREE.DirectionalLight(0xffd0da, 0.4);
-rim.position.set(-2, 1, -3); scene.add(rim);
-const ground = new THREE.Mesh(new THREE.CircleGeometry(4.5, 64), new THREE.ShadowMaterial({ opacity:0.16 }));
-ground.rotation.x = -Math.PI/2; ground.position.y = -1.65; ground.receiveShadow = true; scene.add(ground);
+      const ambient = new THREE.AmbientLight(0xffffff, 0.95);
+      scene.add(ambient);
+      const sun = new THREE.DirectionalLight(0xffffff, 1.15);
+      sun.position.set(3, 5, 4);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(1024, 1024); // 4x menos pixels; a sombra e difusa, nao perde nada
+      scene.add(sun);
+      const rim = new THREE.DirectionalLight(0xffd0da, 0.4);
+      rim.position.set(-2, 1, -3);
+      scene.add(rim);
+      const ground = new THREE.Mesh(
+        new THREE.CircleGeometry(4.5, 64),
+        new THREE.ShadowMaterial({ opacity: 0.16 }),
+      );
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -1.65;
+      ground.receiveShadow = true;
+      scene.add(ground);
 
-const alvo = new THREE.Group(); scene.add(alvo);
-const RED = 0xCC092F;
-const HL = new THREE.Color(0xff4d6a);
-const depth = 22;
+      const alvo = new THREE.Group();
+      scene.add(alvo);
+      const RED = 0xcc092f;
+      const HL = new THREE.Color(0xff4d6a);
+      const depth = 22;
 
-const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path fill="#CC092F" fill-rule="evenodd" clip-rule="evenodd" d="M258 499.749C392.369 495.525 500 385.269 500 249.874C500 114.48 392.369 4.22405 258 0V71.05C353.147 75.2347 429 153.696 429 249.874C429 346.053 353.147 424.514 258 428.699V499.749ZM241 499.715C107.097 494.977 0 384.933 0 249.874C0 114.816 107.097 4.77149 241 0.0334085V71.0968C146.323 75.7851 71 154.033 71 249.874C71 345.715 146.323 423.964 241 428.652V499.715ZM241 106.151C168.473 110.624 110.472 168.781 106.247 241.374H140.868C145.226 188.297 187.788 146.043 241 142.165V106.151ZM241 358.584C187.454 354.682 144.693 311.92 140.79 258.374H106.247C110.472 330.968 168.473 389.125 241 393.598V358.584ZM258 393.656V358.506C311.077 354.148 353.332 311.587 357.21 258.374H393.753C389.508 331.301 330.993 389.659 258 393.656ZM258 142.242V106.093C330.993 110.09 389.508 168.448 393.753 241.374H357.132C352.801 188.63 310.745 146.573 258 142.242ZM249.5 328.874C293.13 328.874 328.5 293.505 328.5 249.874C328.5 206.244 293.13 170.874 249.5 170.874C205.87 170.874 170.5 206.244 170.5 249.874C170.5 293.505 205.87 328.874 249.5 328.874Z"/></svg>`;
+      const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path fill="#CC092F" fill-rule="evenodd" clip-rule="evenodd" d="M258 499.749C392.369 495.525 500 385.269 500 249.874C500 114.48 392.369 4.22405 258 0V71.05C353.147 75.2347 429 153.696 429 249.874C429 346.053 353.147 424.514 258 428.699V499.749ZM241 499.715C107.097 494.977 0 384.933 0 249.874C0 114.816 107.097 4.77149 241 0.0334085V71.0968C146.323 75.7851 71 154.033 71 249.874C71 345.715 146.323 423.964 241 428.652V499.715ZM241 106.151C168.473 110.624 110.472 168.781 106.247 241.374H140.868C145.226 188.297 187.788 146.043 241 142.165V106.151ZM241 358.584C187.454 354.682 144.693 311.92 140.79 258.374H106.247C110.472 330.968 168.473 389.125 241 393.598V358.584ZM258 393.656V358.506C311.077 354.148 353.332 311.587 357.21 258.374H393.753C389.508 331.301 330.993 389.659 258 393.656ZM258 142.242V106.093C330.993 110.09 389.508 168.448 393.753 241.374H357.132C352.801 188.63 310.745 146.573 258 142.242ZM249.5 328.874C293.13 328.874 328.5 293.505 328.5 249.874C328.5 206.244 293.13 170.874 249.5 170.874C205.87 170.874 170.5 206.244 170.5 249.874C170.5 293.505 205.87 328.874 249.5 328.874Z"/></svg>`;
 
-const subPaths = new SVGLoader().parse(svgString).paths[0].subPaths;
-subPaths.forEach(sp => {
-  const pts = sp.getPoints(32);
-  if (pts.length < 3) return;
-  const shape = new THREE.Shape(pts);
-  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled:true, bevelThickness:1.2, bevelSize:0.9, bevelSegments:3, steps:1 });
-  geo.translate(-250, -250, -depth/2);
-  geo.computeVertexNormals();
-  const matFront = new THREE.MeshStandardMaterial({ color:RED, roughness:0.3, metalness:0.1, emissive:RED, emissiveIntensity:0.04, envMapIntensity:0.55, side:THREE.DoubleSide, transparent:true });
-  const matSide  = new THREE.MeshStandardMaterial({ color:0x8a0620, roughness:0.5, metalness:0.1, envMapIntensity:0.45, side:THREE.DoubleSide, transparent:true });
-  const mesh = new THREE.Mesh(geo, [matFront, matSide]);
-  mesh.scale.y *= -1;              // corrige Y invertido do SVG
-  mesh.castShadow = mesh.receiveShadow = true;
-  mesh.userData.hl = 0;            // 0..1 destaque
-  // direção de "explosão" = do centro pro centróide da parte (Y invertido p/ bater com o visual)
-  geo.computeBoundingBox();
-  const gc = geo.boundingBox.getCenter(new THREE.Vector3());
-  gc.y *= -1; gc.z = 0;
-  mesh.userData.out = gc.lengthSq() > 400 ? gc.normalize() : new THREE.Vector3(0, 0.0001, 0);
-  alvo.add(mesh);
-});
+      const subPaths = new SVGLoader().parse(svgString).paths[0].subPaths;
+      subPaths.forEach((sp) => {
+        const pts = sp.getPoints(32);
+        if (pts.length < 3) return;
+        const shape = new THREE.Shape(pts);
+        const geo = new THREE.ExtrudeGeometry(shape, {
+          depth,
+          bevelEnabled: true,
+          bevelThickness: 1.2,
+          bevelSize: 0.9,
+          bevelSegments: 3,
+          steps: 1,
+        });
+        geo.translate(-250, -250, -depth / 2);
+        geo.computeVertexNormals();
+        const matFront = new THREE.MeshStandardMaterial({
+          color: RED,
+          roughness: 0.3,
+          metalness: 0.1,
+          emissive: RED,
+          emissiveIntensity: 0.04,
+          envMapIntensity: 0.55,
+          side: THREE.DoubleSide,
+          transparent: true,
+        });
+        const matSide = new THREE.MeshStandardMaterial({
+          color: 0x8a0620,
+          roughness: 0.5,
+          metalness: 0.1,
+          envMapIntensity: 0.45,
+          side: THREE.DoubleSide,
+          transparent: true,
+        });
+        const mesh = new THREE.Mesh(geo, [matFront, matSide]);
+        mesh.scale.y *= -1; // corrige Y invertido do SVG
+        mesh.castShadow = mesh.receiveShadow = true;
+        mesh.userData.hl = 0; // 0..1 destaque
+        // direção de "explosão" = do centro pro centróide da parte (Y invertido p/ bater com o visual)
+        geo.computeBoundingBox();
+        const gc = geo.boundingBox.getCenter(new THREE.Vector3());
+        gc.y *= -1;
+        gc.z = 0;
+        mesh.userData.out = gc.lengthSq() > 400 ? gc.normalize() : new THREE.Vector3(0, 0.0001, 0);
+        alvo.add(mesh);
+      });
 
-alvo.updateMatrixWorld(true);
-const ctr = new THREE.Vector3();
-new THREE.Box3().setFromObject(alvo).getCenter(ctr);
-alvo.position.sub(ctr);
-alvo.position.y += 0.04;
-const BASE_Y = alvo.position.y;
-const BASE_X = alvo.position.x;
+      alvo.updateMatrixWorld(true);
+      const ctr = new THREE.Vector3();
+      new THREE.Box3().setFromObject(alvo).getCenter(ctr);
+      alvo.position.sub(ctr);
+      alvo.position.y += 0.04;
+      const BASE_Y = alvo.position.y;
+      const BASE_X = alvo.position.x;
 
-/* ---------- smooth scroll ---------- */
-let lenis = null, scrollVel = 0;
-if (!REDUCE) {
-  lenis = new Lenis({ lerp:0.085 });
-  lenis.on('scroll', e => { scrollVel = e.velocity || 0; });
-  // sem loop proprio: o frame() ja roda a 60fps e chama lenis.raf (dois rAF por
-  // quadro competindo entre si nao ajudam em nada)
-}
-/* Métricas de layout em CACHE. Antes o frame() lia scrollHeight duas vezes,
+      /* ---------- smooth scroll ---------- */
+      let lenis = null,
+        scrollVel = 0;
+      if (!REDUCE) {
+        lenis = new Lenis({ lerp: 0.085 });
+        lenis.on("scroll", (e) => {
+          scrollVel = e.velocity || 0;
+        });
+        // sem loop proprio: o frame() ja roda a 60fps e chama lenis.raf (dois rAF por
+        // quadro competindo entre si nao ajudam em nada)
+      }
+      /* Métricas de layout em CACHE. Antes o frame() lia scrollHeight duas vezes,
    offsetTop/offsetHeight das seções e 9 getBoundingClientRect — cada leitura dessas
    força o browser a recalcular o layout, 60x por segundo. Aqui medimos uma vez e
    remedimos só quando algo realmente muda de tamanho. */
-const LM = { tops:[], heights:[], max:1 };
-function measure(){
-  for (let i = 0; i < SECTIONS.length; i++){
-    LM.tops[i]    = SECTIONS[i].offsetTop;
-    LM.heights[i] = SECTIONS[i].offsetHeight;
-  }
-  LM.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-}
-function scrollProgress(){
-  return Math.min(1, Math.max(0, scrollY / LM.max));
-}
-const smoothstep = x => x*x*(3 - 2*x);
-// smootherstep: 1a E 2a derivadas zero nas duas pontas. O smoothstep ainda tem uma
-// quebra de aceleração no início/fim, que é o que dá a sensação de corte "seco".
-const smoother  = x => x*x*x*(x*(x*6 - 15) + 10);
-const lerp = (a, b, t) => a + (b - a) * t;
-const root = document.documentElement;
-
-/* ---------- tema: dark -> light conforme o scroll ---------- */
-function hexMix(h1, h2, t){
-  const r = Math.round(lerp((h1>>16)&255, (h2>>16)&255, t));
-  const g = Math.round(lerp((h1>>8)&255,  (h2>>8)&255,  t));
-  const b = Math.round(lerp(h1&255,       h2&255,       t));
-  return `rgb(${r},${g},${b})`;
-}
-let _lastD = -1;
-function applyTheme(d){
-  // custom property no :root invalida o estilo do DOCUMENTO todo. Escrever 6 delas a
-  // 60fps mesmo com o tema parado era o recálculo de estilo mais caro da página.
-  if (Math.abs(d - _lastD) < 0.002) return;
-  _lastD = d;
-  // O fundo vai de branco a quase-preto, então passa obrigatoriamente por um cinza-médio.
-  // Interpolar o TEXTO na mesma curva o faz cruzar esse cinza: --dim e --bg chegavam a
-  // 1.01:1 e o texto desaparecia. Duas medidas:
-  //  1) o texto TROCA de lado (sem interpolar por cima do cinza);
-  //  2) perto do meio ele é empurrado para o extremo (quase-preto / branco), que é onde
-  //     ainda há contraste contra o cinza.
-  // smoother no fundo: acelera a passagem pelo cinza-médio (onde nenhum texto tem contraste
-  // bom) sem perder a suavidade nas pontas — encurta a janela ruim quase pela metade
-  root.style.setProperty('--bg', hexMix(0xffffff, 0x0b0e15, smoother(d)));
-  const dark = d >= 0.5;
-  const mid  = 1 - Math.min(1, Math.abs(d - 0.5) * 2.6);   // 1 no meio, 0 nas pontas
-  root.style.setProperty('--ink', dark ? hexMix(0xf3f5fb, 0xffffff, mid)
-                                       : hexMix(0x1c1c22, 0x000000, mid));
-  root.style.setProperty('--dim', dark ? hexMix(0x9aa2b4, 0xf2f5fa, mid)
-                                       : hexMix(0x6a6a74, 0x101014, mid));
-  // vermelho de TEXTO clareia no dark: a cor da marca pura fica ilegível ali
-  root.style.setProperty('--red-ink', dark ? hexMix(0xff6a86, 0xffe0e6, mid)
-                                           : hexMix(0xb8072a, 0x4a000f, mid));
-  root.style.setProperty('--line', `rgba(${d>0.5?'255,255,255':'0,0,0'},${lerp(0.09,0.13,d).toFixed(3)})`);
-  root.style.setProperty('--dot',  `rgba(${d>0.5?'255,255,255':'0,0,0'},0.24)`);
-  document.querySelector('.grain').style.opacity = lerp(0.035, 0.06, d);
-  document.querySelector('.glow').style.opacity  = lerp(1, 1.5, d);
-}
-
-/* ---------- estado contínuo: scroll + parallax + coreografia por seção ---------- */
-const SECTIONS = [...document.querySelectorAll('section')];
-const SECTION_SX = SECTIONS.map(s => +s.dataset.sx || 0);
-
-// tipografia das seções, montada aqui pra não repetir markup em 9 lugares:
-// 1) véu de legibilidade atrás do texto (o símbolo 3D passa por trás e derrubava o contraste)
-// 2) nas seções de pilar o NOME é o display, então também entra no reveal por palavra
-SECTIONS.forEach(sec => {
-  const host = sec.querySelector('.hold-inner') || sec;
-  const kicker = host.querySelector('.kicker');
-  if (!kicker) return;                                   // a seção do corredor é só espaçador
-  const veil = document.createElement('div');
-  veil.className = 'leg-veil';
-  host.insertBefore(veil, host.firstChild);
-  const pil = sec.dataset.pillar;
-  if (pil != null && pil !== '5') kicker.setAttribute('data-reveal', '');
-});
-const progressEl = document.querySelector('.progress');
-// índices por classe, não por posição: acrescentar uma seção no fim quebrava
-// silenciosamente qualquer "SECTIONS.length - 2"
-const I_HOLD  = SECTIONS.findIndex(s => s.classList.contains('hold-sec'));   // Consolidação
-const I_APPS  = SECTIONS.findIndex(s => s.classList.contains('apps-sec'));   // corredor
-const I_OUTRO = SECTIONS.findIndex(s => s.classList.contains('outro'));      // encerramento
-const secPrev = SECTIONS[I_HOLD];                     // de onde entramos no portal
-const outroEl = document.querySelector('.outro-inner');
-const outroTag = document.querySelector('.outro-tag');
-const outroRule = document.querySelector('.outro-rule');
-const outroEye = document.querySelector('.outro-eyebrow');
-const outroLead = document.querySelector('.outro-lead');
-const toTopBtn = document.querySelector('.to-top');
-const rewindEl = document.querySelector('.rewind');
-// A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
-// mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
-const P_START = I_HOLD + 0.018, P_END = I_HOLD + 0.844;
-let curFov = 36;
-
-// trilho de capítulos em algarismos romanos
-const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
-const roman = n => ROMAN[n - 1] || String(n);
-const SEC_LABEL = ['Sobre','A marca','Precisão','Tecnologia','Eficiência','Qualidade','Inovação','Consolidação','Aplicações','Unidos'];
-const rail = document.querySelector('.rail');
-// posição no roteiro medida pelos offsets reais das seções (não assume alturas iguais).
-// Para seções de 100vh dá exatamente o mesmo que scrollY/vh; a última pode ser bem mais alta.
-function segFrom(){
-  const y = scrollY, last = SECTIONS.length - 1;
-  let i = 0;
-  while (i < last && y >= LM.tops[i + 1]) i++;
-  const a = LM.tops[i];
-  // na última seção o scroll para uma viewport antes do fim: normaliza pelo trecho rolável,
-  // senão a fração nunca chega a 1 e o corredor fica sem o último trecho.
-  const b = i < last ? LM.tops[i + 1] : a + Math.max(1, LM.heights[i] - innerHeight);
-  return i + utils.clamp((y - a) / Math.max(1, b - a), 0, 1);
-}
-const railDots = SECTIONS.map((sec, i) => {
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.innerHTML = '<span class="lbl">' + (SEC_LABEL[i] || '') + '</span><i></i>';
-  b.setAttribute('aria-label', SEC_LABEL[i] || ('Seção ' + (i + 1)));
-  b.addEventListener('click', () => lenis ? lenis.scrollTo(sec) : sec.scrollIntoView({ behavior:'smooth' }));
-  rail.appendChild(b);
-  return b;
-});
-measure();
-// remede quando algo muda de tamanho de verdade: resize, fonte carregando, reveal
-// alterando alturas. Um ResizeObserver no <html> cobre tudo isso sem polling.
-new ResizeObserver(measure).observe(document.documentElement);
-document.fonts?.ready.then(measure);
-
-let railActive = -1, railShown = -1;
-// ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
-const SEC_YAW  = [ 0.30, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.60, 0.00, 0.00 ];
-const SEC_DARK = SECTIONS.map(s => s.dataset.dark != null ? 1 : 0);   // hero, A marca e Consolidação = dark
-let curDark = SEC_DARK[0];
-
-let hoverIdx = -1;
-// a partir do momento em que comecamos a entrar na logo ela deixa de ser um objeto
-// interativo e passa a ser cenario: travessia, corredor e encerramento
-let symbolLocked = false;
-let mx = 0, my = 0, pmx = 0, pmy = 0;
-let curRotY = 0, curSx = SECTION_SX[0], curExpl = 0, curHide = 0, curStretch = 0, curBody = 0;
-const drag = { rx:0, ry:0 };          // offset de rotação vindo do arraste do usuário
-let grabbing = false, lpx = 0, lpy = 0, releaseAnim = null;
-
-// cursor custom (anel que segue o mouse com atraso)
-const cursorEl = document.querySelector('.cursor');
-const cur = { x: innerWidth/2, y: innerHeight/2, tx: innerWidth/2, ty: innerHeight/2 };
-if (cursorEl && matchMedia('(pointer:fine)').matches && !REDUCE) {
-  document.body.classList.add('cc');
-  addEventListener('pointermove', e => { cur.tx = e.clientX; cur.ty = e.clientY; });
-}
-
-// recap dos 5 pilares na Consolidação (sequência de pulsos)
-let recapAt = -1;
-let overIx = false;   // mouse sobre algo interativo (símbolo / card) -> cursor cresce
-
-function frame(){
-  const t = performance.now() / 1000;
-  lenis?.raf(t * 1000);
-  const p = REDUCE ? 0.12 : scrollProgress();
-  const s = smoothstep(p);
-  if (progressEl) progressEl.style.transform = 'scaleX(' + p.toFixed(4) + ')';
-
-  if (cursorEl){
-    cur.x += (cur.tx - cur.x) * 0.2;
-    cur.y += (cur.ty - cur.y) * 0.2;
-    cursorEl.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + cur.y.toFixed(1) + 'px)';
-    cursorEl.classList.toggle('big', hoverIdx >= 0 || overIx);
-  }
-
-  pmx += (mx - pmx) * 0.04;
-  pmy += (my - pmy) * 0.04;
-
-  // seção ativa
-  // a seção que cobre o meio da viewport (com alturas diferentes, "centro mais próximo" erra).
-  // Calculado dos offsets em cache: 9 getBoundingClientRect por frame forçavam layout.
-  const mid = scrollY + innerHeight / 2;
-  let active = 0;
-  for (let i = 0; i < SECTIONS.length; i++){
-    if (LM.tops[i] > mid) break;
-    active = i;
-  }
-  if (active !== railActive){
-    SECTIONS[active].querySelector('.kicker')?.classList.add('drawn');   // linha do kicker desenha
-    if (active === I_HOLD && recapAt < 0) recapAt = t;                   // dispara o recap dos 5 pilares
-    railActive = active;
-  }
-  const pAttr = SECTIONS[active].dataset.pillar;
-  const activeIdx = pAttr != null ? PILLARS[+pAttr].idx : [];
-  const isPillar = pAttr != null;
-  const isExplode = isPillar && pAttr !== '5';   // Consolidação NÃO explode: remonta e brilha
-
-  // símbolo NÃO gira: só muda de ângulo entre seções, interpolado pelo scroll (progressivo, nunca de costas)
-  const segRaw = segFrom();                                   // 0..N (a última seção pode ser mais alta)
-  const segF = Math.min(segRaw, SECTIONS.length - 1);
-  // corredor em PIXELS (não em segF): começa onde a travessia termina, dentro da
-  // Consolidação, e vai até o fim da página — velocidade uniforme, sem degrau na borda
-  const corrA = LM.tops[I_HOLD] + LM.heights[I_HOLD] * (P_END - I_HOLD);
-  // o corredor termina onde o encerramento começa (antes ia até o fim da página)
-  const corrB = LM.tops[I_OUTRO] || LM.max;
-  const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, corrB - corrA), 0, 1);
-  const i0 = Math.max(0, Math.min(SECTIONS.length - 2, Math.floor(segF)));
-  const bf = smoothstep(utils.clamp(segF - i0, 0, 1));
-  const targetYaw = SEC_YAW[i0] + (SEC_YAW[i0 + 1] - SEC_YAW[i0]) * bf;
-  curRotY  += (targetYaw - curRotY) * 0.09;
-  curSx    += (SECTION_SX[active] - curSx) * 0.06;
-
-  // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
-  // pFace começa ANTES: o símbolo se endireita de frente pra câmera; só depois voamos pra dentro.
-  const pFace  = smoothstep(utils.clamp((segF - (I_HOLD + 0.028)) / 0.20, 0, 1));
-  // Consolidação tem 230vh, então esse trecho vale ~200vh de scroll.
-  // O texto ainda sai nos primeiros ~16% (mesmo ritmo de antes); o resto é a travessia.
-  const portalIn = smoothstep(utils.clamp((segF - P_START) / (P_END - P_START), 0, 1));
-
-  // SAÍDA do portal. Como câmera, anel, elementos centrais, túnel e telas são TODOS
-  // dirigidos por portalP, basta desfazer esse valor no encerramento: a travessia roda
-  // ao contrário sozinha — a câmera recua, o anel volta ao tamanho e o símbolo se
-  // recompõe. Nada de código novo pra "sair".
-  const pOut = smoothstep(utils.clamp((segRaw - I_OUTRO) / 0.82, 0, 1));
-  const portalP = portalIn * (1 - pOut);
-  // a aproximação da câmera é propositalmente lenta no começo (expoente > 1): é isso que
-  // faz a logo ficar bastante tempo na tela em vez de encher o quadro e passar num piscar
-  const pDolly = Math.pow(portalP, 1.8);
-
-  // Assim que a travessia comeca, a logo deixa de ser objeto e vira cenario. portalIn
-  // ja cobre travessia + corredor + encerramento (la ele fica em 1 e so o pOut varia),
-  // entao um limiar unico basta. Nas secoes de pilar portalIn e 0 e tudo continua igual.
-  symbolLocked = portalIn > 0.02;
-  if (symbolLocked){
-    if (hoverIdx >= 0){ hoverIdx = -1; tip.hidden = true; }   // some com tooltip em curso
-    if (grabbing){                                            // e solta um arraste em curso
-      grabbing = false;
-      document.body.classList.remove('grabbing');
-      releaseAnim = animate(drag, { rx:0, ry:0, ease: createSpring({ stiffness:48, damping:7 }) });
-    }
-    document.body.classList.remove('can-grab');
-  }
-
-  // travessia LIMPA: o texto da Consolidação some antes de entrarmos e o do corredor
-  // só aparece depois que já estamos dentro. Nunca os dois na tela ao mesmo tempo.
-  if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.053, 0, 1))).toFixed(3);
-
-  // tema dark<->light interpolado pelo scroll
-  const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
-  curDark += (dTarget - curDark) * 0.06;
-  applyTheme(curDark);
-  scene.fog.color.setRGB(lerp(1,0.043,curDark), lerp(1,0.055,curDark), lerp(1,0.082,curDark));
-  ambient.intensity = lerp(0.95, 0.5, curDark);
-  curExpl  += ((isExplode ? 1 : 0) - curExpl) * 0.06;
-  curHide  += ((SECTIONS[active].dataset.hide != null ? 1 : 0) - curHide) * 0.06;
-  const bodyTarget = utils.clamp((segF - 0.35) / 1.0, 0, 1);   // "o logo ganha corpo" ao entrar na seção 1
-  curBody += (bodyTarget - curBody) * 0.06;
-  const bodyZ = 0.12 + 0.88 * smoothstep(curBody);
-  const expl = smoothstep(curExpl);
-  const hide = smoothstep(curHide);
-  if (hide > 0.5) hoverIdx = -1;
-  if (recapAt >= 0 && t - recapAt > 3.4) recapAt = -1;         // fim da sequência do recap
-
-  // câmera: dolly no scroll + deriva com o mouse; na travessia, voa PRA DENTRO do símbolo
-  const camX = BASE_X + curSx;
-  const alvoY = BASE_Y + Math.sin(t*0.55)*0.04 * (1 - pFace);
-  // na travessia a câmera se alinha ao eixo do símbolo e entra reto pelo centro
-  camera.position.z = lerp(8.7 - s*1.7, 2.37, pDolly);
-  camera.position.x = lerp(camX + pmx * 0.5, camX, pFace);
-  camera.position.y = lerp(0.5 + Math.sin(p*Math.PI)*0.2 + pmy*0.3, alvoY, pFace);
-  camera.lookAt(lerp(curSx*0.9, camX, pFace), lerp(0, alvoY, pFace), lerp(0, -14, portalP));
-  const fovT = lerp(36, 58, portalP);
-  if (Math.abs(fovT - curFov) > 0.1){ curFov = fovT; camera.fov = fovT; camera.updateProjectionMatrix(); }
-
-  // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
-  // no encerramento o símbolo recua e vira marca d'água atrás da assinatura:
-  // no tamanho cheio ele competia com o texto e cortava a leitura
-  // no celular o simbolo ocupa proporcionalmente muito mais da tela e briga com o texto
-  const sc = (0.0038 + s*0.0010 + expl*0.0011) * (1 - hide*0.55) * (1 - pOut*0.46)
-             * (SMALL ? 0.78 : 1);
-  const stTarget = utils.clamp(scrollVel * 0.0007, -0.12, 0.12);
-  curStretch += (stTarget - curStretch) * 0.14;
-  scrollVel *= 0.86;                                   // decai quando o scroll para
-  alvo.scale.set(sc * (1 - curStretch*0.5), sc * (1 + curStretch), sc * (1 - curStretch*0.5) * bodyZ);
-  ground.material.opacity = 0.16 * (1 - Math.max(hide, Math.min(1, portalP * 5)));
-  alvo.position.x = camX;
-  alvo.position.y = alvoY + pOut * 0.62;   // sobe no fecho: libera o rodape do texto
-  const gInf = grabbing ? 0 : 1;   // trava o parallax enquanto arrasta
-  const face = 1 - pFace;          // 1 = pose normal da seção; 0 = de frente pra câmera, parado
-  alvo.rotation.y = (curRotY + drag.ry + (Math.sin(t*0.35)*0.03 + pmx*0.12*gInf)) * face;
-  alvo.rotation.x = (0.13 - s*0.06 + drag.rx + (Math.sin(t*0.3)*0.02 + pmy*0.08*gInf)) * face;
-  alvo.rotation.z = Math.sin(t*0.22)*0.014 * face;
-
-  const anyHot = activeIdx.length > 0 || hoverIdx >= 0;
-
-  alvo.children.forEach((m, i) => {
-    const hot = activeIdx.includes(i) || i === hoverIdx;
-    m.userData.hl += ((hot ? 1 : 0) - m.userData.hl) * 0.05;   // transição lenta = fluida
-    const e = smoothstep(Math.min(1, m.userData.hl));
-
-    // recap: acende cada pilar em sequência (5 pulsos de ~0.55s)
-    let recapE = 0;
-    if (recapAt >= 0){
-      const el = t - recapAt, step = Math.floor(el / 0.55), pil = PILLARS[step];
-      if (pil && pil.idx.includes(i)) recapE = Math.sin(((el % 0.55) / 0.55) * Math.PI) * 1.6;
-    }
-
-    const f = m.material[0], sMat = m.material[1];
-    // no tema dark o realce satura fácil: reduz ganho e clareamento conforme escurece
-    f.emissiveIntensity = 0.05 + e*(1.05 - curDark*0.62) + recapE + curDark*0.10;
-    f.color.setHex(RED).lerp(HL, Math.min(1, e*(0.34 - curDark*0.22) + recapE*0.3));
-    f.emissive.setHex(RED).lerp(HL, e*0.6);
-
-    // coreografia por PROFUNDIDADE (sem espalhar = sem sobreposição):
-    // a parte ativa vem à frente e cresce; as outras recuam e desbotam, no lugar.
-    const o = m.userData.out;
-    const back = expl * (1 - e);                    // quanto essa peça "recua" (0 = na frente/ativa)
-    m.position.set(
-      o.x * back * 22,                              // deriva mínima, só pra soltar
-      o.y * back * 22,
-      e * 150 * (0.45 + 0.55*expl) - back * 90
-    );
-    const k = (1 + e*0.26) * (1 - back*0.1);        // ativa cresce mais
-    m.scale.set(k, -k, k);
-    let op = (1 - back*0.86) * (1 - hide*0.94);     // some quase de vez na seção "As aplicações"
-
-    // travessia do portal: 5 elementos centrais (centro + 4 arcos) somem;
-    // o anel externo cresce e "passamos por dentro" dele
-    if (portalP > 0){
-      const isRing = i < 2;                         // 0,1 = anel externo
-      if (isRing){
-        // o anel cresce e a câmera passa por dentro dele. Ele some entre 0.55 e 0.85,
-        // enquanto o túnel do corredor (.tunnel, em CSS) já está subindo por trás —
-        // é essa passagem de bastão que evita a tela vazia, sem esticar geometria.
-        m.scale.multiplyScalar(1 + pDolly*pDolly*3);
-        m.position.z += pDolly * 900;               // (unidades locais) atravessa a câmera
-        f.emissiveIntensity += portalP * 0.9;       // acende de leve (sem estourar)
-        op *= 1 - smoothstep(utils.clamp((portalP - 0.79) / 0.10, 0, 1));
-      } else {
-        // os 5 centrais somem cedo: quando o anel cresce eles já não estão lá
-        const innerOp = 1 - smoothstep(utils.clamp(portalP / 0.28, 0, 1));
-        m.scale.multiplyScalar(0.2 + 0.8*innerOp);
-        op *= innerOp;
+      const LM = { tops: [], heights: [], max: 1 };
+      function measure() {
+        for (let i = 0; i < SECTIONS.length; i++) {
+          LM.tops[i] = SECTIONS[i].offsetTop;
+          LM.heights[i] = SECTIONS[i].offsetHeight;
+        }
+        LM.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
       }
-    }
-
-    op *= 1 - pOut*0.80;                            // marca d'água: bem discreto atrás do texto
-    f.opacity = op; sMat.opacity = op;
-    f.depthWrite = sMat.depthWrite = op > 0.92;     // recuadas nao escondem uma a outra
-    m.castShadow = op > 0.6 && portalP < 0.3;
-  });
-
-  drawCorridor(corridorP, portalP);
-
-  // o trilho segue o que esta na TELA, nao a seção que cobre o meio da viewport:
-  // o corredor comeca dentro da Consolidacao e o encerramento come o fim do corredor
-  let chapter = active;
-  if (pOut > 0.5) chapter = I_OUTRO;
-  else if (corridorShown > 0.5) chapter = I_APPS;
-  if (chapter !== railShown){
-    railDots[railShown]?.classList.remove('on');
-    railDots[chapter]?.classList.add('on');
-    railShown = chapter;
-  }
-
-  // assinatura do encerramento: entra em camadas depois que o corredor já se apagou.
-  // Sem data-reveal de propósito — ele reescreve o innerHTML e mataria o <em> do "#".
-  if (outroEl){
-    const ent = (a, b) => smoothstep(utils.clamp((pOut - a) / (b - a), 0, 1));
-    const tag = ent(0.20, 0.62), eye = ent(0.34, 0.62), rul = ent(0.48, 0.78), led = ent(0.56, 0.86);
-    setStyle(outroEl, 'visibility', pOut < 0.005 ? 'hidden' : 'visible');
-    if (pOut >= 0.005){
-      // a assinatura sobe do ponto de fuga do túnel: vem de trás, ampliando
-      setStyle(outroTag, 'opacity', tag.toFixed(3));
-      setStyle(outroTag, 'transform', 'translateY(' + ((1 - tag) * 26).toFixed(1) + 'px) scale(' + (0.9 + tag * 0.1).toFixed(4) + ')');
-      setStyle(outroTag, 'filter', tag > 0.985 ? '' : 'blur(' + ((1 - tag) * 11).toFixed(2) + 'px)');
-      setStyle(outroEye, 'opacity', eye.toFixed(3));
-      setStyle(outroEye, 'transform', 'translateY(' + ((1 - eye) * 12).toFixed(1) + 'px)');
-      setStyle(outroRule, 'transform', 'scaleX(' + rul.toFixed(4) + ')');
-      setStyle(outroLead, 'opacity', led.toFixed(3));
-      setStyle(outroLead, 'transform', 'translateY(' + ((1 - led) * 14).toFixed(1) + 'px)');
-      if (toTopBtn){
-        const btn = ent(0.68, 0.94);
-        setStyle(toTopBtn, 'opacity', btn.toFixed(3));
-        setStyle(toTopBtn, 'transform', 'translateY(' + ((1 - btn) * 12).toFixed(1) + 'px)');
-        // só clicável depois de visível, senão vira alvo invisível
-        setStyle(toTopBtn, 'pointerEvents', btn > 0.6 ? 'auto' : 'none');
+      function scrollProgress() {
+        return Math.min(1, Math.max(0, scrollY / LM.max));
       }
-    }
-  }
+      const smoothstep = (x) => x * x * (3 - 2 * x);
+      // smootherstep: 1a E 2a derivadas zero nas duas pontas. O smoothstep ainda tem uma
+      // quebra de aceleração no início/fim, que é o que dá a sensação de corte "seco".
+      const smoother = (x) => x * x * x * (x * (x * 6 - 15) + 10);
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const root = document.documentElement;
 
-  // No corredor o símbolo está totalmente invisível, mas o canvas continuava sendo
-  // renderizado E composto (RGBA em tela cheia, por cima de tunnel + stage + grain).
-  // Aqui ele sai do compositor de vez enquanto não há nada visível.
-  const vis = hide < 0.985 && portalP < 0.999;
-  if (vis !== canvasVisible){
-    canvasVisible = vis;
-    canvas.style.display = vis ? '' : 'none';
-    // sombra: mapa de 1024² recalculado por frame só faz sentido com o símbolo em cena
-    renderer.shadowMap.autoUpdate = vis;
-  }
-  if (vis) renderer.render(scene, camera);
+      /* ---------- tema: dark -> light conforme o scroll ---------- */
+      function hexMix(h1, h2, t) {
+        const r = Math.round(lerp((h1 >> 16) & 255, (h2 >> 16) & 255, t));
+        const g = Math.round(lerp((h1 >> 8) & 255, (h2 >> 8) & 255, t));
+        const b = Math.round(lerp(h1 & 255, h2 & 255, t));
+        return `rgb(${r},${g},${b})`;
+      }
+      let _lastD = -1;
+      function applyTheme(d) {
+        // custom property no :root invalida o estilo do DOCUMENTO todo. Escrever 6 delas a
+        // 60fps mesmo com o tema parado era o recálculo de estilo mais caro da página.
+        if (Math.abs(d - _lastD) < 0.002) return;
+        _lastD = d;
+        // O fundo vai de branco a quase-preto, então passa obrigatoriamente por um cinza-médio.
+        // Interpolar o TEXTO na mesma curva o faz cruzar esse cinza: --dim e --bg chegavam a
+        // 1.01:1 e o texto desaparecia. Duas medidas:
+        //  1) o texto TROCA de lado (sem interpolar por cima do cinza);
+        //  2) perto do meio ele é empurrado para o extremo (quase-preto / branco), que é onde
+        //     ainda há contraste contra o cinza.
+        // smoother no fundo: acelera a passagem pelo cinza-médio (onde nenhum texto tem contraste
+        // bom) sem perder a suavidade nas pontas — encurta a janela ruim quase pela metade
+        root.style.setProperty("--bg", hexMix(0xffffff, 0x0b0e15, smoother(d)));
+        const dark = d >= 0.5;
+        const mid = 1 - Math.min(1, Math.abs(d - 0.5) * 2.6); // 1 no meio, 0 nas pontas
+        root.style.setProperty(
+          "--ink",
+          dark ? hexMix(0xf3f5fb, 0xffffff, mid) : hexMix(0x1c1c22, 0x000000, mid),
+        );
+        root.style.setProperty(
+          "--dim",
+          dark ? hexMix(0x9aa2b4, 0xf2f5fa, mid) : hexMix(0x6a6a74, 0x101014, mid),
+        );
+        // vermelho de TEXTO clareia no dark: a cor da marca pura fica ilegível ali
+        root.style.setProperty(
+          "--red-ink",
+          dark ? hexMix(0xff6a86, 0xffe0e6, mid) : hexMix(0xb8072a, 0x4a000f, mid),
+        );
+        root.style.setProperty(
+          "--line",
+          `rgba(${d > 0.5 ? "255,255,255" : "0,0,0"},${lerp(0.09, 0.13, d).toFixed(3)})`,
+        );
+        root.style.setProperty("--dot", `rgba(${d > 0.5 ? "255,255,255" : "0,0,0"},0.24)`);
+        document.querySelector(".grain").style.opacity = lerp(0.035, 0.06, d);
+        document.querySelector(".glow").style.opacity = lerp(1, 1.5, d);
+      }
 
-  requestAnimationFrame(frame);
-}
+      /* ---------- estado contínuo: scroll + parallax + coreografia por seção ---------- */
+      const SECTIONS = [...document.querySelectorAll("section")];
+      const SECTION_SX = SECTIONS.map((s) => +s.dataset.sx || 0);
 
-addEventListener('resize', () => {
-  renderer.setSize(innerWidth, innerHeight);
-  camera.aspect = innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-});
-
-/* ---------- hover no símbolo (raycaster) ---------- */
-const tip = document.querySelector('.tip');
-const ray = new THREE.Raycaster();
-const ndc = new THREE.Vector2();
-function castAt(cx, cy){
-  ndc.x = (cx/innerWidth)*2 - 1;
-  ndc.y = -(cy/innerHeight)*2 + 1;
-  ray.setFromCamera(ndc, camera);
-  return ray.intersectObjects(alvo.children, false)[0];
-}
-addEventListener('pointermove', e => {
-  if (grabbing){
-    drag.ry += (e.clientX - lpx) * 0.007;
-    drag.rx  = utils.clamp(drag.rx + (e.clientY - lpy) * 0.005, -0.7, 0.7);
-    lpx = e.clientX; lpy = e.clientY;
-  }
-  mx = (e.clientX/innerWidth)*2 - 1;
-  my = -((e.clientY/innerHeight)*2 - 1);
-  // não interage com o símbolo se ele está escondido ou se o mouse está sobre um card
-  const blocked = symbolLocked || curHide > 0.4 || e.target.closest('.app');
-  const hit = (!blocked && !grabbing) ? castAt(e.clientX, e.clientY) : null;
-  hoverIdx = hit ? alvo.children.indexOf(hit.object) : -1;
-  document.body.classList.toggle('can-grab', !!hit && !grabbing);
-  const p = hoverIdx >= 0 ? pillarByMesh(hoverIdx) : null;
-  if (p && !grabbing){
-    tip.querySelector('b').textContent = p.label;
-    tip.querySelector('span').textContent = p.short;
-    let x = e.clientX + 16, y = e.clientY + 16;
-    if (x > innerWidth - 260) x = e.clientX - 260;
-    if (y > innerHeight - 90) y = e.clientY - 90;
-    tip.style.transform = `translate(${x}px,${y}px)`;
-    tip.hidden = false;
-  } else {
-    tip.hidden = true;
-  }
-});
-addEventListener('pointerleave', () => { hoverIdx = -1; tip.hidden = true; });
-
-/* ---------- arrastar o símbolo (mola no soltar via createSpring) ---------- */
-addEventListener('pointerdown', e => {
-  // só com mouse: em touch o preventDefault abaixo bloquearia o scroll da página
-  if (e.pointerType && e.pointerType !== 'mouse') return;
-  if (symbolLocked || curHide > 0.4 || e.target.closest('.app')) return;
-  if (!castAt(e.clientX, e.clientY)) return;
-  grabbing = true; lpx = e.clientX; lpy = e.clientY;
-  releaseAnim?.pause();
-  document.body.classList.add('grabbing');
-  tip.hidden = true;
-  e.preventDefault();
-});
-addEventListener('pointerup', () => {
-  if (!grabbing) return;
-  grabbing = false;
-  document.body.classList.remove('grabbing');
-  releaseAnim = animate(drag, { rx:0, ry:0, ease: createSpring({ stiffness:48, damping:7 }) });
-});
-
-/* ---------- reveal de texto por palavra (anime.js + IntersectionObserver) ---------- */
-function splitWords(el){
-  const words = el.textContent.trim().split(/\s+/);
-  el.innerHTML = words.map(w => `<span class="line-mask"><span class="word">${w}</span></span> `).join('');
-  return [...el.querySelectorAll('.word')];
-}
-const unclip = el => el.querySelectorAll('.line-mask').forEach(m => m.classList.add('done'));
-
-if (!REDUCE) {
-  const wordsOf = new Map();
-  document.querySelectorAll('[data-reveal]').forEach(el => {
-    const words = splitWords(el);
-    utils.set(words, { opacity:0, translateY:'0.5em', filter:'blur(7px)' });
-    if (!el.closest('#hero')) wordsOf.set(el, words);   // hero = timeline
-  });
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      io.unobserve(e.target);
-      const el = e.target;
-      animate(wordsOf.get(el), {
-        opacity:[0,1], translateY:['0.5em','0em'], filter:['blur(7px)','blur(0px)'],
-        delay:stagger(32), duration:720, ease:'out(3)',
-        onComplete(){ unclip(el); }
+      // tipografia das seções, montada aqui pra não repetir markup em 9 lugares:
+      // 1) véu de legibilidade atrás do texto (o símbolo 3D passa por trás e derrubava o contraste)
+      // 2) nas seções de pilar o NOME é o display, então também entra no reveal por palavra
+      SECTIONS.forEach((sec) => {
+        const host = sec.querySelector(".hold-inner") || sec;
+        const kicker = host.querySelector(".kicker");
+        if (!kicker) return; // a seção do corredor é só espaçador
+        const veil = document.createElement("div");
+        veil.className = "leg-veil";
+        host.insertBefore(veil, host.firstChild);
+        const pil = sec.dataset.pillar;
+        if (pil != null && pil !== "5") kicker.setAttribute("data-reveal", "");
       });
-    }
-  }, { rootMargin:'0px 0px -12% 0px' });
-  wordsOf.forEach((_, el) => io.observe(el));
-}
+      const progressEl = document.querySelector(".progress");
+      // índices por classe, não por posição: acrescentar uma seção no fim quebrava
+      // silenciosamente qualquer "SECTIONS.length - 2"
+      const I_HOLD = SECTIONS.findIndex((s) => s.classList.contains("hold-sec")); // Consolidação
+      const I_APPS = SECTIONS.findIndex((s) => s.classList.contains("apps-sec")); // corredor
+      const I_OUTRO = SECTIONS.findIndex((s) => s.classList.contains("outro")); // encerramento
+      const secPrev = SECTIONS[I_HOLD]; // de onde entramos no portal
+      const outroEl = document.querySelector(".outro-inner");
+      const outroTag = document.querySelector(".outro-tag");
+      const outroRule = document.querySelector(".outro-rule");
+      const outroEye = document.querySelector(".outro-eyebrow");
+      const outroLead = document.querySelector(".outro-lead");
+      const toTopBtn = document.querySelector(".to-top");
+      const rewindEl = document.querySelector(".rewind");
+      // A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
+      // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
+      const P_START = I_HOLD + 0.018,
+        P_END = I_HOLD + 0.844;
+      let curFov = 36;
 
-/* ---------- corredor das aplicações ----------
+      // trilho de capítulos em algarismos romanos
+      const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+      const roman = (n) => ROMAN[n - 1] || String(n);
+      const SEC_LABEL = [
+        "Sobre",
+        "A marca",
+        "Precisão",
+        "Tecnologia",
+        "Eficiência",
+        "Qualidade",
+        "Inovação",
+        "Consolidação",
+        "Aplicações",
+        "Unidos",
+      ];
+      const rail = document.querySelector(".rail");
+      // posição no roteiro medida pelos offsets reais das seções (não assume alturas iguais).
+      // Para seções de 100vh dá exatamente o mesmo que scrollY/vh; a última pode ser bem mais alta.
+      function segFrom() {
+        const y = scrollY,
+          last = SECTIONS.length - 1;
+        let i = 0;
+        while (i < last && y >= LM.tops[i + 1]) i++;
+        const a = LM.tops[i];
+        // na última seção o scroll para uma viewport antes do fim: normaliza pelo trecho rolável,
+        // senão a fração nunca chega a 1 e o corredor fica sem o último trecho.
+        const b = i < last ? LM.tops[i + 1] : a + Math.max(1, LM.heights[i] - innerHeight);
+        return i + utils.clamp((y - a) / Math.max(1, b - a), 0, 1);
+      }
+      const railDots = SECTIONS.map((sec, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.innerHTML = '<span class="lbl">' + (SEC_LABEL[i] || "") + "</span><i></i>";
+        b.setAttribute("aria-label", SEC_LABEL[i] || "Seção " + (i + 1));
+        b.addEventListener("click", () =>
+          lenis ? lenis.scrollTo(sec) : sec.scrollIntoView({ behavior: "smooth" }),
+        );
+        rail.appendChild(b);
+        return b;
+      });
+      measure();
+      // remede quando algo muda de tamanho de verdade: resize, fonte carregando, reveal
+      // alterando alturas. Um ResizeObserver no <html> cobre tudo isso sem polling.
+      new ResizeObserver(measure).observe(document.documentElement);
+      document.fonts?.ready.then(measure);
+
+      let railActive = -1,
+        railShown = -1;
+      // ângulo do símbolo por seção (yaw pequeno = a fatia ativa sempre fica virada pra frente, nunca gira pro fundo)
+      const SEC_YAW = [0.3, -0.08, 0.02, -0.42, 0.42, -0.42, 0.42, -0.6, 0.0, 0.0];
+      const SEC_DARK = SECTIONS.map((s) => (s.dataset.dark != null ? 1 : 0)); // hero, A marca e Consolidação = dark
+      let curDark = SEC_DARK[0];
+
+      let hoverIdx = -1;
+      // a partir do momento em que comecamos a entrar na logo ela deixa de ser um objeto
+      // interativo e passa a ser cenario: travessia, corredor e encerramento
+      let symbolLocked = false;
+      let mx = 0,
+        my = 0,
+        pmx = 0,
+        pmy = 0;
+      let curRotY = 0,
+        curSx = SECTION_SX[0],
+        curExpl = 0,
+        curHide = 0,
+        curStretch = 0,
+        curBody = 0;
+      const drag = { rx: 0, ry: 0 }; // offset de rotação vindo do arraste do usuário
+      let grabbing = false,
+        lpx = 0,
+        lpy = 0,
+        releaseAnim = null;
+
+      // cursor custom (anel que segue o mouse com atraso)
+      const cursorEl = document.querySelector(".cursor");
+      const cur = { x: innerWidth / 2, y: innerHeight / 2, tx: innerWidth / 2, ty: innerHeight / 2 };
+      if (cursorEl && matchMedia("(pointer:fine)").matches && !REDUCE) {
+        document.body.classList.add("cc");
+        addEventListener("pointermove", (e) => {
+          cur.tx = e.clientX;
+          cur.ty = e.clientY;
+        });
+      }
+
+      // recap dos 5 pilares na Consolidação (sequência de pulsos)
+      let recapAt = -1;
+      let overIx = false; // mouse sobre algo interativo (símbolo / card) -> cursor cresce
+
+      function frame() {
+        const t = performance.now() / 1000;
+        lenis?.raf(t * 1000);
+        const p = REDUCE ? 0.12 : scrollProgress();
+        const s = smoothstep(p);
+        if (progressEl) progressEl.style.transform = "scaleX(" + p.toFixed(4) + ")";
+
+        if (cursorEl) {
+          cur.x += (cur.tx - cur.x) * 0.2;
+          cur.y += (cur.ty - cur.y) * 0.2;
+          cursorEl.style.transform = "translate(" + cur.x.toFixed(1) + "px," + cur.y.toFixed(1) + "px)";
+          cursorEl.classList.toggle("big", hoverIdx >= 0 || overIx);
+        }
+
+        pmx += (mx - pmx) * 0.04;
+        pmy += (my - pmy) * 0.04;
+
+        // seção ativa
+        // a seção que cobre o meio da viewport (com alturas diferentes, "centro mais próximo" erra).
+        // Calculado dos offsets em cache: 9 getBoundingClientRect por frame forçavam layout.
+        const mid = scrollY + innerHeight / 2;
+        let active = 0;
+        for (let i = 0; i < SECTIONS.length; i++) {
+          if (LM.tops[i] > mid) break;
+          active = i;
+        }
+        if (active !== railActive) {
+          SECTIONS[active].querySelector(".kicker")?.classList.add("drawn"); // linha do kicker desenha
+          if (active === I_HOLD && recapAt < 0) recapAt = t; // dispara o recap dos 5 pilares
+          railActive = active;
+        }
+        const pAttr = SECTIONS[active].dataset.pillar;
+        const activeIdx = pAttr != null ? PILLARS[+pAttr].idx : [];
+        const isPillar = pAttr != null;
+        const isExplode = isPillar && pAttr !== "5"; // Consolidação NÃO explode: remonta e brilha
+
+        // símbolo NÃO gira: só muda de ângulo entre seções, interpolado pelo scroll (progressivo, nunca de costas)
+        const segRaw = segFrom(); // 0..N (a última seção pode ser mais alta)
+        const segF = Math.min(segRaw, SECTIONS.length - 1);
+        // corredor em PIXELS (não em segF): começa onde a travessia termina, dentro da
+        // Consolidação, e vai até o fim da página — velocidade uniforme, sem degrau na borda
+        // 0.15 antes de P_END = exatamente onde o fade das telas fecha (portalP 0.93):
+        // em P_END a 1a tela ficava ~120vh parada esperando; antecipar mais fazia ela
+        // entrar ja saindo de foco, porque cam so vale 0 no instante em que corrA comeca
+        const corrA = LM.tops[I_HOLD] + LM.heights[I_HOLD] * (P_END - I_HOLD - 0.15);
+        // o corredor termina onde o encerramento começa (antes ia até o fim da página)
+        const corrB = LM.tops[I_OUTRO] || LM.max;
+        const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, corrB - corrA), 0, 1);
+        const i0 = Math.max(0, Math.min(SECTIONS.length - 2, Math.floor(segF)));
+        const bf = smoothstep(utils.clamp(segF - i0, 0, 1));
+        const targetYaw = SEC_YAW[i0] + (SEC_YAW[i0 + 1] - SEC_YAW[i0]) * bf;
+        curRotY += (targetYaw - curRotY) * 0.09;
+        curSx += (SECTION_SX[active] - curSx) * 0.06;
+
+        // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
+        // pFace começa ANTES: o símbolo se endireita de frente pra câmera; só depois voamos pra dentro.
+        const pFace = smoothstep(utils.clamp((segF - (I_HOLD + 0.028)) / 0.2, 0, 1));
+        // Consolidação tem 230vh, então esse trecho vale ~200vh de scroll.
+        // O texto ainda sai nos primeiros ~16% (mesmo ritmo de antes); o resto é a travessia.
+        const portalIn = smoothstep(utils.clamp((segF - P_START) / (P_END - P_START), 0, 1));
+
+        // SAÍDA do portal. Como câmera, anel, elementos centrais, túnel e telas são TODOS
+        // dirigidos por portalP, basta desfazer esse valor no encerramento: a travessia roda
+        // ao contrário sozinha — a câmera recua, o anel volta ao tamanho e o símbolo se
+        // recompõe. Nada de código novo pra "sair".
+        const pOut = smoothstep(utils.clamp((segRaw - I_OUTRO) / 0.82, 0, 1));
+        const portalP = portalIn * (1 - pOut);
+        // a aproximação da câmera é propositalmente lenta no começo (expoente > 1): é isso que
+        // faz a logo ficar bastante tempo na tela em vez de encher o quadro e passar num piscar
+        // 1.8 deixava a camera quase parada no primeiro terco: o scroll ia todo
+        // embora com os 5 centrais sumindo e nada mais acontecendo
+        const pDolly = Math.pow(portalP, 1.25);
+
+        // Assim que a travessia comeca, a logo deixa de ser objeto e vira cenario. portalIn
+        // ja cobre travessia + corredor + encerramento (la ele fica em 1 e so o pOut varia),
+        // entao um limiar unico basta. Nas secoes de pilar portalIn e 0 e tudo continua igual.
+        symbolLocked = portalIn > 0.02;
+        if (symbolLocked) {
+          if (hoverIdx >= 0) {
+            hoverIdx = -1;
+            tip.hidden = true;
+          } // some com tooltip em curso
+          if (grabbing) {
+            // e solta um arraste em curso
+            grabbing = false;
+            document.body.classList.remove("grabbing");
+            releaseAnim = animate(drag, { rx: 0, ry: 0, ease: createSpring({ stiffness: 48, damping: 7 }) });
+          }
+          document.body.classList.remove("can-grab");
+        }
+
+        // travessia LIMPA: o texto da Consolidação some antes de entrarmos e o do corredor
+        // só aparece depois que já estamos dentro. Nunca os dois na tela ao mesmo tempo.
+        if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.053, 0, 1))).toFixed(3);
+
+        // tema dark<->light interpolado pelo scroll
+        const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
+        curDark += (dTarget - curDark) * 0.06;
+        applyTheme(curDark);
+        scene.fog.color.setRGB(lerp(1, 0.043, curDark), lerp(1, 0.055, curDark), lerp(1, 0.082, curDark));
+        ambient.intensity = lerp(0.95, 0.5, curDark);
+        curExpl += ((isExplode ? 1 : 0) - curExpl) * 0.06;
+        curHide += ((SECTIONS[active].dataset.hide != null ? 1 : 0) - curHide) * 0.06;
+        const bodyTarget = utils.clamp((segF - 0.35) / 1.0, 0, 1); // "o logo ganha corpo" ao entrar na seção 1
+        curBody += (bodyTarget - curBody) * 0.06;
+        const bodyZ = 0.12 + 0.88 * smoothstep(curBody);
+        const expl = smoothstep(curExpl);
+        const hide = smoothstep(curHide);
+        if (hide > 0.5) hoverIdx = -1;
+        if (recapAt >= 0 && t - recapAt > 3.4) recapAt = -1; // fim da sequência do recap
+
+        // câmera: dolly no scroll + deriva com o mouse; na travessia, voa PRA DENTRO do símbolo
+        const camX = BASE_X + curSx;
+        const alvoY = BASE_Y + Math.sin(t * 0.55) * 0.04 * (1 - pFace);
+        // na travessia a câmera se alinha ao eixo do símbolo e entra reto pelo centro
+        camera.position.z = lerp(8.7 - s * 1.7, 2.37, pDolly);
+        camera.position.x = lerp(camX + pmx * 0.5, camX, pFace);
+        camera.position.y = lerp(0.5 + Math.sin(p * Math.PI) * 0.2 + pmy * 0.3, alvoY, pFace);
+        camera.lookAt(lerp(curSx * 0.9, camX, pFace), lerp(0, alvoY, pFace), lerp(0, -14, portalP));
+        const fovT = lerp(36, 58, portalP);
+        if (Math.abs(fovT - curFov) > 0.1) {
+          curFov = fovT;
+          camera.fov = fovT;
+          camera.updateProjectionMatrix();
+        }
+
+        // símbolo: troca de lado + gira + elasticidade pela VELOCIDADE do scroll (Lenis) -> volta com mola
+        // no encerramento o símbolo recua e vira marca d'água atrás da assinatura:
+        // no tamanho cheio ele competia com o texto e cortava a leitura
+        // no celular o simbolo ocupa proporcionalmente muito mais da tela e briga com o texto
+        const sc =
+          (0.0038 + s * 0.001 + expl * 0.0011) * (1 - hide * 0.55) * (1 - pOut * 0.46) * (SMALL ? 0.78 : 1);
+        const stTarget = utils.clamp(scrollVel * 0.0007, -0.12, 0.12);
+        curStretch += (stTarget - curStretch) * 0.14;
+        scrollVel *= 0.86; // decai quando o scroll para
+        alvo.scale.set(
+          sc * (1 - curStretch * 0.5),
+          sc * (1 + curStretch),
+          sc * (1 - curStretch * 0.5) * bodyZ,
+        );
+        ground.material.opacity = 0.16 * (1 - Math.max(hide, Math.min(1, portalP * 5)));
+        // ShadowMaterial com opacity 0 continua escrevendo no depth buffer: o plano some
+        // mas segue ocluindo, e o anel crescendo era cortado reto na linha do horizonte
+        ground.visible = ground.material.opacity > 0.001;
+        alvo.position.x = camX;
+        alvo.position.y = alvoY + pOut * 0.62; // sobe no fecho: libera o rodape do texto
+        const gInf = grabbing ? 0 : 1; // trava o parallax enquanto arrasta
+        const face = 1 - pFace; // 1 = pose normal da seção; 0 = de frente pra câmera, parado
+        alvo.rotation.y = (curRotY + drag.ry + (Math.sin(t * 0.35) * 0.03 + pmx * 0.12 * gInf)) * face;
+        alvo.rotation.x = (0.13 - s * 0.06 + drag.rx + (Math.sin(t * 0.3) * 0.02 + pmy * 0.08 * gInf)) * face;
+        alvo.rotation.z = Math.sin(t * 0.22) * 0.014 * face;
+
+        const anyHot = activeIdx.length > 0 || hoverIdx >= 0;
+
+        alvo.children.forEach((m, i) => {
+          const hot = activeIdx.includes(i) || i === hoverIdx;
+          m.userData.hl += ((hot ? 1 : 0) - m.userData.hl) * 0.05; // transição lenta = fluida
+          const e = smoothstep(Math.min(1, m.userData.hl));
+
+          // recap: acende cada pilar em sequência (5 pulsos de ~0.55s)
+          let recapE = 0;
+          if (recapAt >= 0) {
+            const el = t - recapAt,
+              step = Math.floor(el / 0.55),
+              pil = PILLARS[step];
+            if (pil && pil.idx.includes(i)) recapE = Math.sin(((el % 0.55) / 0.55) * Math.PI) * 1.6;
+          }
+
+          const f = m.material[0],
+            sMat = m.material[1];
+          // no tema dark o realce satura fácil: reduz ganho e clareamento conforme escurece
+          f.emissiveIntensity = 0.05 + e * (1.05 - curDark * 0.62) + recapE + curDark * 0.1;
+          f.color.setHex(RED).lerp(HL, Math.min(1, e * (0.34 - curDark * 0.22) + recapE * 0.3));
+          f.emissive.setHex(RED).lerp(HL, e * 0.6);
+
+          // coreografia por PROFUNDIDADE (sem espalhar = sem sobreposição):
+          // a parte ativa vem à frente e cresce; as outras recuam e desbotam, no lugar.
+          const o = m.userData.out;
+          const back = expl * (1 - e); // quanto essa peça "recua" (0 = na frente/ativa)
+          m.position.set(
+            o.x * back * 22, // deriva mínima, só pra soltar
+            o.y * back * 22,
+            e * 150 * (0.45 + 0.55 * expl) - back * 90,
+          );
+          const k = (1 + e * 0.26) * (1 - back * 0.1); // ativa cresce mais
+          m.scale.set(k, -k, k);
+          let op = (1 - back * 0.86) * (1 - hide * 0.94); // some quase de vez na seção "As aplicações"
+
+          // travessia do portal: 5 elementos centrais (centro + 4 arcos) somem;
+          // o anel externo cresce e "passamos por dentro" dele
+          if (portalP > 0) {
+            const isRing = i < 2; // 0,1 = anel externo
+            if (isRing) {
+              // o anel cresce e a câmera passa por dentro dele. Ele some entre 0.55 e 0.85,
+              // enquanto o túnel do corredor (.tunnel, em CSS) já está subindo por trás —
+              // é essa passagem de bastão que evita a tela vazia, sem esticar geometria.
+              m.scale.multiplyScalar(1 + pDolly * pDolly * 3);
+              m.position.z += pDolly * 900; // (unidades locais) atravessa a câmera
+              f.emissiveIntensity += portalP * 0.9; // acende de leve (sem estourar)
+              op *= 1 - smoothstep(utils.clamp((portalP - 0.79) / 0.1, 0, 1));
+            } else {
+              // os 5 centrais somem cedo: quando o anel cresce eles já não estão lá
+              const innerOp = 1 - smoothstep(utils.clamp(portalP / 0.12, 0, 1));
+              m.scale.multiplyScalar(0.2 + 0.8 * innerOp);
+              op *= innerOp;
+            }
+          }
+
+          op *= 1 - pOut * 0.8; // marca d'água: bem discreto atrás do texto
+          f.opacity = op;
+          sMat.opacity = op;
+          f.depthWrite = sMat.depthWrite = op > 0.92; // recuadas nao escondem uma a outra
+          m.castShadow = op > 0.6 && portalP < 0.3;
+        });
+
+        drawCorridor(corridorP, portalP);
+
+        // o trilho segue o que esta na TELA, nao a seção que cobre o meio da viewport:
+        // o corredor comeca dentro da Consolidacao e o encerramento come o fim do corredor
+        let chapter = active;
+        if (pOut > 0.5) chapter = I_OUTRO;
+        else if (corridorShown > 0.5) chapter = I_APPS;
+        if (chapter !== railShown) {
+          railDots[railShown]?.classList.remove("on");
+          railDots[chapter]?.classList.add("on");
+          railShown = chapter;
+        }
+
+        // assinatura do encerramento: entra em camadas depois que o corredor já se apagou.
+        // Sem data-reveal de propósito — ele reescreve o innerHTML e mataria o <em> do "#".
+        if (outroEl) {
+          const ent = (a, b) => smoothstep(utils.clamp((pOut - a) / (b - a), 0, 1));
+          const tag = ent(0.2, 0.62),
+            eye = ent(0.34, 0.62),
+            rul = ent(0.48, 0.78),
+            led = ent(0.56, 0.86);
+          setStyle(outroEl, "visibility", pOut < 0.005 ? "hidden" : "visible");
+          if (pOut >= 0.005) {
+            // a assinatura sobe do ponto de fuga do túnel: vem de trás, ampliando
+            setStyle(outroTag, "opacity", tag.toFixed(3));
+            setStyle(
+              outroTag,
+              "transform",
+              "translateY(" + ((1 - tag) * 26).toFixed(1) + "px) scale(" + (0.9 + tag * 0.1).toFixed(4) + ")",
+            );
+            setStyle(outroTag, "filter", tag > 0.985 ? "" : "blur(" + ((1 - tag) * 11).toFixed(2) + "px)");
+            setStyle(outroEye, "opacity", eye.toFixed(3));
+            setStyle(outroEye, "transform", "translateY(" + ((1 - eye) * 12).toFixed(1) + "px)");
+            setStyle(outroRule, "transform", "scaleX(" + rul.toFixed(4) + ")");
+            setStyle(outroLead, "opacity", led.toFixed(3));
+            setStyle(outroLead, "transform", "translateY(" + ((1 - led) * 14).toFixed(1) + "px)");
+            if (toTopBtn) {
+              const btn = ent(0.68, 0.94);
+              setStyle(toTopBtn, "opacity", btn.toFixed(3));
+              setStyle(toTopBtn, "transform", "translateY(" + ((1 - btn) * 12).toFixed(1) + "px)");
+              // só clicável depois de visível, senão vira alvo invisível
+              setStyle(toTopBtn, "pointerEvents", btn > 0.6 ? "auto" : "none");
+            }
+          }
+        }
+
+        // No corredor o símbolo está totalmente invisível, mas o canvas continuava sendo
+        // renderizado E composto (RGBA em tela cheia, por cima de tunnel + stage + grain).
+        // Aqui ele sai do compositor de vez enquanto não há nada visível.
+        const vis = hide < 0.985 && portalP < 0.999;
+        if (vis !== canvasVisible) {
+          canvasVisible = vis;
+          canvas.style.display = vis ? "" : "none";
+          // sombra: mapa de 1024² recalculado por frame só faz sentido com o símbolo em cena
+          renderer.shadowMap.autoUpdate = vis;
+        }
+        if (vis) renderer.render(scene, camera);
+
+        requestAnimationFrame(frame);
+      }
+
+      addEventListener("resize", () => {
+        renderer.setSize(innerWidth, innerHeight);
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+      });
+
+      /* ---------- hover no símbolo (raycaster) ---------- */
+      const tip = document.querySelector(".tip");
+      const ray = new THREE.Raycaster();
+      const ndc = new THREE.Vector2();
+      function castAt(cx, cy) {
+        ndc.x = (cx / innerWidth) * 2 - 1;
+        ndc.y = -(cy / innerHeight) * 2 + 1;
+        ray.setFromCamera(ndc, camera);
+        return ray.intersectObjects(alvo.children, false)[0];
+      }
+      addEventListener("pointermove", (e) => {
+        if (grabbing) {
+          drag.ry += (e.clientX - lpx) * 0.007;
+          drag.rx = utils.clamp(drag.rx + (e.clientY - lpy) * 0.005, -0.7, 0.7);
+          lpx = e.clientX;
+          lpy = e.clientY;
+        }
+        mx = (e.clientX / innerWidth) * 2 - 1;
+        my = -((e.clientY / innerHeight) * 2 - 1);
+        // não interage com o símbolo se ele está escondido ou se o mouse está sobre um card
+        const blocked = symbolLocked || curHide > 0.4 || e.target.closest(".app");
+        const hit = !blocked && !grabbing ? castAt(e.clientX, e.clientY) : null;
+        hoverIdx = hit ? alvo.children.indexOf(hit.object) : -1;
+        document.body.classList.toggle("can-grab", !!hit && !grabbing);
+        const p = hoverIdx >= 0 ? pillarByMesh(hoverIdx) : null;
+        if (p && !grabbing) {
+          tip.querySelector("b").textContent = p.label;
+          tip.querySelector("span").textContent = p.short;
+          let x = e.clientX + 16,
+            y = e.clientY + 16;
+          if (x > innerWidth - 260) x = e.clientX - 260;
+          if (y > innerHeight - 90) y = e.clientY - 90;
+          tip.style.transform = `translate(${x}px,${y}px)`;
+          tip.hidden = false;
+        } else {
+          tip.hidden = true;
+        }
+      });
+      addEventListener("pointerleave", () => {
+        hoverIdx = -1;
+        tip.hidden = true;
+      });
+
+      /* ---------- arrastar o símbolo (mola no soltar via createSpring) ---------- */
+      addEventListener("pointerdown", (e) => {
+        // só com mouse: em touch o preventDefault abaixo bloquearia o scroll da página
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        if (symbolLocked || curHide > 0.4 || e.target.closest(".app")) return;
+        if (!castAt(e.clientX, e.clientY)) return;
+        grabbing = true;
+        lpx = e.clientX;
+        lpy = e.clientY;
+        releaseAnim?.pause();
+        document.body.classList.add("grabbing");
+        tip.hidden = true;
+        e.preventDefault();
+      });
+      addEventListener("pointerup", () => {
+        if (!grabbing) return;
+        grabbing = false;
+        document.body.classList.remove("grabbing");
+        releaseAnim = animate(drag, { rx: 0, ry: 0, ease: createSpring({ stiffness: 48, damping: 7 }) });
+      });
+
+      /* ---------- reveal de texto por palavra (anime.js + IntersectionObserver) ---------- */
+      function splitWords(el) {
+        const words = el.textContent.trim().split(/\s+/);
+        el.innerHTML = words
+          .map((w) => `<span class="line-mask"><span class="word">${w}</span></span> `)
+          .join("");
+        return [...el.querySelectorAll(".word")];
+      }
+      const unclip = (el) => el.querySelectorAll(".line-mask").forEach((m) => m.classList.add("done"));
+
+      if (!REDUCE) {
+        const wordsOf = new Map();
+        document.querySelectorAll("[data-reveal]").forEach((el) => {
+          const words = splitWords(el);
+          utils.set(words, { opacity: 0, translateY: "0.5em", filter: "blur(7px)" });
+          if (!el.closest("#hero")) wordsOf.set(el, words); // hero = timeline
+        });
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              io.unobserve(e.target);
+              const el = e.target;
+              animate(wordsOf.get(el), {
+                opacity: [0, 1],
+                translateY: ["0.5em", "0em"],
+                filter: ["blur(7px)", "blur(0px)"],
+                delay: stagger(32),
+                duration: 720,
+                ease: "out(3)",
+                onComplete() {
+                  unclip(el);
+                },
+              });
+            }
+          },
+          { rootMargin: "0px 0px -12% 0px" },
+        );
+        wordsOf.forEach((_, el) => io.observe(el));
+      }
+
+      /* ---------- corredor das aplicações ----------
    Depois de atravessar o portal a câmera anda por um túnel. As telas ficam presas
    nas "paredes" alternando esquerda/direita; ao entrar em foco cada uma se endireita,
    clareia e é descrita no rodapé. Tudo dirigido pelo scroll no mesmo rAF do 3D —
    sem IntersectionObserver, sem mola brigando com o scroll. */
-const stage = document.querySelector('.corr-stage');
-const APPS  = stage ? [...stage.querySelectorAll('.app')] : [];
-const hudEl = document.querySelector('.corr-hud');
-const nowEl = document.querySelector('.corr-now');
-const RINGS = [];
-let corrFocus = -1, zoomedCard = null;
+      const stage = document.querySelector(".corr-stage");
+      const APPS = stage ? [...stage.querySelectorAll(".app")] : [];
+      const hudEl = document.querySelector(".corr-hud");
+      const nowEl = document.querySelector(".corr-now");
+      const RINGS = [];
+      let corrFocus = -1,
+        zoomedCard = null;
 
-const tunnelEl = document.querySelector('.tunnel');
-if (tunnelEl && !REDUCE){
-  for (let i = 0; i < 11; i++){
-    const r = document.createElement('div');
-    r.className = 'ring';
-    tunnelEl.appendChild(r);
-    RINGS.push(r);
-  }
-}
-
-const GAP = 660;          // px entre telas ao longo do corredor
-const RING_GAP = 640;
-
-// só escreve no style quando o valor muda de fato: cada atribuição invalida o estilo
-// do elemento, e eram ~70 escritas por frame entre anéis e telas
-const _last = new WeakMap();
-// quem zera o style inline por fora (zoomOut) TEM que chamar isto, senao o cache
-// abaixo acha que ja escreveu e a tela volta do zoom sem transform nem opacity
-function clearStyleCache(el){ _last.delete(el); }
-function setStyle(el, prop, val){
-  let m = _last.get(el);
-  if (!m){ m = {}; _last.set(el, m); }
-  if (m[prop] === val) return;
-  m[prop] = val;
-  el.style[prop] = val;
-}
-
-let corridorShown = 0;
-function drawCorridor(cp, portalP){
-  if (!APPS.length || REDUCE) return;
-  if (zoomedCard) return;                 // no zoom o corredor congela (o scroll também está travado)
-  const N = APPS.length;
-  // a câmera anda com "paradas": passa rápido entre as telas e descansa em cada uma,
-  // senão nenhuma chega a ficar realmente em foco (ficariam todas meio apagadas).
-  // sem offset e sem avanço antecipado: a 1a tela fica exatamente no foco enquanto entra,
-  // e o corredor começa a andar no mesmo instante em que ela termina de aparecer.
-  const raw = cp * (N - 1 + 0.06);
-  const fl = Math.floor(raw);
-  // MISTURA linear + "descanso": o termo linear garante que a câmera NUNCA para
-  // (uma curva por vaga, sozinha, zera a velocidade nas pontas = scroll sem nada acontecer),
-  // e o termo com smootherstep é o que ainda faz cada tela demorar mais no foco.
-  const snap = fl + smoother(raw - fl);
-  const cam  = raw * 0.45 + snap * 0.55;
-
-  // o túnel sobe ainda DENTRO da travessia, enquanto o anel 3D some: a câmera sai
-  // de dentro da logo já dentro do corredor, sem nenhum quadro vazio no meio
-  const enter = smoothstep(utils.clamp((portalP - 0.40) / 0.25, 0, 1));
-  // as telas e o texto chegam no fim da travessia, emendando com o túnel que já está lá
-  // rampa LINEAR curta fechando EXATAMENTE em portalP = 1, onde o corredor começa a andar:
-  // se fechasse antes sobrava um trecho parado; se fosse longa, virava scroll só de fade
-  const show = utils.clamp((portalP - 0.86) / 0.14, 0, 1);
-  corridorShown = show;               // o trilho usa isto pra nao marcar a secao errada
-  if (stage){
-    setStyle(stage, 'opacity', show.toFixed(3));
-    setStyle(stage, 'visibility', show < 0.005 ? 'hidden' : 'visible');
-    stage.classList.toggle('live', show > 0.9);
-  }
-  if (tunnelEl){
-    setStyle(tunnelEl, 'opacity', enter.toFixed(3));
-    setStyle(tunnelEl, 'visibility', enter < 0.005 ? 'hidden' : 'visible');
-    // o termo portalP mantém o túnel ANDANDO durante a cauda da travessia; sem ele os anéis
-    // congelam (cam ainda é 0) e o trecho até o corredor começar parece parado
-    const ringCam = cam * 1.6 + portalP * 1.4 + (enter - 1) * 2.6;
-    RINGS.forEach((r, k) => {
-      const d = ((k - ringCam) % RINGS.length + RINGS.length) % RINGS.length;
-      // some nas duas pontas do ciclo pra emenda do loop não aparecer
-      const op = 0.85 * smoothstep(utils.clamp(d / 1.2, 0, 1))
-                      * smoothstep(utils.clamp((RINGS.length - 1 - d) / 3.2, 0, 1));
-      // visibility em vez de só opacity 0: opacity 0 mantém a camada no compositor,
-      // e 7 dos 11 anéis passam a maior parte do tempo invisíveis
-      setStyle(r, 'visibility', op < 0.02 ? 'hidden' : 'visible');   // 0.02 com borda de 1.5px = invisível
-      if (op >= 0.02){
-        setStyle(r, 'transform', 'translateZ(' + (-d * RING_GAP + 340).toFixed(0) + 'px)');
-        setStyle(r, 'opacity', op.toFixed(3));
+      const tunnelEl = document.querySelector(".tunnel");
+      if (tunnelEl && !REDUCE) {
+        for (let i = 0; i < 11; i++) {
+          const r = document.createElement("div");
+          r.className = "ring";
+          tunnelEl.appendChild(r);
+          RINGS.push(r);
+        }
       }
-    });
-  }
 
-  let focus = -1, fbest = 9;
-  APPS.forEach((c, i) => {
-    if (c === zoomedCard) return;          // no zoom a tela sai do corredor
-    const d = i - cam + 0.55;              // > 0 = ainda à frente
-    const near = 1 - Math.min(1, Math.abs(i - cam) / 0.85);  // 1 = a câmera parou nela
-    const side = (i % 2) ? 1 : -1;
-    const ease = smoother(near);   // near é triangular: smoother tira o "bico" no pico
-    // longe: colada na parede lateral e virada; no foco: TODAS param no mesmo ponto,
-    // de frente pra câmera (senão a tela em foco ficaria pulando de lado a lado)
-    // 36vw de deslocamento leva a tela pra fora numa viewport estreita
-    const off = SMALL ? 23 : 36;
-    const x   = side * off * (1 - ease);
-    const rot = -side * (SMALL ? 30 : 36) * (1 - ease);
-    const sc  = 0.86 + ease * 0.26;
-    const op  = smoothstep(utils.clamp((5.4 - d) / 1.8, 0, 1))
-              * smoothstep(utils.clamp((d + 0.05) / 0.5, 0, 1));
+      const GAP = 660; // px entre telas ao longo do corredor
+      const RING_GAP = 640;
 
-    setStyle(c, 'visibility', op < 0.005 ? 'hidden' : 'visible');
-    if (op >= 0.005){
-      setStyle(c, 'transform',
-        'translate3d(' + x.toFixed(2) + 'vw,' + (-ease * 2).toFixed(2) + 'vh,' + (-d * GAP).toFixed(0) + 'px)' +
-        ' rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')');
-      setStyle(c, 'opacity', op.toFixed(3));
-      // blur é filtro: caro no compositor. Só as duas telas da frente ganham blur —
-      // nas de trás, já pequenas e cobertas pelo véu, ele não se vê e só custava camada.
-      const bl = d > 2.2 ? 0 : (1 - ease) * 1.6;
-      setStyle(c, 'filter', bl < 0.35 ? '' : 'blur(' + bl.toFixed(2) + 'px)');
-      c.style.setProperty('--veil', (0.62 * (1 - ease)).toFixed(3));
-      setStyle(c, 'zIndex', String(60 - Math.round(d * 6)));
-    }
-    c.classList.toggle('front', near > 0.72 && op > 0.6);
-
-    const dist = Math.abs(i - cam);
-    if (op > 0.4 && dist < fbest){ fbest = dist; focus = i; }
-  });
-
-  if (hudEl) hudEl.style.opacity = (1 - smoothstep(utils.clamp((cp - 0.62) / 0.28, 0, 1))).toFixed(3);
-
-  if (nowEl){
-    nowEl.style.opacity = focus >= 0 ? '1' : '0';
-    if (focus !== corrFocus){
-      corrFocus = focus;
-      const c = APPS[focus];
-      if (c){
-        nowEl.querySelector('em').textContent =
-          String(focus + 1).padStart(2, '0') + ' — ' + String(APPS.length).padStart(2, '0');
-        nowEl.querySelector('b').textContent    = c.dataset.title || '';
-        nowEl.querySelector('span').textContent = c.dataset.desc || '';
-        nowEl.classList.remove('in'); void nowEl.offsetWidth; nowEl.classList.add('in');
+      // só escreve no style quando o valor muda de fato: cada atribuição invalida o estilo
+      // do elemento, e eram ~70 escritas por frame entre anéis e telas
+      const _last = new WeakMap();
+      // quem zera o style inline por fora (zoomOut) TEM que chamar isto, senao o cache
+      // abaixo acha que ja escreveu e a tela volta do zoom sem transform nem opacity
+      function clearStyleCache(el) {
+        _last.delete(el);
       }
-    }
-  }
-}
+      function setStyle(el, prop, val) {
+        let m = _last.get(el);
+        if (!m) {
+          m = {};
+          _last.set(el, m);
+        }
+        if (m[prop] === val) return;
+        m[prop] = val;
+        el.style[prop] = val;
+      }
 
-/* clique na tela em foco: ela sai do corredor, vem pro centro e cresce (FLIP) */
-if (APPS.length && !REDUCE){
-  const bgEl = document.querySelector('.zoom-bg');
-  const capEl = document.querySelector('.zoom-cap');
-  const EASE = ['left','top','width','height'].map(p => p + ' .55s cubic-bezier(.19,1,.22,1)').join(',');
+      let corridorShown = 0;
+      function drawCorridor(cp, portalP) {
+        if (!APPS.length || REDUCE) return;
+        if (zoomedCard) return; // no zoom o corredor congela (o scroll também está travado)
+        const N = APPS.length;
+        // a câmera anda com "paradas": passa rápido entre as telas e descansa em cada uma,
+        // senão nenhuma chega a ficar realmente em foco (ficariam todas meio apagadas).
+        // sem offset e sem avanço antecipado: a 1a tela fica exatamente no foco enquanto entra,
+        // e o corredor começa a andar no mesmo instante em que ela termina de aparecer.
+        const raw = cp * (N - 1 + 0.06);
+        const fl = Math.floor(raw);
+        // MISTURA linear + "descanso": o termo linear garante que a câmera NUNCA para
+        // (uma curva por vaga, sozinha, zera a velocidade nas pontas = scroll sem nada acontecer),
+        // e o termo com smootherstep é o que ainda faz cada tela demorar mais no foco.
+        const snap = fl + smoother(raw - fl);
+        const cam = raw * 0.45 + snap * 0.55;
 
-  let closing = false;
+        // o túnel sobe ainda DENTRO da travessia, enquanto o anel 3D some: a câmera sai
+        // de dentro da logo já dentro do corredor, sem nenhum quadro vazio no meio
+        const enter = smoothstep(utils.clamp((portalP - 0.4) / 0.25, 0, 1));
+        // as telas e o texto chegam no fim da travessia, emendando com o túnel que já está lá
+        // fecha ANTES de portalP = 1: a 1a tela termina de aparecer e fica parada no foco
+        // ate o corredor comecar a andar. Fechando em 1 o tunel ficava visivel e vazio
+        // antes; adiantar o corrA em vez disto fazia a 1a tela ja entrar saindo de foco
+        const show = utils.clamp((portalP - 0.78) / 0.15, 0, 1);
+        corridorShown = show; // o trilho usa isto pra nao marcar a secao errada
+        if (stage) {
+          setStyle(stage, "opacity", show.toFixed(3));
+          setStyle(stage, "visibility", show < 0.005 ? "hidden" : "visible");
+          stage.classList.toggle("live", show > 0.9);
+        }
+        if (tunnelEl) {
+          setStyle(tunnelEl, "opacity", enter.toFixed(3));
+          setStyle(tunnelEl, "visibility", enter < 0.005 ? "hidden" : "visible");
+          // o termo portalP mantém o túnel ANDANDO durante a cauda da travessia; sem ele os anéis
+          // congelam (cam ainda é 0) e o trecho até o corredor começar parece parado
+          const ringCam = cam * 1.6 + portalP * 1.4 + (enter - 1) * 2.6;
+          RINGS.forEach((r, k) => {
+            const d = (((k - ringCam) % RINGS.length) + RINGS.length) % RINGS.length;
+            // some nas duas pontas do ciclo pra emenda do loop não aparecer
+            const op =
+              0.85 *
+              smoothstep(utils.clamp(d / 1.2, 0, 1)) *
+              smoothstep(utils.clamp((RINGS.length - 1 - d) / 3.2, 0, 1));
+            // visibility em vez de só opacity 0: opacity 0 mantém a camada no compositor,
+            // e 7 dos 11 anéis passam a maior parte do tempo invisíveis
+            setStyle(r, "visibility", op < 0.02 ? "hidden" : "visible"); // 0.02 com borda de 1.5px = invisível
+            if (op >= 0.02) {
+              setStyle(r, "transform", "translateZ(" + (-d * RING_GAP + 340).toFixed(0) + "px)");
+              setStyle(r, "opacity", op.toFixed(3));
+            }
+          });
+        }
 
-  const zoomIn = card => {
-    if (zoomedCard || closing) return;
-    const r = card.getBoundingClientRect();
-    zoomedCard = card;
-    // guarda o retângulo de origem: fechar é exatamente esta animação ao contrário.
-    // O corredor fica congelado enquanto zoomedCard existe, então o retângulo continua válido.
-    card._z = { next: card.nextElementSibling, l:r.left, t:r.top, w:r.width, h:r.height };
-    card.classList.add('zoom');
-    document.body.appendChild(card);   // .corr-stage tem perspective+overflow: quebraria position:fixed
-    Object.assign(card.style, { position:'fixed', left:r.left+'px', top:r.top+'px',
-      width:r.width+'px', height:r.height+'px', margin:'0', transform:'none', transition:'none' });
-    bgEl.hidden = false;
-    void card.offsetWidth;
-    const W = Math.min(820, innerWidth * (SMALL ? 0.92 : 0.82)), H = W * 10 / 16;
-    // sobe um pouco pra abrir espaço pra descrição embaixo
-    const top = Math.max(20, (innerHeight - H) / 2 - 54);
-    Object.assign(card.style, { transition:EASE,
-      left:((innerWidth - W) / 2) + 'px', top:top + 'px',
-      width:W + 'px', height:H + 'px' });
-    bgEl.classList.add('show');
-    if (capEl){
-      const i = APPS.indexOf(card);
-      capEl.querySelector('em').textContent =
-        String(i + 1).padStart(2, '0') + ' — ' + String(APPS.length).padStart(2, '0');
-      capEl.querySelector('b').textContent    = card.dataset.title || '';
-      capEl.querySelector('span').textContent = card.dataset.desc || '';
-      capEl.style.top = (top + H + 24) + 'px';
-      capEl.hidden = false;
-      void capEl.offsetWidth;
-      capEl.classList.add('show');
-    }
-    lenis?.stop();
-    document.body.classList.add('modal-open');
-  };
+        let focus = -1,
+          fbest = 9;
+        APPS.forEach((c, i) => {
+          if (c === zoomedCard) return; // no zoom a tela sai do corredor
+          const d = i - cam + 0.55; // > 0 = ainda à frente
+          const near = 1 - Math.min(1, Math.abs(i - cam) / 0.85); // 1 = a câmera parou nela
+          const side = i % 2 ? 1 : -1;
+          const ease = smoother(near); // near é triangular: smoother tira o "bico" no pico
+          // longe: colada na parede lateral e virada; no foco: TODAS param no mesmo ponto,
+          // de frente pra câmera (senão a tela em foco ficaria pulando de lado a lado)
+          // 36vw de deslocamento leva a tela pra fora numa viewport estreita
+          const off = SMALL ? 23 : 36;
+          const x = side * off * (1 - ease);
+          const rot = -side * (SMALL ? 30 : 36) * (1 - ease);
+          const sc = 0.86 + ease * 0.26;
+          const op =
+            smoothstep(utils.clamp((5.4 - d) / 1.8, 0, 1)) * smoothstep(utils.clamp((d + 0.05) / 0.5, 0, 1));
 
-  const zoomOut = () => {
-    if (!zoomedCard || closing) return;
-    const card = zoomedCard, z = card._z;
-    closing = true;
-    bgEl.classList.remove('show');
-    capEl?.classList.remove('show');
-    lenis?.start();
-    document.body.classList.remove('modal-open');
-    // MESMA transição de abrir, ao contrário: volta pro retângulo de onde saiu
-    Object.assign(card.style, { transition:EASE,
-      left:z.l + 'px', top:z.t + 'px', width:z.w + 'px', height:z.h + 'px' });
-    // fim pelo transitionend (com timeout de segurança): setTimeout sozinho é sofrível —
-    // navegador em aba de fundo estrangula timers e o card ficaria preso em position:fixed
-    let done = false;
-    const finish = () => {
-      if (done) return;
-      done = true;
-      card.removeEventListener('transitionend', onEnd);
-      card.style.cssText = '';          // limpa tudo; o rAF recoloca no corredor no frame seguinte
-      clearStyleCache(card);            // sem isto o setStyle nao reescreve e a tela some
-      card.classList.remove('zoom');
-      stage.insertBefore(card, z.next && z.next.parentElement === stage ? z.next : null);
-      zoomedCard = null;                // só aqui: até então o corredor fica congelado
-      closing = false;
-      bgEl.hidden = true;
-      if (capEl) capEl.hidden = true;
-    };
-    const onEnd = e => { if (e.target === card && e.propertyName === 'width') finish(); };
-    card.addEventListener('transitionend', onEnd);
-    setTimeout(finish, 900);
-  };
+          setStyle(c, "visibility", op < 0.005 ? "hidden" : "visible");
+          if (op >= 0.005) {
+            setStyle(
+              c,
+              "transform",
+              "translate3d(" +
+                x.toFixed(2) +
+                "vw," +
+                (-ease * 2).toFixed(2) +
+                "vh," +
+                (-d * GAP).toFixed(0) +
+                "px)" +
+                " rotateY(" +
+                rot.toFixed(1) +
+                "deg) scale(" +
+                sc.toFixed(3) +
+                ")",
+            );
+            setStyle(c, "opacity", op.toFixed(3));
+            // blur é filtro: caro no compositor. Só as duas telas da frente ganham blur —
+            // nas de trás, já pequenas e cobertas pelo véu, ele não se vê e só custava camada.
+            const bl = d > 2.2 ? 0 : (1 - ease) * 1.6;
+            setStyle(c, "filter", bl < 0.35 ? "" : "blur(" + bl.toFixed(2) + "px)");
+            c.style.setProperty("--veil", (0.62 * (1 - ease)).toFixed(3));
+            setStyle(c, "zIndex", String(60 - Math.round(d * 6)));
+          }
+          c.classList.toggle("front", near > 0.72 && op > 0.6);
 
-  APPS.forEach(c => c.addEventListener('click', () => {
-    if (zoomedCard) zoomOut();
-    else if (stage.classList.contains('live') && c.classList.contains('front')) zoomIn(c);
-  }));
-  stage.addEventListener('pointermove', () => { overIx = !!document.querySelector('.app.front'); });
-  stage.addEventListener('pointerleave', () => { overIx = false; });
-  bgEl.addEventListener('click', zoomOut);
-  addEventListener('keydown', e => { if (e.key === 'Escape') zoomOut(); });
-}
+          const dist = Math.abs(i - cam);
+          if (op > 0.4 && dist < fbest) {
+            fbest = dist;
+            focus = i;
+          }
+        });
 
-/* ---------- retorno ao topo ----------
+        if (hudEl) hudEl.style.opacity = (1 - smoothstep(utils.clamp((cp - 0.62) / 0.28, 0, 1))).toFixed(3);
+
+        if (nowEl) {
+          nowEl.style.opacity = focus >= 0 ? "1" : "0";
+          if (focus !== corrFocus) {
+            corrFocus = focus;
+            const c = APPS[focus];
+            if (c) {
+              nowEl.querySelector("em").textContent =
+                String(focus + 1).padStart(2, "0") + " — " + String(APPS.length).padStart(2, "0");
+              nowEl.querySelector("b").textContent = c.dataset.title || "";
+              nowEl.querySelector("span").textContent = c.dataset.desc || "";
+              nowEl.classList.remove("in");
+              void nowEl.offsetWidth;
+              nowEl.classList.add("in");
+            }
+          }
+        }
+      }
+
+      /* clique na tela em foco: ela sai do corredor, vem pro centro e cresce (FLIP) */
+      if (APPS.length && !REDUCE) {
+        const bgEl = document.querySelector(".zoom-bg");
+        const capEl = document.querySelector(".zoom-cap");
+        const EASE = ["left", "top", "width", "height"]
+          .map((p) => p + " .55s cubic-bezier(.19,1,.22,1)")
+          .join(",");
+
+        let closing = false;
+
+        const zoomIn = (card) => {
+          if (zoomedCard || closing) return;
+          const r = card.getBoundingClientRect();
+          zoomedCard = card;
+          // guarda o retângulo de origem: fechar é exatamente esta animação ao contrário.
+          // O corredor fica congelado enquanto zoomedCard existe, então o retângulo continua válido.
+          card._z = { next: card.nextElementSibling, l: r.left, t: r.top, w: r.width, h: r.height };
+          card.classList.add("zoom");
+          document.body.appendChild(card); // .corr-stage tem perspective+overflow: quebraria position:fixed
+          Object.assign(card.style, {
+            position: "fixed",
+            left: r.left + "px",
+            top: r.top + "px",
+            width: r.width + "px",
+            height: r.height + "px",
+            margin: "0",
+            transform: "none",
+            transition: "none",
+          });
+          bgEl.hidden = false;
+          void card.offsetWidth;
+          const W = Math.min(820, innerWidth * (SMALL ? 0.92 : 0.82)),
+            H = (W * 10) / 16;
+          // sobe um pouco pra abrir espaço pra descrição embaixo
+          const top = Math.max(20, (innerHeight - H) / 2 - 54);
+          Object.assign(card.style, {
+            transition: EASE,
+            left: (innerWidth - W) / 2 + "px",
+            top: top + "px",
+            width: W + "px",
+            height: H + "px",
+          });
+          bgEl.classList.add("show");
+          if (capEl) {
+            const i = APPS.indexOf(card);
+            capEl.querySelector("em").textContent =
+              String(i + 1).padStart(2, "0") + " — " + String(APPS.length).padStart(2, "0");
+            capEl.querySelector("b").textContent = card.dataset.title || "";
+            capEl.querySelector("span").textContent = card.dataset.desc || "";
+            capEl.style.top = top + H + 24 + "px";
+            capEl.hidden = false;
+            void capEl.offsetWidth;
+            capEl.classList.add("show");
+          }
+          lenis?.stop();
+          document.body.classList.add("modal-open");
+        };
+
+        const zoomOut = () => {
+          if (!zoomedCard || closing) return;
+          const card = zoomedCard,
+            z = card._z;
+          closing = true;
+          bgEl.classList.remove("show");
+          capEl?.classList.remove("show");
+          lenis?.start();
+          document.body.classList.remove("modal-open");
+          // MESMA transição de abrir, ao contrário: volta pro retângulo de onde saiu
+          Object.assign(card.style, {
+            transition: EASE,
+            left: z.l + "px",
+            top: z.t + "px",
+            width: z.w + "px",
+            height: z.h + "px",
+          });
+          // fim pelo transitionend (com timeout de segurança): setTimeout sozinho é sofrível —
+          // navegador em aba de fundo estrangula timers e o card ficaria preso em position:fixed
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            card.removeEventListener("transitionend", onEnd);
+            card.style.cssText = ""; // limpa tudo; o rAF recoloca no corredor no frame seguinte
+            clearStyleCache(card); // sem isto o setStyle nao reescreve e a tela some
+            card.classList.remove("zoom");
+            stage.insertBefore(card, z.next && z.next.parentElement === stage ? z.next : null);
+            zoomedCard = null; // só aqui: até então o corredor fica congelado
+            closing = false;
+            bgEl.hidden = true;
+            if (capEl) capEl.hidden = true;
+          };
+          const onEnd = (e) => {
+            if (e.target === card && e.propertyName === "width") finish();
+          };
+          card.addEventListener("transitionend", onEnd);
+          setTimeout(finish, 900);
+        };
+
+        APPS.forEach((c) =>
+          c.addEventListener("click", () => {
+            if (zoomedCard) zoomOut();
+            else if (stage.classList.contains("live") && c.classList.contains("front")) zoomIn(c);
+          }),
+        );
+        stage.addEventListener("pointermove", () => {
+          overIx = !!document.querySelector(".app.front");
+        });
+        stage.addEventListener("pointerleave", () => {
+          overIx = false;
+        });
+        bgEl.addEventListener("click", zoomOut);
+        addEventListener("keydown", (e) => {
+          if (e.key === "Escape") zoomOut();
+        });
+      }
+
+      /* ---------- retorno ao topo ----------
    Um scrollTo animado percorreria ~40 viewports e viraria um borrão. Em vez disso, a
    íris fecha, o salto acontece por trás dela e ela reabre no hero — o mesmo vocabulário
    da travessia do portal, e sem depender de animar a página inteira. */
-if (toTopBtn && rewindEl){
-  let rewinding = false;
-  const goTop = () => {
-    if (rewinding) return;
-    if (REDUCE){ lenis ? lenis.scrollTo(0, { immediate:true, force:true }) : scrollTo(0, 0); return; }
-    rewinding = true;
-    lenis?.stop();
-    document.body.classList.add('rewinding');
-    rewindEl.hidden = false;
-    const iris = rewindEl.querySelector('i');
-    animate(iris, {
-      scale: [0, 1],
-      duration: 620, ease: 'inOut(2.4)',
-      onComplete(){
-        // o salto acontece com a tela já coberta
-        // force: o lenis está parado (stop) e um scrollTo sem force é ignorado
-        lenis ? lenis.scrollTo(0, { immediate:true, force:true }) : scrollTo(0, 0);
-        frame();                                    // reposiciona a cena antes de reabrir
-        animate(iris, {
-          scale: [1, 0],
-          duration: 760, delay: 90, ease: 'out(2.6)',
-          onComplete(){
-            rewindEl.hidden = true;
-            document.body.classList.remove('rewinding');
-            lenis?.start();
-            rewinding = false;
+      if (toTopBtn && rewindEl) {
+        let rewinding = false;
+        const goTop = () => {
+          if (rewinding) return;
+          if (REDUCE) {
+            lenis ? lenis.scrollTo(0, { immediate: true, force: true }) : scrollTo(0, 0);
+            return;
           }
-        });
+          rewinding = true;
+          lenis?.stop();
+          document.body.classList.add("rewinding");
+          rewindEl.hidden = false;
+          const iris = rewindEl.querySelector("i");
+          animate(iris, {
+            scale: [0, 1],
+            duration: 620,
+            ease: "inOut(2.4)",
+            onComplete() {
+              // o salto acontece com a tela já coberta
+              // force: o lenis está parado (stop) e um scrollTo sem force é ignorado
+              lenis ? lenis.scrollTo(0, { immediate: true, force: true }) : scrollTo(0, 0);
+              frame(); // reposiciona a cena antes de reabrir
+              animate(iris, {
+                scale: [1, 0],
+                duration: 760,
+                delay: 90,
+                ease: "out(2.6)",
+                onComplete() {
+                  rewindEl.hidden = true;
+                  document.body.classList.remove("rewinding");
+                  lenis?.start();
+                  rewinding = false;
+                },
+              });
+            },
+          });
+        };
+        toTopBtn.addEventListener("click", goTop);
       }
-    });
-  };
-  toTopBtn.addEventListener('click', goTop);
-}
 
-frame();
-// só depois que o corredor existe (drawCorridor lê consts declaradas acima)
+      frame();
+      // só depois que o corredor existe (drawCorridor lê consts declaradas acima)
 
-// entrada da hero como sequência (createTimeline)
-function playHero(){
-  const k   = document.querySelector('#hero .kicker');
-  const h1w = [...document.querySelectorAll('#hero h1 .word')];
-  const ldw = [...document.querySelectorAll('#hero .lead .word')];
-  utils.set(k, { opacity:0, y:14 });
-  createTimeline({ defaults:{ ease:'out(3)' } })
-    .add(k,   { opacity:1, y:0, duration:600 })
-    .add(h1w, { opacity:[0,1], translateY:['0.6em','0em'], filter:['blur(8px)','blur(0px)'],
-                duration:850, delay:stagger(40) }, '-=250')
-    .add(ldw, { opacity:[0,1], translateY:['0.4em','0em'], filter:['blur(6px)','blur(0px)'],
-                duration:650, delay:stagger(14) }, '-=450')
-    .then(() => { unclip(document.querySelector('#hero h1')); unclip(document.querySelector('#hero .lead')); });
-}
+      // entrada da hero como sequência (createTimeline)
+      function playHero() {
+        const k = document.querySelector("#hero .kicker");
+        const h1w = [...document.querySelectorAll("#hero h1 .word")];
+        const ldw = [...document.querySelectorAll("#hero .lead .word")];
+        utils.set(k, { opacity: 0, y: 14 });
+        createTimeline({ defaults: { ease: "out(3)" } })
+          .add(k, { opacity: 1, y: 0, duration: 600 })
+          .add(
+            h1w,
+            {
+              opacity: [0, 1],
+              translateY: ["0.6em", "0em"],
+              filter: ["blur(8px)", "blur(0px)"],
+              duration: 850,
+              delay: stagger(40),
+            },
+            "-=250",
+          )
+          .add(
+            ldw,
+            {
+              opacity: [0, 1],
+              translateY: ["0.4em", "0em"],
+              filter: ["blur(6px)", "blur(0px)"],
+              duration: 650,
+              delay: stagger(14),
+            },
+            "-=450",
+          )
+          .then(() => {
+            unclip(document.querySelector("#hero h1"));
+            unclip(document.querySelector("#hero .lead"));
+          });
+      }
 
-// logo Bradesco: uma linha desenha o contorno (svg.createDrawable) e depois preenche
-function playBrand(){
-  if (document.hidden) return;                 // aba em background: anime pausa -> deixa o logo visível
-  const paths = [...document.querySelectorAll('header .brand path')];
-  paths.forEach(pt => {
-    pt.style.fill = '#cc092f'; pt.style.fillOpacity = '0';
-    pt.style.stroke = '#cc092f'; pt.style.strokeWidth = '0.9';
-  });
-  const drawables = svg.createDrawable(paths);
-  createTimeline({ defaults:{ ease:'inOutQuad' } })
-    .add(drawables, { draw: ['0 0', '0 1'], duration: 1100, delay: stagger(230) })
-    .add(paths, { fillOpacity: [0, 1], strokeWidth: [0.9, 0], duration: 550, ease:'outQuad',
-                  onComplete(){ paths.forEach(pt => pt.style.stroke = 'none'); } }, '-=350');
-}
+      // logo Bradesco: uma linha desenha o contorno (svg.createDrawable) e depois preenche
+      function playBrand() {
+        if (document.hidden) return; // aba em background: anime pausa -> deixa o logo visível
+        const paths = [...document.querySelectorAll("header .brand path")];
+        paths.forEach((pt) => {
+          pt.style.fill = "#cc092f";
+          pt.style.fillOpacity = "0";
+          pt.style.stroke = "#cc092f";
+          pt.style.strokeWidth = "0.9";
+        });
+        const drawables = svg.createDrawable(paths);
+        createTimeline({ defaults: { ease: "inOutQuad" } })
+          .add(drawables, { draw: ["0 0", "0 1"], duration: 1100, delay: stagger(230) })
+          .add(
+            paths,
+            {
+              fillOpacity: [0, 1],
+              strokeWidth: [0.9, 0],
+              duration: 550,
+              ease: "outQuad",
+              onComplete() {
+                paths.forEach((pt) => (pt.style.stroke = "none"));
+              },
+            },
+            "-=350",
+          );
+      }
 
-/* ---------- loader ---------- */
-const loader = document.querySelector('.loader');
-if (REDUCE) {
-  loader.remove();
-} else {
-  const num = loader.querySelector('.num');
-  const o = { v:0 };
-  animate('.loader .bar', { width:['0px','220px'], duration:1500, ease:'inOut(2)' });
-  animate(o, {
-    v:100, duration:1500, ease:'inOut(2)',
-    onUpdate(){ num.textContent = String(Math.round(o.v)).padStart(3,'0'); }
-  });
-  setTimeout(() => {
-    loader.style.opacity = '0';
-    playHero();
-    playBrand();
-    setTimeout(() => loader.remove(), 650);
-  }, 1650);
-}
+      /* ---------- loader ---------- */
+      const loader = document.querySelector(".loader");
+      if (REDUCE) {
+        loader.remove();
+      } else {
+        const num = loader.querySelector(".num");
+        const o = { v: 0 };
+        animate(".loader .bar", { width: ["0px", "220px"], duration: 1500, ease: "inOut(2)" });
+        animate(o, {
+          v: 100,
+          duration: 1500,
+          ease: "inOut(2)",
+          onUpdate() {
+            num.textContent = String(Math.round(o.v)).padStart(3, "0");
+          },
+        });
+        setTimeout(() => {
+          loader.style.opacity = "0";
+          playHero();
+          playBrand();
+          setTimeout(() => loader.remove(), 650);
+        }, 1650);
+      }
 
-/* ---------- check mínimo ---------- */
-function demo(){
-  console.assert(alvo.children.length === 7, 'esperado 7 sólidos, veio ' + alvo.children.length);
-  console.assert(alvo.children[0].material[0] !== alvo.children[1].material[0], 'materiais deviam ser por-sólido');
-  const cover = [...new Set(PILLARS.flatMap(p => p.idx))].sort((a,b)=>a-b);
-  console.assert(cover.join() === '0,1,2,3,4,5,6', 'mapa de pilares nao cobre os 7 solidos: ' + cover);
-  console.assert(pillarByMesh(6).label === 'Precisão', 'centro deveria ser Precisão');
-  const probe = document.createElement('h2'); probe.textContent = 'a b c';
-  console.assert(splitWords(probe).length === 3, 'splitWords quebrou');
-  console.log('%cdemo ok', 'color:#0a0');
-}
-demo();
-</script>
-</body>
+      /* ---------- check mínimo ---------- */
+      function demo() {
+        console.assert(alvo.children.length === 7, "esperado 7 sólidos, veio " + alvo.children.length);
+        console.assert(
+          alvo.children[0].material[0] !== alvo.children[1].material[0],
+          "materiais deviam ser por-sólido",
+        );
+        const cover = [...new Set(PILLARS.flatMap((p) => p.idx))].sort((a, b) => a - b);
+        console.assert(cover.join() === "0,1,2,3,4,5,6", "mapa de pilares nao cobre os 7 solidos: " + cover);
+        console.assert(pillarByMesh(6).label === "Precisão", "centro deveria ser Precisão");
+        const probe = document.createElement("h2");
+        probe.textContent = "a b c";
+        console.assert(splitWords(probe).length === 3, "splitWords quebrou");
+        console.log("%cdemo ok", "color:#0a0");
+      }
+      demo();
+    </script>
+  </body>
 </html>
