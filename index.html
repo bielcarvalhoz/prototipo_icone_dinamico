@@ -200,7 +200,7 @@
   main > section{ position:relative }
   /* ---- encerramento: assinatura centrada, dirigida pelo scroll (sem data-reveal,
      que reescreve o innerHTML e mataria o <em> do "#") ---- */
-  .outro{ display:block; max-width:none; margin:0; padding:0; height:220vh; min-height:220vh; }
+  .outro{ display:block; max-width:none; margin:0; padding:0; height:340vh; min-height:340vh; }
   .outro-inner{
     position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -268,7 +268,7 @@
   }
 
   /* seção alta com o conteúdo preso: dá scroll pra travessia sem apressar a animação */
-  .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:230vh; min-height:230vh; }
+  .hold-sec{ display:block; max-width:none; margin:0; padding:0; height:440vh; min-height:440vh; }
   .hold-inner{
     position:sticky; top:0; height:100vh; height:100svh; z-index:0;
     display:flex; flex-direction:column; justify-content:center;
@@ -278,7 +278,7 @@
 
   /* "As aplicações": corredor 3D. A seção é alta e o palco fica sticky —
      rolar = andar pelo túnel; as telas passam pelas laterais e viram de frente no foco. */
-  .apps-sec{ display:block; max-width:none; margin:0; padding:0; height:420vh; min-height:420vh; }
+  .apps-sec{ display:block; max-width:none; margin:0; padding:0; height:380vh; min-height:380vh; }
   /* palco FIXO (não sticky): a visibilidade é 100% dirigida pelo JS, então o corredor
      pode nascer ainda dentro da travessia em vez de esperar a seção prender.
      Eixo deslocado pra direita: o texto fica sempre livre na esquerda. */
@@ -783,7 +783,7 @@ const toTopBtn = document.querySelector('.to-top');
 const rewindEl = document.querySelector('.rewind');
 // A travessia acaba a 78% da Consolidação, não na borda da seção. O corredor começa nesse
 // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
-const P_START = I_HOLD + 0.05, P_END = I_HOLD + 0.78;
+const P_START = I_HOLD + 0.026, P_END = I_HOLD + 0.79;
 let curFov = 36;
 
 // trilho de capítulos em algarismos romanos
@@ -897,7 +897,7 @@ function frame(){
 
   // travessia "entrar no portal": Consolidação (7) -> As aplicações (8)
   // pFace começa ANTES: o símbolo se endireita de frente pra câmera; só depois voamos pra dentro.
-  const pFace  = smoothstep(utils.clamp((segF - (I_HOLD + 0.06)) / 0.30, 0, 1));
+  const pFace  = smoothstep(utils.clamp((segF - (I_HOLD + 0.028)) / 0.20, 0, 1));
   // Consolidação tem 230vh, então esse trecho vale ~200vh de scroll.
   // O texto ainda sai nos primeiros ~16% (mesmo ritmo de antes); o resto é a travessia.
   const portalIn = smoothstep(utils.clamp((segF - P_START) / (P_END - P_START), 0, 1));
@@ -913,7 +913,7 @@ function frame(){
   const pDolly = Math.pow(portalP, 1.8);
   // travessia LIMPA: o texto da Consolidação some antes de entrarmos e o do corredor
   // só aparece depois que já estamos dentro. Nunca os dois na tela ao mesmo tempo.
-  if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.16, 0, 1))).toFixed(3);
+  if (secPrev) secPrev.style.opacity = (1 - smoothstep(utils.clamp(portalP / 0.08, 0, 1))).toFixed(3);
 
   // tema dark<->light interpolado pelo scroll
   const dTarget = SEC_DARK[i0] + (SEC_DARK[i0 + 1] - SEC_DARK[i0]) * bf;
@@ -1214,7 +1214,7 @@ function drawCorridor(cp, portalP){
   // as telas e o texto chegam no fim da travessia, emendando com o túnel que já está lá
   // rampa LINEAR curta fechando EXATAMENTE em portalP = 1, onde o corredor começa a andar:
   // se fechasse antes sobrava um trecho parado; se fosse longa, virava scroll só de fade
-  const show = utils.clamp((portalP - 0.8) / 0.2, 0, 1);
+  const show = utils.clamp((portalP - 0.866) / 0.134, 0, 1);
   if (stage){
     setStyle(stage, 'opacity', show.toFixed(3));
     setStyle(stage, 'visibility', show < 0.005 ? 'hidden' : 'visible');
