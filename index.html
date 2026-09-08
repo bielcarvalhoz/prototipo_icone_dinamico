@@ -1642,6 +1642,11 @@
       // mesmo ponto (medido em px), então o fade do conteúdo pode ser curto sem deixar buraco.
       const P_START = I_HOLD + 0.018,
         P_END = I_HOLD + 0.844;
+      // o corredor comeca 0.15 antes de P_END, onde o fade das telas fecha. Usado aqui e
+      // no corrA: se divergirem, a 1a tela volta a entrar ja saindo de foco
+      const CORR_LEAD = 0.15;
+      // viewports de scroll por tela: o ritmo aferido com as 6 telas originais
+      const VH_PER_APP = 91.7;
       let curFov = 36;
 
       // trilho de capítulos em algarismos romanos
@@ -1684,6 +1689,20 @@
         rail.appendChild(b);
         return b;
       });
+      // a .apps-sec e so espacador: da o comprimento de scroll do corredor. Fixa em vh,
+      // cadastrar mais telas apertava o ritmo (as 6 originais tinham ~92vh cada; com 8
+      // caia pra ~65vh). Aqui ela passa a ser derivada do N, descontando o pedaco do
+      // corredor que cai dentro da Consolidacao (de corrA ate o fim da secao).
+      function sizeCorridor() {
+        const sec = SECTIONS[I_APPS];
+        const n = document.querySelectorAll(".corr-stage .app").length;
+        // no layout estreito a apps-sec sai do fluxo (display:none) e o corredor nao roda
+        if (!sec || n < 2 || getComputedStyle(sec).display === "none") return;
+        const tailVh = (SECTIONS[I_HOLD].offsetHeight / innerHeight) * 100 * (1 - (P_END - I_HOLD - CORR_LEAD));
+        const vh = Math.max(60, VH_PER_APP * (n - 1 + 0.06) - tailVh);
+        sec.style.height = sec.style.minHeight = vh.toFixed(1) + "vh";
+      }
+      sizeCorridor();
       measure();
       // remede quando algo muda de tamanho de verdade: resize, fonte carregando, reveal
       // alterando alturas. Um ResizeObserver no <html> cobre tudo isso sem polling.
@@ -1773,10 +1792,10 @@
         const segF = Math.min(segRaw, SECTIONS.length - 1);
         // corredor em PIXELS (não em segF): começa onde a travessia termina, dentro da
         // Consolidação, e vai até o fim da página — velocidade uniforme, sem degrau na borda
-        // 0.15 antes de P_END = exatamente onde o fade das telas fecha (portalP 0.93):
+        // CORR_LEAD antes de P_END = exatamente onde o fade das telas fecha (portalP 0.93):
         // em P_END a 1a tela ficava ~120vh parada esperando; antecipar mais fazia ela
         // entrar ja saindo de foco, porque cam so vale 0 no instante em que corrA comeca
-        const corrA = LM.tops[I_HOLD] + LM.heights[I_HOLD] * (P_END - I_HOLD - 0.15);
+        const corrA = LM.tops[I_HOLD] + LM.heights[I_HOLD] * (P_END - I_HOLD - CORR_LEAD);
         // o corredor termina onde o encerramento começa (antes ia até o fim da página)
         const corrB = LM.tops[I_OUTRO] || LM.max;
         const corridorP = utils.clamp((scrollY - corrA) / Math.max(1, corrB - corrA), 0, 1);
