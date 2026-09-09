@@ -915,6 +915,7 @@
       .app.zoom {
         filter: none !important;
         opacity: 1 !important;
+        visibility: visible !important; /* telas longe no corredor congelam com visibility:hidden */
         pointer-events: auto !important;
       }
       /* descrição do app no detalhe (a do corredor fica atrás do backdrop) */
@@ -2413,7 +2414,7 @@
           zoomHome = { l: r.left, t: r.top, w: r.width, h: r.height };
           // guarda o retângulo de origem: fechar é exatamente esta animação ao contrário.
           // O corredor fica congelado enquanto zoomedCard existe, então o retângulo continua válido.
-          card._z = { next: card.nextElementSibling, l: r.left, t: r.top, w: r.width, h: r.height };
+          card._z = { l: r.left, t: r.top, w: r.width, h: r.height };
           card.classList.add("zoom");
           document.body.appendChild(card); // .corr-stage tem perspective+overflow: quebraria position:fixed
           Object.assign(card.style, {
@@ -2464,7 +2465,11 @@
           const cur = zoomedCard;
           const nx = APPS[(APPS.indexOf(cur) + dir + APPS.length) % APPS.length];
           const { W, H, top } = centerBox();
-          nx._z = { next: nx.nextElementSibling, l: zoomHome.l, t: zoomHome.t, w: zoomHome.w, h: zoomHome.h };
+          nx._z = { l: zoomHome.l, t: zoomHome.t, w: zoomHome.w, h: zoomHome.h };
+          // telas longe no corredor congelam com visibility:hidden + transform/veil/blur
+          // antigos: sem limpar, a ultima tela abria invisivel e a tela "piscava"
+          nx.style.cssText = "";
+          clearStyleCache(nx);
           nx.classList.add("zoom");
           document.body.appendChild(nx);
           Object.assign(nx.style, {
@@ -2493,8 +2498,9 @@
             cur.style.cssText = "";
             clearStyleCache(cur);
             cur.classList.remove("zoom");
-            const cn = cur._z && cur._z.next;
-            stage.insertBefore(cur, cn && cn.parentElement === stage ? cn : null);
+            // sempre antes do .corr-hud: a ordem no DOM entre as .app nao importa pro
+            // corredor (posiciona pelo indice de APPS), e assim hud/now ficam sempre no fim
+            stage.insertBefore(cur, hudEl && hudEl.parentElement === stage ? hudEl : null);
             cur._z = null;
             nx.style.transition = "";
             navving = false;
@@ -2534,7 +2540,7 @@
             card.style.cssText = ""; // limpa tudo; o rAF recoloca no corredor no frame seguinte
             clearStyleCache(card); // sem isto o setStyle nao reescreve e a tela some
             card.classList.remove("zoom");
-            stage.insertBefore(card, z.next && z.next.parentElement === stage ? z.next : null);
+            stage.insertBefore(card, hudEl && hudEl.parentElement === stage ? hudEl : null);
             zoomedCard = null; // só aqui: até então o corredor fica congelado
             zoomHome = null;
             navving = false;
