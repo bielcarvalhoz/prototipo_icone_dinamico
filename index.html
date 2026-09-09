@@ -962,6 +962,61 @@
         max-width: 62ch;
       }
 
+      /* setas pra trocar de aplicacao sem fechar o detalhe */
+      .zoom-nav {
+        position: fixed;
+        top: 50%;
+        margin-top: -46px; /* alinha com o centro do card, nao da legenda embaixo */
+        z-index: 72;
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 50%;
+        background: rgba(20, 12, 16, 0.45);
+        color: #fff;
+        cursor: pointer;
+        opacity: 0;
+        transition:
+          opacity 0.3s,
+          background 0.25s,
+          border-color 0.25s;
+      }
+      .zoom-nav[hidden] {
+        display: none;
+      }
+      .zoom-nav.show {
+        opacity: 1;
+      }
+      .zoom-nav:hover {
+        background: rgba(204, 9, 47, 0.5);
+        border-color: transparent;
+      }
+      .zoom-nav.prev {
+        left: max(16px, calc(50% - min(410px, 41vw) - 68px));
+      }
+      .zoom-nav.next {
+        right: max(16px, calc(50% - min(410px, 41vw) - 68px));
+      }
+      .zoom-nav svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @media (max-width: 820px) {
+        .zoom-nav.prev {
+          left: 10px;
+        }
+        .zoom-nav.next {
+          right: 10px;
+        }
+      }
+
       body.can-grab {
         cursor: grab;
       }
@@ -1392,6 +1447,12 @@
     <div class="rewind" hidden><i></i></div>
     <div class="zoom-bg" hidden></div>
     <div class="zoom-cap" hidden><em></em><b></b><span></span></div>
+    <button class="zoom-nav prev" hidden type="button" aria-label="Aplicação anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <button class="zoom-nav next" hidden type="button" aria-label="Próxima aplicação">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
 
     <script type="module">
       import * as THREE from "three";
@@ -2323,11 +2384,33 @@
           .join(",");
 
         let closing = false;
+        // retângulo em que a tela em foco vive no corredor: navegar entre apps não mexe
+        // nele, então fechar sempre volta pra cá. navving trava setas durante o cross-fade.
+        let zoomHome = null;
+        let navving = false;
+        const navBtns = [...document.querySelectorAll(".zoom-nav")];
+
+        // caixa central do detalhe: usada ao abrir e ao navegar, tem que bater
+        const centerBox = () => {
+          const W = Math.min(820, innerWidth * (SMALL ? 0.92 : 0.82));
+          const H = (W * 10) / 16;
+          // sobe um pouco pra abrir espaço pra descrição embaixo
+          return { W, H, top: Math.max(20, (innerHeight - H) / 2 - 54) };
+        };
+        const setCap = (card) => {
+          if (!capEl) return;
+          const i = APPS.indexOf(card);
+          capEl.querySelector("em").textContent =
+            String(i + 1).padStart(2, "0") + " — " + String(APPS.length).padStart(2, "0");
+          capEl.querySelector("b").textContent = card.dataset.title || "";
+          capEl.querySelector("span").textContent = card.dataset.desc || "";
+        };
 
         const zoomIn = (card) => {
           if (zoomedCard || closing) return;
           const r = card.getBoundingClientRect();
           zoomedCard = card;
+          zoomHome = { l: r.left, t: r.top, w: r.width, h: r.height };
           // guarda o retângulo de origem: fechar é exatamente esta animação ao contrário.
           // O corredor fica congelado enquanto zoomedCard existe, então o retângulo continua válido.
           card._z = { next: card.nextElementSibling, l: r.left, t: r.top, w: r.width, h: r.height };
@@ -2345,10 +2428,7 @@
           });
           bgEl.hidden = false;
           void card.offsetWidth;
-          const W = Math.min(820, innerWidth * (SMALL ? 0.92 : 0.82)),
-            H = (W * 10) / 16;
-          // sobe um pouco pra abrir espaço pra descrição embaixo
-          const top = Math.max(20, (innerHeight - H) / 2 - 54);
+          const { W, H, top } = centerBox();
           Object.assign(card.style, {
             transition: EASE,
             left: (innerWidth - W) / 2 + "px",
@@ -2358,18 +2438,72 @@
           });
           bgEl.classList.add("show");
           if (capEl) {
-            const i = APPS.indexOf(card);
-            capEl.querySelector("em").textContent =
-              String(i + 1).padStart(2, "0") + " — " + String(APPS.length).padStart(2, "0");
-            capEl.querySelector("b").textContent = card.dataset.title || "";
-            capEl.querySelector("span").textContent = card.dataset.desc || "";
+            setCap(card);
             capEl.style.top = top + H + 24 + "px";
             capEl.hidden = false;
             void capEl.offsetWidth;
             capEl.classList.add("show");
           }
+          if (APPS.length > 1) {
+            navBtns.forEach((b) => {
+              b.hidden = false;
+            });
+            void navBtns[0].offsetWidth;
+            navBtns.forEach((b) => b.classList.add("show"));
+          }
           lenis?.stop();
           document.body.classList.add("modal-open");
+        };
+
+        // troca pro app vizinho sem fechar: o novo entra por cima num cross-fade rápido e
+        // o antigo volta pro corredor (que segue congelado). Sem FLIP: a caixa não se move,
+        // só o conteúdo. Fechar depois disso ainda colapsa pro corredor (zoomHome).
+        const zoomNav = (dir) => {
+          if (!zoomedCard || closing || navving || APPS.length < 2) return;
+          navving = true;
+          const cur = zoomedCard;
+          const nx = APPS[(APPS.indexOf(cur) + dir + APPS.length) % APPS.length];
+          const { W, H, top } = centerBox();
+          nx._z = { next: nx.nextElementSibling, l: zoomHome.l, t: zoomHome.t, w: zoomHome.w, h: zoomHome.h };
+          nx.classList.add("zoom");
+          document.body.appendChild(nx);
+          Object.assign(nx.style, {
+            position: "fixed",
+            left: (innerWidth - W) / 2 + "px",
+            top: top + "px",
+            width: W + "px",
+            height: H + "px",
+            margin: "0",
+            transform: "none",
+            transition: "none",
+            opacity: "0",
+          });
+          void nx.offsetWidth;
+          Object.assign(nx.style, { transition: "opacity .2s ease", opacity: "1" });
+          zoomedCard = nx;
+          if (capEl) {
+            setCap(nx);
+            capEl.style.top = top + H + 24 + "px";
+          }
+          let done = false;
+          const drop = () => {
+            if (done) return;
+            done = true;
+            nx.removeEventListener("transitionend", onEnd);
+            cur.style.cssText = "";
+            clearStyleCache(cur);
+            cur.classList.remove("zoom");
+            const cn = cur._z && cur._z.next;
+            stage.insertBefore(cur, cn && cn.parentElement === stage ? cn : null);
+            cur._z = null;
+            nx.style.transition = "";
+            navving = false;
+          };
+          const onEnd = (e) => {
+            if (e.target === nx && e.propertyName === "opacity") drop();
+          };
+          nx.addEventListener("transitionend", onEnd);
+          setTimeout(drop, 400);
         };
 
         const zoomOut = () => {
@@ -2379,6 +2513,7 @@
           closing = true;
           bgEl.classList.remove("show");
           capEl?.classList.remove("show");
+          navBtns.forEach((b) => b.classList.remove("show"));
           lenis?.start();
           document.body.classList.remove("modal-open");
           // MESMA transição de abrir, ao contrário: volta pro retângulo de onde saiu
@@ -2401,9 +2536,14 @@
             card.classList.remove("zoom");
             stage.insertBefore(card, z.next && z.next.parentElement === stage ? z.next : null);
             zoomedCard = null; // só aqui: até então o corredor fica congelado
+            zoomHome = null;
+            navving = false;
             closing = false;
             bgEl.hidden = true;
             if (capEl) capEl.hidden = true;
+            navBtns.forEach((b) => {
+              b.hidden = true;
+            });
           };
           const onEnd = (e) => {
             if (e.target === card && e.propertyName === "width") finish();
@@ -2425,8 +2565,19 @@
           overIx = false;
         });
         bgEl.addEventListener("click", zoomOut);
+        document.querySelector(".zoom-nav.prev")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          zoomNav(-1);
+        });
+        document.querySelector(".zoom-nav.next")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          zoomNav(1);
+        });
         addEventListener("keydown", (e) => {
+          if (!zoomedCard) return;
           if (e.key === "Escape") zoomOut();
+          else if (e.key === "ArrowRight") zoomNav(1);
+          else if (e.key === "ArrowLeft") zoomNav(-1);
         });
       }
 
@@ -2475,6 +2626,7 @@
       }
 
       frame();
+
       // só depois que o corredor existe (drawCorridor lê consts declaradas acima)
 
       // entrada da hero como sequência (createTimeline)
