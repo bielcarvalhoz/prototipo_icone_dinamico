@@ -43,14 +43,14 @@ O ponto central da engine: **nenhum visual da cena é animado no tempo**. Um ún
 
 Tudo via `importmap` + CDN (jsdelivr). Sem `npm`, sem `vite`.
 
-| Camada | Lib | Uso |
-|---|---|---|
-| **3D** | `three@0.160` | `ExtrudeGeometry` (`depth` + bisel) para dar espessura real ao símbolo; sombras `PCFSoft` |
-| **Iluminação** | `three/addons` `RoomEnvironment` + `PMREMGenerator` | ambiente PBR sem carregar HDR; `ACESFilmicToneMapping` |
-| **SVG → sólidos** | `three/addons` `SVGLoader` | lê o `path` exato do símbolo; cada uma das 7 ilhas vira um `Shape` extrudado independente (sem `evenodd` quebrado) |
-| **Animação** | `animejs@4` | `animate`, `stagger`, `createTimeline`, `createSpring`, `svg`, `utils` |
-| **Scroll** | `lenis@1` | inércia; o progresso dirige a cena no mesmo `rAF` |
-| **Estilo** | CSS puro | fundo, grão SVG, vinheta, glow `radial-gradient`, tema dark→light por scroll |
+| Camada            | Lib                                                 | Uso                                                                                                                |
+| ----------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **3D**            | `three@0.160`                                       | `ExtrudeGeometry` (`depth` + bisel) para dar espessura real ao símbolo; sombras `PCFSoft`                          |
+| **Iluminação**    | `three/addons` `RoomEnvironment` + `PMREMGenerator` | ambiente PBR sem carregar HDR; `ACESFilmicToneMapping`                                                             |
+| **SVG → sólidos** | `three/addons` `SVGLoader`                          | lê o `path` exato do símbolo; cada uma das 7 ilhas vira um `Shape` extrudado independente (sem `evenodd` quebrado) |
+| **Animação**      | `animejs@4`                                         | `animate`, `stagger`, `createTimeline`, `createSpring`, `svg`, `utils`                                             |
+| **Scroll**        | `lenis@1`                                           | inércia; o progresso dirige a cena no mesmo `rAF`                                                                  |
+| **Estilo**        | CSS puro                                            | fundo, grão SVG, vinheta, glow `radial-gradient`, tema dark→light por scroll                                       |
 
 > Não há mais postprocessing/bloom — o glow do símbolo vem da iluminação PBR + CSS.
 
@@ -100,15 +100,19 @@ Depois abra `http://localhost:<porta>/index.html` e role devagar de cima a baixo
 ### 1. Símbolo exato → sólidos
 
 ```js
-const subPaths = new SVGLoader().parse(svgString).paths[0].subPaths;   // 7 ilhas
-subPaths.forEach(sp => {
+const subPaths = new SVGLoader().parse(svgString).paths[0].subPaths; // 7 ilhas
+subPaths.forEach((sp) => {
   const shape = new THREE.Shape(sp.getPoints(32));
   const geo = new THREE.ExtrudeGeometry(shape, {
-    depth, bevelEnabled: true, bevelThickness: 1.2, bevelSize: 0.9, bevelSegments: 3,
+    depth,
+    bevelEnabled: true,
+    bevelThickness: 1.2,
+    bevelSize: 0.9,
+    bevelSegments: 3,
   });
-  geo.translate(-250, -250, -depth / 2);          // centro do viewBox 500
+  geo.translate(-250, -250, -depth / 2); // centro do viewBox 500
   const mesh = new THREE.Mesh(geo, [matFrente, matLado]);
-  mesh.scale.y *= -1;                             // corrige o Y invertido do SVG
+  mesh.scale.y *= -1; // corrige o Y invertido do SVG
   alvo.add(mesh);
 });
 ```
@@ -119,7 +123,7 @@ Cada ilha vira um sólido próprio — o anel externo (índices 0–1) é o que 
 
 ```js
 // portalP = portalIn * (1 - pOut)  → entra e sai pela mesma função, ao contrário
-const pDolly = Math.pow(portalP, 1.25);          // aproximação da câmera
+const pDolly = Math.pow(portalP, 1.25); // aproximação da câmera
 camera.position.z = lerp(8.7 - s * 1.7, 2.37, pDolly);
 
 // 5 peças centrais somem nos primeiros 12% do portal
@@ -127,7 +131,7 @@ const innerOp = 1 - smoothstep(clamp(portalP / 0.12, 0, 1));
 
 // anel externo cresce e a câmera passa por dentro; some no cruzamento
 anel.scale.multiplyScalar(1 + pDolly * pDolly * 3);
-anelOp *= 1 - smoothstep(clamp((portalP - 0.79) / 0.10, 0, 1));
+anelOp *= 1 - smoothstep(clamp((portalP - 0.79) / 0.1, 0, 1));
 
 // o plano de sombra sai de cena nos primeiros 20%, senão o anel o atravessa
 ground.visible = ground.material.opacity > 0.001;
@@ -143,7 +147,7 @@ function sizeCorridor() {
   const n = document.querySelectorAll(".corr-stage .app").length;
   if (n < 2) return;
   const tailVh = (holdSec.offsetHeight / innerHeight) * 100 * (1 - (P_END - I_HOLD - CORR_LEAD));
-  const vh = Math.max(60, VH_PER_APP * (n - 1 + 0.06) - tailVh);   // desconta o trecho que cai dentro da Consolidação
+  const vh = Math.max(60, VH_PER_APP * (n - 1 + 0.06) - tailVh); // desconta o trecho que cai dentro da Consolidação
   appsSec.style.height = appsSec.style.minHeight = vh.toFixed(1) + "vh";
 }
 ```
@@ -155,7 +159,7 @@ Clique na tela em foco → FLIP (o retângulo de origem no corredor vira a anima
 ```js
 const zoomNav = (dir) => {
   const nx = APPS[(APPS.indexOf(zoomedCard) + dir + APPS.length) % APPS.length];
-  nx.style.cssText = "";          // limpa o estado congelado do corredor (visibility:hidden etc.)
+  nx.style.cssText = ""; // limpa o estado congelado do corredor (visibility:hidden etc.)
   clearStyleCache(nx);
   // ...entra centralizado por cima, o anterior volta pro corredor (que segue congelado)
 };
@@ -166,8 +170,8 @@ Fechar em qualquer aplicação colapsa de volta para o mesmo ponto do corredor (
 ### 5. Tema dark → light
 
 ```js
-root.style.setProperty("--bg",  hexMix(0xffffff, 0x0b0e15, smoother(d)));
-root.style.setProperty("--ink", /* ... */);   // texto e realce acompanham na mesma curva
+root.style.setProperty("--bg", hexMix(0xffffff, 0x0b0e15, smoother(d)));
+root.style.setProperty("--ink" /* ... */); // texto e realce acompanham na mesma curva
 ```
 
 ### 6. Acessibilidade
@@ -183,16 +187,16 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 ## 🎛️ Customização
 
-| O que | Onde | Dica |
-|---|---|---|
+| O que                               | Onde                                                                                         | Dica                                                                           |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | **Adicionar/remover uma aplicação** | um bloco `.app` em `.corr-stage` com `data-title`, `data-desc` e `<img src="telas/xxx.svg">` | corredor, contador `NN — total`, HUD e navegação por setas se ajustam sozinhos |
-| **Ritmo do corredor** | `VH_PER_APP` | maior = cada tela dura mais scroll |
-| **Ponto da travessia** | `P_START` / `P_END` (fração da seção Consolidação) | onde a câmera entra e sai do símbolo |
-| **Cor do símbolo** | `const RED = 0xcc092f` + materiais | |
-| **Espessura** | `depth: 22` no `ExtrudeGeometry` | `32` mais grossa, `14` mais fina |
-| **Duração das seções** | `.hold-sec` (travessia, `470vh`), `.outro` (encerramento, `400vh`) | em vh |
-| **Fundo / glow** | `.glow`, `.vignette`, `.grain` no CSS | troque o `radial-gradient` vermelho |
-| **Texto estático** | tire o `data-reveal` do elemento | |
+| **Ritmo do corredor**               | `VH_PER_APP`                                                                                 | maior = cada tela dura mais scroll                                             |
+| **Ponto da travessia**              | `P_START` / `P_END` (fração da seção Consolidação)                                           | onde a câmera entra e sai do símbolo                                           |
+| **Cor do símbolo**                  | `const RED = 0xcc092f` + materiais                                                           |                                                                                |
+| **Espessura**                       | `depth: 22` no `ExtrudeGeometry`                                                             | `32` mais grossa, `14` mais fina                                               |
+| **Duração das seções**              | `.hold-sec` (travessia, `470vh`), `.outro` (encerramento, `400vh`)                           | em vh                                                                          |
+| **Fundo / glow**                    | `.glow`, `.vignette`, `.grain` no CSS                                                        | troque o `radial-gradient` vermelho                                            |
+| **Texto estático**                  | tire o `data-reveal` do elemento                                                             |                                                                                |
 
 ---
 
@@ -209,3 +213,4 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 ## 📄 Licença
 
 Protótipo interno. O símbolo e as marcas são do Bradesco.
+https://claude.ai/artifact/1UzcWtq3PqK49sdjsHjdfE
